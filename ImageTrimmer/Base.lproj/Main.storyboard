@@ -666,6 +666,7 @@
                                         <buttonCell key="cell" type="push" title="Positive(P)" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="UxL-nH-jRz">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
+                                            <string key="keyEquivalent">p</string>
                                         </buttonCell>
                                         <connections>
                                             <action selector="onPressPosiiveButton:" target="XEV-gN-2pQ" id="rBe-uh-SKW"/>
@@ -686,6 +687,7 @@
                                         <buttonCell key="cell" type="push" title="Negative(N)" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="KEe-qz-301">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
+                                            <string key="keyEquivalent">n</string>
                                         </buttonCell>
                                         <connections>
                                             <action selector="onPressNeagtiveButton:" target="XEV-gN-2pQ" id="32c-cG-mcw"/>
@@ -809,7 +811,7 @@
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
-                                        <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4g9-bP-4sv">
+                                        <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4g9-bP-4sv" customClass="DropTextField" customModule="ImageTrimmer" customModuleProvider="target">
                                             <rect key="frame" x="205" y="45" width="184" height="22"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="B0x-96-uYz">
                                                 <font key="font" metaFont="system"/>
@@ -838,7 +840,7 @@
                                                 </connections>
                                             </buttonCell>
                                         </button>
-                                        <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oq8-KP-8T6">
+                                        <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oq8-KP-8T6" customClass="DropTextField" customModule="ImageTrimmer" customModuleProvider="target">
                                             <rect key="frame" x="205" y="15" width="184" height="22"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="KPl-y6-eFy">
                                                 <font key="font" metaFont="system"/>

@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import EasyImagy
 
 class ViewController: NSViewController {
 
@@ -50,7 +51,7 @@ class ViewController: NSViewController {
             }
             
             if let path = panel.urls.first {
-                forField.stringValue = path.absoluteString
+                forField.stringValue = path.path
             }
         }
     }
@@ -60,13 +61,28 @@ class ViewController: NSViewController {
     }
     
     func cropAndShowAlert() {
-        guard let image = imageView.image else {
+        guard let nsImage = imageView.image else {
             Swift.print("image not loaded")
+            return
+        }
+        
+        guard let image = Image<RGBA>(nsImage: nsImage) else {
             return
         }
         
         let width = widthField.integerValue
         let height = heightField.integerValue
+        guard width > 0, height > 0 else {
+            Swift.print("invalid size: \(width), \(height)")
+            return
+        }
+        
+        let positiveDirectory = self.positiveField.stringValue
+        let negativeDirectory = self.negativeField.stringValue
+        guard !positiveDirectory.isEmpty && !negativeDirectory.isEmpty else {
+            Swift.print("invalid: \npositive: \(positiveDirectory) \nnegative: \(negativeDirectory)")
+            return
+        }
         
         let w = storyboard!.instantiateController(withIdentifier: "RandomCrop") as! NSWindowController
         
@@ -75,8 +91,8 @@ class ViewController: NSViewController {
         vc.image = image
         vc.width = width
         vc.height = height
-        vc.positiveDirectory = self.positiveField.stringValue
-        vc.negativeDirectory = self.negativeField.stringValue
+        vc.positiveDirectory = positiveDirectory
+        vc.negativeDirectory = negativeDirectory
         
         NSApplication.shared().runModal(for: w.window!)
         w.window!.orderOut(nil)

@@ -8,10 +8,11 @@
 
 import Foundation
 import Cocoa
+import EasyImagy
 
 class RandomCropViewController : NSViewController {
     
-    var image: NSImage!
+    var image: Image<RGBA>!
     var width: Int!
     var height: Int!
     var positiveDirectory: String!
@@ -28,13 +29,15 @@ class RandomCropViewController : NSViewController {
     
     func cropRandomly() {
         
-        let maxX = UInt32(image.size.width) - UInt32(width)
-        let x = arc4random_uniform(maxX)
+        let maxX = UInt32(image.width) - UInt32(width)
+        let x = Int(arc4random_uniform(maxX))
         
-        let maxY = UInt32(image.size.height) - UInt32(height)
-        let y = arc4random_uniform(maxY)
+        let maxY = UInt32(image.height) - UInt32(height)
+        let y = Int(arc4random_uniform(maxY))
         
+        let cropped = Image(image[x..<x+width, y..<y+height])
         
+        imageView.image = cropped.nsImage
     }
     
     @IBAction func onPressPosiiveButton(_ sender: AnyObject) {
@@ -51,7 +54,6 @@ class RandomCropViewController : NSViewController {
         if save(directory: positiveDirectory, fileNumber: number) {
             delegate.negativeFileNumber += 1
             cropRandomly()
-
         }
     }
     
@@ -61,7 +63,8 @@ class RandomCropViewController : NSViewController {
     
     
     func save(directory: String, fileNumber: Int) -> Bool {
-        let filePath = directory.appending("/\(fileNumber).png")
+        let directoryUrl = URL(fileURLWithPath: directory, isDirectory: true)
+        let url = URL(fileURLWithPath: "\(fileNumber).png", isDirectory: false, relativeTo: directoryUrl)
         
         let image = imageView.image!
         
@@ -70,11 +73,11 @@ class RandomCropViewController : NSViewController {
         let pngData = b.representation(using: NSPNGFileType, properties: [:])!
         
         do {
-            try pngData.write(to: URL(fileURLWithPath: filePath))
-            Swift.print("save: \(filePath)")
+            try pngData.write(to: url, options: Data.WritingOptions.atomic)
+            Swift.print("save: \(url)")
             return true
-        } catch {
-            Swift.print("failed to write: \(filePath)")
+        } catch(let e) {
+            Swift.print("failed to write: \(url) \n\(e.localizedDescription)")
             return false
         }
     }
