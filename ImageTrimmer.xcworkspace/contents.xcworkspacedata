@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:Modules/RxSwift/Rx.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:Modules/EasyImagy/EasyImagy.xcodeproj">
    </FileRef>
    <FileRef

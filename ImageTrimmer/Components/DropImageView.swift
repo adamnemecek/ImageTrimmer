@@ -8,8 +8,18 @@
 
 import Foundation
 import Cocoa
+import EasyImagy
+import RxSwift
 
 class DropImageView : NSImageView{
+    
+    private(set) var easyImage: Image<RGBA>?
+    
+    var onImageLoaded: Observable<Void> {
+        return _onImageLoaded
+    }
+    
+    private let _onImageLoaded = PublishSubject<Void>()
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -36,8 +46,8 @@ class DropImageView : NSImageView{
         Swift.print("load: \(file)")
         self.image = NSImage(contentsOfFile: file)
         
+        self.easyImage = Image(nsImage: self.image!)
         
-        
+        _onImageLoaded.onNext()
     }
-
 }

@@ -42,16 +42,16 @@ class RandomCropViewController : NSViewController {
     
     @IBAction func onPressPosiiveButton(_ sender: AnyObject) {
         let number = delegate.positiveFileNumber
-        if save(directory: positiveDirectory, fileNumber: number) {
+        if saveImage(image: imageView.image!, directory: positiveDirectory, fileNumber: number) {
             delegate.positiveFileNumber += 1
             cropRandomly()
         }
     }
     
     @IBAction func onPressNeagtiveButton(_ sender: AnyObject) {
-        let number = delegate.positiveFileNumber
+        let number = delegate.negativeFileNumber
         
-        if save(directory: positiveDirectory, fileNumber: number) {
+        if saveImage(image: imageView.image!, directory: negativeDirectory, fileNumber: number) {
             delegate.negativeFileNumber += 1
             cropRandomly()
         }
@@ -59,27 +59,6 @@ class RandomCropViewController : NSViewController {
     
     @IBAction func onPressEndButton(_ sender: AnyObject) {
         NSApplication.shared().stopModal()
-    }
-    
-    
-    func save(directory: String, fileNumber: Int) -> Bool {
-        let directoryUrl = URL(fileURLWithPath: directory, isDirectory: true)
-        let url = URL(fileURLWithPath: "\(fileNumber).png", isDirectory: false, relativeTo: directoryUrl)
-        
-        let image = imageView.image!
-        
-        let data = image.tiffRepresentation!
-        let b = NSBitmapImageRep.imageReps(with: data).first! as! NSBitmapImageRep
-        let pngData = b.representation(using: NSPNGFileType, properties: [:])!
-        
-        do {
-            try pngData.write(to: url, options: Data.WritingOptions.atomic)
-            Swift.print("save: \(url)")
-            return true
-        } catch(let e) {
-            Swift.print("failed to write: \(url) \n\(e.localizedDescription)")
-            return false
-        }
     }
     
 }
