@@ -7,8 +7,8 @@ Xcode8/Swift3/OSX
 
 Currently, it's specialized for binary classification.
 
-# Usage
-## Trim manually
+## Usage
+### Trim manually
 ![Main Window](./Resources/main.png)
 
 1. Drag and drop image in the upper box.
@@ -20,7 +20,7 @@ Currently, it's specialized for binary classification.
 
 Can zoom, scroll.
 
-## Trim randomly
+### Trim randomly
 ![Random trimming](./Resources/random.png)
 
 1. Drag and drop image in upper box of main window.
@@ -29,5 +29,5 @@ Can zoom, scroll.
 1. Press "Random" button, then new window will open.
 1. Randomly trimmed image will be shown, Press "Positive"/"Negative" button to save image.
 
-# Licence
+## Licence
 [MIT Licence](./LICENSE)
