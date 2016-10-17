@@ -8,6 +8,7 @@ Currently, it's specialized for binary classification.
 # Usage
 ## Trim manually
 ![Main Window](./Resources/main.png)
+
 1. Drag and drop image in the upper box.
 1. Set output directory and start file number.
 1. Set width and height.
@@ -17,6 +18,7 @@ Currently, it's specialized for binary classification.
 
 ## Trim randomly
 ![Random trimming](./Resources/random.png)
+
 1. Drag and drop image in upper box of main window.
 1. Set output directory and start file number.
 1. Set width and height.
