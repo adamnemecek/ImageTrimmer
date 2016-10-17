@@ -160,11 +160,13 @@ class ViewController: NSViewController {
     
     @IBAction func onPressCropP(_ sender: AnyObject) {
         guard let image = previewImageView.image else {
+            showAlert("image is not loaded")
             return
         }
         let directory = positiveField.stringValue
         
         guard !directory.isEmpty else {
+            showAlert("directory for positive images is not set")
             return
         }
         
@@ -175,11 +177,13 @@ class ViewController: NSViewController {
     
     @IBAction func onPressCropN(_ sender: AnyObject) {
         guard let image = previewImageView.image else {
+            showAlert("image is not loaded")
             return
         }
         let directory = negativeField.stringValue
         
         guard !directory.isEmpty else {
+            showAlert("directory for negative images is not set")
             return
         }
         
@@ -191,7 +195,7 @@ class ViewController: NSViewController {
     @IBAction func onPressRandomCropButton(_ sender: AnyObject) {
         
         guard let nsImage = imageView.image else {
-            Swift.print("image not loaded")
+            showAlert("image is not loaded")
             return
         }
         
@@ -202,14 +206,14 @@ class ViewController: NSViewController {
         let width = widthField.integerValue
         let height = heightField.integerValue
         guard width > 0, height > 0 else {
-            Swift.print("invalid size: \(width), \(height)")
+            showAlert("invalid size: \(width), \(height)")
             return
         }
         
         let positiveDirectory = self.positiveField.stringValue
         let negativeDirectory = self.negativeField.stringValue
         guard !positiveDirectory.isEmpty && !negativeDirectory.isEmpty else {
-            Swift.print("invalid: \npositive: \(positiveDirectory) \nnegative: \(negativeDirectory)")
+            showAlert("invalid: \npositive: \(positiveDirectory) \nnegative: \(negativeDirectory)")
             return
         }
         
@@ -226,6 +230,8 @@ class ViewController: NSViewController {
         NSApplication.shared().runModal(for: w.window!)
         w.window!.orderOut(nil)
     }
+    
+    
 }
 
 extension ViewController : RandomCropViewControllerDelegate {

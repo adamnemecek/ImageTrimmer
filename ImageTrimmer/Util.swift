@@ -28,6 +28,12 @@ func saveImage(image: NSImage, directory: String, fileNumber: Int) -> Bool {
     }
 }
 
+func showAlert(_ message: String) {
+    let alert = NSAlert()
+    alert.messageText = message
+    alert.runModal()
+}
+
 
 func * (lhs: CATransform3D, rhs: CATransform3D) -> CATransform3D {
     return CATransform3DConcat(lhs, rhs)

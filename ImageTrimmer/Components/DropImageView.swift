@@ -92,15 +92,35 @@ class DropImageView : NSImageView {
         _onImageLoaded.onNext()
     }
     
+    override func scrollWheel(with event: NSEvent) {
+        self.layer!.sublayerTransform *= CATransform3DMakeTranslation(event.deltaX, -event.deltaY, 0)
+    }
+    
     func onPan(_ recognizer: NSPanGestureRecognizer) {
         
         switch recognizer.state {
         case .began, .changed:
-            let trans = recognizer.translation(in: self)
-            self.layer!.sublayerTransform *= CATransform3DMakeTranslation(trans.x, trans.y, 0)
+            guard let imageSize = self.image?.size else {
+                return
+            }
+            let location = recognizer.location(in: self)
+            let inSublayer = self.layer!.convert(location, to: self.sublayer)
             
-            recognizer.setTranslation(NSPoint.zero, in: self)
+            let imageAspectRatio = imageSize.width / imageSize.height
+            let viewAspectRatio = self.bounds.width / self.bounds.height
             
+            let imageOrigin: CGPoint
+            let scale: CGFloat
+            if imageAspectRatio < viewAspectRatio {
+                scale = self.bounds.height / imageSize.height
+                imageOrigin = CGPoint(x: (self.bounds.width - imageSize.width*scale)/2, y: 0)
+            } else {
+                scale = self.bounds.width / imageSize.width
+                imageOrigin = CGPoint(x: 0, y: (self.bounds.height - imageSize.height*scale)/2)
+            }
+            
+            let pt = (inSublayer - imageOrigin)/scale
+            _onClickPixel.onNext((Int(pt.x), Int(imageSize.height - pt.y)))
         default:
             break
         }
@@ -141,8 +161,6 @@ class DropImageView : NSImageView {
         
         let pt = (inSublayer - imageOrigin)/scale
         _onClickPixel.onNext((Int(pt.x), Int(imageSize.height - pt.y)))
-        
-        Swift.print("click: \(inSublayer)")
     }
     
     func drawRect(x: Int, y: Int, width: Int, height: Int) {
@@ -171,7 +189,9 @@ class DropImageView : NSImageView {
         let w = scale*CGFloat(width)
         let h = scale*CGFloat(height)
         overlay.bounds = CGRect(x: 0, y: 0, width: w, height: h)
+        CATransaction.begin()
+        CATransaction.setDisableActions(true)
         overlay.position = inSublayer + CGPoint(x: w/2, y: -h/2)
-        Swift.print("pos: \(inSublayer)")
+        CATransaction.commit()
     }
 }
