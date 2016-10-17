@@ -60,7 +60,7 @@ class ViewController: NSViewController {
             }
             .bindTo(previewImageView.rx.image)
             .addDisposableTo(disposeBag)
-        
+
         Observable
             .combineLatest(x.asObservable(),
                            y.asObservable(),
@@ -213,7 +213,7 @@ class ViewController: NSViewController {
         let positiveDirectory = self.positiveField.stringValue
         let negativeDirectory = self.negativeField.stringValue
         guard !positiveDirectory.isEmpty && !negativeDirectory.isEmpty else {
-            showAlert("invalid: \npositive: \(positiveDirectory) \nnegative: \(negativeDirectory)")
+            showAlert("invalid directories: \npositive: \(positiveDirectory) \nnegative: \(negativeDirectory)")
             return
         }
         
