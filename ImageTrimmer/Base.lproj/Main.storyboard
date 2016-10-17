@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1004" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11201"/>
@@ -289,9 +289,6 @@
                                         <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="j10-dk-dsH">
                                             <rect key="frame" x="86" y="32" width="19" height="27"/>
                                             <stepperCell key="cell" continuous="YES" alignment="left" maxValue="10000" id="v04-Tm-N3M"/>
-                                            <connections>
-                                                <action selector="onStepX:" target="XfG-lQ-9wD" id="5Vx-Az-0B5"/>
-                                            </connections>
                                         </stepper>
                                         <textField horizontalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="8yx-vW-F3q">
                                             <rect key="frame" x="6" y="8" width="16" height="17"/>
@@ -315,9 +312,6 @@
                                         <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="GHr-qd-bq8">
                                             <rect key="frame" x="86" y="3" width="19" height="27"/>
                                             <stepperCell key="cell" continuous="YES" alignment="left" maxValue="10000" id="LBv-pn-30M"/>
-                                            <connections>
-                                                <action selector="onStepY:" target="XfG-lQ-9wD" id="MQN-zQ-DIn"/>
-                                            </connections>
                                         </stepper>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="hOL-V9-vJ1">
                                             <rect key="frame" x="108" y="66" width="30" height="17"/>
@@ -328,7 +322,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="pjI-ZV-G2q">
-                                            <rect key="frame" x="108" y="38" width="47" height="17"/>
+                                            <rect key="frame" x="108" y="37" width="47" height="17"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="width:" id="nF5-y1-IPi">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -339,7 +333,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xCZ-LH-puB">
-                                            <rect key="frame" x="157" y="36" width="48" height="22"/>
+                                            <rect key="frame" x="157" y="35" width="48" height="22"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="48" id="GKp-R6-V5Y"/>
                                             </constraints>
@@ -350,7 +344,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="s4P-Lg-rof">
-                                            <rect key="frame" x="108" y="9" width="47" height="17"/>
+                                            <rect key="frame" x="108" y="8" width="47" height="17"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="height:" id="7Lt-Qx-3VQ">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -361,7 +355,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1xp-su-jqm">
-                                            <rect key="frame" x="157" y="7" width="48" height="22"/>
+                                            <rect key="frame" x="157" y="6" width="48" height="22"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" title="30" drawsBackground="YES" id="dZY-kt-vvE">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -383,7 +377,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bQC-UW-C1c">
-                                            <rect key="frame" x="220" y="39" width="18" height="17"/>
+                                            <rect key="frame" x="220" y="38" width="18" height="17"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="P:" id="5P0-Bl-Lyr">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -391,7 +385,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="pBC-1H-SgW">
-                                            <rect key="frame" x="220" y="10" width="18" height="17"/>
+                                            <rect key="frame" x="220" y="9" width="18" height="17"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="N:" id="WMx-zQ-vDc">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -399,7 +393,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField horizontalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4g9-bP-4sv" customClass="DropTextField" customModule="ImageTrimmer" customModuleProvider="target">
-                                            <rect key="frame" x="240" y="37" width="147" height="22"/>
+                                            <rect key="frame" x="240" y="36" width="147" height="22"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="B0x-96-uYz">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -407,7 +401,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="uLu-97-2eO">
-                                            <rect key="frame" x="385" y="30" width="87" height="32"/>
+                                            <rect key="frame" x="385" y="29" width="87" height="32"/>
                                             <buttonCell key="cell" type="push" title="Change" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Mab-xI-amU">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
@@ -417,7 +411,7 @@
                                             </buttonCell>
                                         </button>
                                         <textField horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oq8-KP-8T6" customClass="DropTextField" customModule="ImageTrimmer" customModuleProvider="target">
-                                            <rect key="frame" x="240" y="7" width="147" height="22"/>
+                                            <rect key="frame" x="240" y="6" width="147" height="22"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="KPl-y6-eFy">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -425,7 +419,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="hHp-Il-YEe">
-                                            <rect key="frame" x="385" y="1" width="87" height="32"/>
+                                            <rect key="frame" x="385" y="0.0" width="87" height="32"/>
                                             <buttonCell key="cell" type="push" title="Change" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="0Pe-QE-ifD">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
@@ -443,7 +437,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="RFV-xZ-08w">
-                                            <rect key="frame" x="474" y="36" width="64" height="22"/>
+                                            <rect key="frame" x="474" y="35" width="64" height="22"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="64" id="5vk-xi-hez"/>
                                             </constraints>
@@ -457,7 +451,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Emg-zo-SmM">
-                                            <rect key="frame" x="474" y="7" width="64" height="22"/>
+                                            <rect key="frame" x="474" y="6" width="64" height="22"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" title="0" drawsBackground="YES" id="oc4-XU-kfC">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -468,7 +462,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="own-cr-TEJ">
-                                            <rect key="frame" x="540" y="30" width="88" height="32"/>
+                                            <rect key="frame" x="540" y="29" width="88" height="32"/>
                                             <buttonCell key="cell" type="push" title="Crop(P)" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="3Ul-8n-6Eb">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
@@ -479,7 +473,7 @@
                                             </connections>
                                         </button>
                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="SDj-qI-PgD">
-                                            <rect key="frame" x="540" y="1" width="88" height="32"/>
+                                            <rect key="frame" x="540" y="0.0" width="88" height="32"/>
                                             <buttonCell key="cell" type="push" title="Crop(N)" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Emo-9p-nAu">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>

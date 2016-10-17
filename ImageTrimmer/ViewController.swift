@@ -19,13 +19,17 @@ class ViewController: NSViewController {
     @IBOutlet weak var previewImageView: NSImageView!
     
     // position
+    private let x = Variable<Int>(0)
     @IBOutlet weak var xField: NSTextField!
     @IBOutlet weak var xStepper: NSStepper!
+    private let y = Variable<Int>(0)
     @IBOutlet weak var yField: NSTextField!
     @IBOutlet weak var yStepper: NSStepper!
     
     // size
+    private let width = Variable<Int>(30)
     @IBOutlet weak var widthField: NSTextField!
+    private let height = Variable<Int>(30)
     @IBOutlet weak var heightField: NSTextField!
     
     // directory
@@ -47,39 +51,83 @@ class ViewController: NSViewController {
             .addDisposableTo(disposeBag)
         
         Observable
-            .combineLatest(xField.rx.text,
-                           yField.rx.text,
-                           widthField.rx.text,
-                           heightField.rx.text)
+            .combineLatest(x.asObservable(),
+                           y.asObservable(),
+                           width.asObservable(),
+                           height.asObservable())
             { _x, _y, _width, _height -> NSImage? in
                 return self.cropImage(x: _x, y: _y, width: _width, height: _height)
             }
             .bindTo(previewImageView.rx.image)
             .addDisposableTo(disposeBag)
         
-        xField.rx.text
-            .flatMap { Int($0).map(Observable.just) ?? Observable.empty() }
-            .subscribe(onNext: { i in
-                self.xStepper.integerValue = i
-            })
+        Observable
+            .combineLatest(x.asObservable(),
+                           y.asObservable(),
+                           width.asObservable(),
+                           height.asObservable()){ ($0, $1, $2, $3) }
+            .bindTo(imageView.clipRect)
             .addDisposableTo(disposeBag)
         
-        yField.rx.text
-            .flatMap { Int($0).map(Observable.just) ?? Observable.empty() }
-            .subscribe(onNext: { i in
-                self.yStepper.integerValue = i
+        // variable to control
+        x.asObservable()
+            .subscribe(onNext: { x in
+                self.xField.integerValue = x
+                self.xStepper.integerValue = x
             })
             .addDisposableTo(disposeBag)
+        y.asObservable()
+            .subscribe(onNext: { y in
+                self.yField.integerValue = y
+                self.yStepper.integerValue = y
+            })
+            .addDisposableTo(disposeBag)
+        width.asObservable()
+            .map { "\($0)" }
+            .bindTo(widthField.rx.text)
+            .addDisposableTo(disposeBag)
+        height.asObservable()
+            .map { "\($0)" }
+            .bindTo(heightField.rx.text)
+            .addDisposableTo(disposeBag)
+        
+        // control to variable
+        xField.rx.text
+            .flatMap { Int($0).map(Observable.just) ?? Observable.empty() }
+            .bindTo(x)
+            .addDisposableTo(disposeBag)
+        yField.rx.text
+            .flatMap { Int($0).map(Observable.just) ?? Observable.empty() }
+            .bindTo(y)
+            .addDisposableTo(disposeBag)
+        widthField.rx.text
+            .flatMap { Int($0).map(Observable.just) ?? Observable.empty() }
+            .bindTo(width)
+            .addDisposableTo(disposeBag)
+        heightField.rx.text
+            .flatMap { Int($0).map(Observable.just) ?? Observable.empty() }
+            .bindTo(height)
+            .addDisposableTo(disposeBag)
+        xStepper.rx.controlEvent
+            .map { self.xStepper.integerValue }
+            .bindTo(x)
+            .addDisposableTo(disposeBag)
+        yStepper.rx.controlEvent
+            .map { self.yStepper.integerValue }
+            .bindTo(y)
+            .addDisposableTo(disposeBag)
+        
+        imageView.onClickPixel.subscribe(onNext: { x, y in
+            self.x.value = x
+            self.y.value = y
+        }).addDisposableTo(disposeBag)
     }
     
-    func cropImage(x: String, y: String, width: String, height: String) -> NSImage? {
-        guard let x = Int(x),
-            let y = Int(y),
-            let width = Int(width),
-            let height = Int(height) else {
-                return nil
-        }
+    func cropImage(x: Int, y: Int, width: Int, height: Int) -> NSImage? {
         guard let image = self.imageView.easyImage else {
+            return nil
+        }
+        guard 0<x && x+width<=image.width && 0<y && y+height<=image.height else {
             return nil
         }
         let crop = Image(image[x..<x+width, y..<y+height])
@@ -178,26 +226,6 @@ class ViewController: NSViewController {
         NSApplication.shared().runModal(for: w.window!)
         w.window!.orderOut(nil)
     }
-    
-    @IBAction func onStepX(_ sender: AnyObject) {
-        xField.integerValue = xStepper.integerValue
-        previewImageView.image =
-            cropImage(x: xField.stringValue,
-                      y: yField.stringValue,
-                      width: widthField.stringValue,
-                      height: heightField.stringValue)
-        
-    }
-    
-    @IBAction func onStepY(_ sender: AnyObject) {
-        yField.integerValue = yStepper.integerValue
-        previewImageView.image =
-            cropImage(x: xField.stringValue,
-                      y: yField.stringValue,
-                      width: widthField.stringValue,
-                      height: heightField.stringValue)
-    }
-
 }
 
 extension ViewController : RandomCropViewControllerDelegate {
