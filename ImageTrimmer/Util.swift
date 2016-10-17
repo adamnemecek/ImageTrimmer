@@ -23,7 +23,7 @@ func saveImage(image: NSImage, directory: String, fileNumber: Int) -> Bool {
         Swift.print("save: \(url)")
         return true
     } catch(let e) {
-        Swift.print("failed to write: \(url) \n\(e.localizedDescription)")
+        showAlert("failed to write: \(url) \n\(e.localizedDescription)")
         return false
     }
 }
