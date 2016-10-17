@@ -28,3 +28,6 @@ Can zoom, scroll.
 1. Set width and height.
 1. Press "Random" button, then new window will open.
 1. Randomly trimmed image will be shown, Press "Positive"/"Negative" button to save image.
+
+# Licence
+[MIT Licence](./LICENSE)
