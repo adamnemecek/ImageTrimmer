@@ -1,6 +1,8 @@
 # ImageTrimmer
 Image trimming tool for Machine Learning.
 
+For trimming numerous, fixed size images from one image.
+
 Xcode8/Swift3/OSX
 
 Currently, it's specialized for binary classification.
@@ -16,6 +18,8 @@ Currently, it's specialized for binary classification.
 1. Trimming preview will be shown on the right box.
 1. Press "Crop(P)" or "Crop(N)" button to trim and save positive/negative image.
 
+Can zoom, scroll.
+
 ## Trim randomly
 ![Random trimming](./Resources/random.png)
 
@@ -24,5 +28,3 @@ Currently, it's specialized for binary classification.
 1. Set width and height.
 1. Press "Random" button, then new window will open.
 1. Randomly trimmed image will be shown, Press "Positive"/"Negative" button to save image.
-
-Support zooming, scrolling.
