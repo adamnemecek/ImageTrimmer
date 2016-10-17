@@ -43,6 +43,7 @@ class ViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         imageView.onImageLoaded
             .map { () -> NSImage? in
                 return nil
@@ -117,7 +118,11 @@ class ViewController: NSViewController {
             .bindTo(y)
             .addDisposableTo(disposeBag)
         
-        imageView.onClickPixel.subscribe(onNext: { x, y in
+        imageView.onClickPixel
+            .do(onNext: { _ in
+                self.view.window?.makeFirstResponder(nil)
+            })
+            .subscribe(onNext: { x, y in
             self.x.value = x
             self.y.value = y
         }).addDisposableTo(disposeBag)
