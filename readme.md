@@ -16,7 +16,7 @@ Currently, it's specialized for binary classification.
 1. Press "Crop(P)" or "Crop(N)" button to trim and save positive/negative image.
 
 ## Trim randomly
-![Random trimming](./REsources/random.png)
+![Random trimming](./Resources/random.png)
 1. Drag and drop image in upper box of main window.
 1. Set output directory and start file number.
 1. Set width and height.
