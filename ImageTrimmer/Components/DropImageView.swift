@@ -25,6 +25,12 @@ class DropImageView : NSImageView{
         super.awakeFromNib()
         
         register(forDraggedTypes: [NSFilenamesPboardType])
+        
+        let panRecog = NSPanGestureRecognizer(target: self, action: #selector(DropImageView.onPan))
+        addGestureRecognizer(panRecog)
+        
+        let zoomRecog = NSMagnificationGestureRecognizer(target: self, action: #selector(DropImageView.onZoom))
+        addGestureRecognizer(zoomRecog)
     }
     
     override func draggingEntered(_ sender: NSDraggingInfo) -> NSDragOperation {
@@ -43,11 +49,41 @@ class DropImageView : NSImageView{
             return
         }
         
-        Swift.print("load: \(file)")
         self.image = NSImage(contentsOfFile: file)
         
         self.easyImage = Image(nsImage: self.image!)
         
+        self.layer!.sublayerTransform = CATransform3DIdentity
+        
         _onImageLoaded.onNext()
+    }
+    
+    func onPan(_ recognizer: NSPanGestureRecognizer) {
+        
+        switch recognizer.state {
+        case .began, .changed:
+            let trans = recognizer.translation(in: self)
+            self.layer!.sublayerTransform *= CATransform3DMakeTranslation(trans.x, trans.y, 0)
+            
+            Swift.print("pan: \(trans)")
+            recognizer.setTranslation(NSPoint.zero, in: self)
+            
+        default:
+            break
+        }
+    }
+    
+    func onZoom(_ recognizer: NSMagnificationGestureRecognizer) {
+        let magnification = recognizer.magnification
+        let scaleFactor = (magnification >= 0.0) ? (1.0 + magnification) : 1.0 / (1.0 - magnification)
+        
+        let location = recognizer.location(in: self)
+        let move = CGPoint(x: location.x * (scaleFactor-1), y: location.y * (scaleFactor-1))
+
+        self.layer!.sublayerTransform *= CATransform3DMakeScale(scaleFactor, scaleFactor, 1)
+        self.layer!.sublayerTransform *= CATransform3DMakeTranslation(-move.x, -move.y, 0)
+        Swift.print("zoom: \(scaleFactor) \(move)")
+        
+        recognizer.magnification = 0
     }
 }
