@@ -71,16 +71,12 @@ class DropImageView : NSImageView {
         return NSDragOperation.generic
     }
     
-    override func concludeDragOperation(_ sender: NSDraggingInfo?) {
+    override func performDragOperation(_ sender: NSDraggingInfo) -> Bool {
         
-        guard let info = sender else {
-            return
-        }
-        
-        let files = info.draggingPasteboard().propertyList(forType: NSFilenamesPboardType) as! [String]
+        let files = sender.draggingPasteboard().propertyList(forType: NSFilenamesPboardType) as! [String]
         
         guard let file = files.first else {
-            return
+            return false
         }
         
         self.image = NSImage(contentsOfFile: file)
@@ -90,6 +86,8 @@ class DropImageView : NSImageView {
         self.layer!.sublayerTransform = CATransform3DIdentity
         
         _onImageLoaded.onNext()
+        
+        return true
     }
     
     override func scrollWheel(with event: NSEvent) {
