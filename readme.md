@@ -12,7 +12,7 @@ Currently, it's specialized for binary classification.
 ![Main Window](./Resources/main.png)
 
 1. Drag and drop image in the upper box.
-1. Set output directory and start file number.
+1. Set output directories and file numbers(they will increment automatically).
 1. Set width and height.
 1. Set x and y(Input value, or just click image).
 1. Trimming preview will be shown on the right box.
