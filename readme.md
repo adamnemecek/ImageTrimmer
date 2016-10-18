@@ -8,12 +8,16 @@ Xcode8/Swift3/OSX
 Currently, it's specialized for binary classification.
 
 ## Usage
-### Trim manually
+
+### Common
 ![Main Window](./Resources/main.png)
 
 1. Drag and drop image in the upper box.
 1. Set output directories and file numbers(they will increment automatically).
 1. Set width and height.
+
+### Trim manually
+1. [Common](#Common)
 1. Set x and y(Input value, or just click image).
 1. Trimming preview will be shown on the right box.
 1. Press "Crop(P)" or "Crop(N)" button to trim and save positive/negative image.
@@ -23,11 +27,23 @@ Can zoom, scroll.
 ### Trim randomly
 ![Random trimming](./Resources/random.png)
 
-1. Drag and drop image in upper box of main window.
-1. Set output directory and start file number.
-1. Set width and height.
+1. [Common](#Common)
 1. Press "Random" button, then new window will open.
 1. Randomly trimmed image will be shown, Press "Positive"/"Negative" button to save image.
+
+### Search and Trim Positive-like point
+![Predictive trimming](./Resources/pred.png)
+
+Need Positive and Negative samples.  
+This feature may not be working well.  
+
+1. [Common](#Common)
+1. Press "Pred" button.
+1. Select directory which contains "Positive" samples(size of images and the values you set mus be same).
+1. Select "Negative" directory likewise.
+1. New window will open. Set stride and click "CropNext" button.
+1. Positive-like image will be shown, Press "Positive"/"Negative" button to save image.
+
 
 ## Licence
 [MIT Licence](./LICENSE)
