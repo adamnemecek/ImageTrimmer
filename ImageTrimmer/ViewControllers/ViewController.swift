@@ -160,27 +160,28 @@ class ViewController: NSViewController {
     }
 
     @IBAction func onPressChangeP(_ sender: AnyObject) {
-        chooseDirectory(forField: positiveField)
+        chooseDirectory(for: positiveField)
     }
     
     @IBAction func onPressChangeN(_ sender: AnyObject) {
-        chooseDirectory(forField: negativeField)
+        chooseDirectory(for: negativeField)
     }
     
-    func chooseDirectory(forField: NSTextField) {
-        let panel = NSOpenPanel()
-        panel.canChooseDirectories = true
-        panel.canChooseFiles = false
+    func chooseDirectory(for field: NSTextField) {
         
-        panel.begin() { result in
-            guard result == NSFileHandlingPanelOKButton else {
-                return
-            }
-            
-            if let path = panel.urls.first {
-                forField.stringValue = path.path
-            }
-        }
+        selectDirectory()
+            .subscribe(onNext: { result in
+                switch result {
+                case .ok(let url):
+                    if let path = url?.path {
+                        field.stringValue = path
+                    }
+                case .cancel:
+                    return
+                }
+            })
+            .addDisposableTo(disposeBag)
+        
     }
     
     @IBAction func onPressCropP(_ sender: AnyObject) {
@@ -217,6 +218,62 @@ class ViewController: NSViewController {
         }
     }
     
+    @IBAction func onPressPredButton(_ sender: AnyObject) {
+        guard let nsImage = imageView.image else {
+            showAlert("image is not loaded")
+            return
+        }
+        
+        guard let image = Image<RGBA>(nsImage: nsImage) else {
+            return
+        }
+        
+        let width = self.width.value
+        let height = self.height.value
+        guard width > 0, height > 0 else {
+            showAlert("invalid size: \(width), \(height)")
+            return
+        }
+        
+        let positiveDirectory = self.positiveField.stringValue
+        let negativeDirectory = self.negativeField.stringValue
+        guard !positiveDirectory.isEmpty && !negativeDirectory.isEmpty else {
+            showAlert("invalid directories: \npositive: \(positiveDirectory) \nnegative: \(negativeDirectory)")
+            return
+        }
+        
+        func select(title: String) -> Observable<URL> {
+            return selectDirectory(title: title)
+                .map{ result in
+                    switch result {
+                    case .ok(let _url):
+                        if let url = _url {
+                            return url
+                        } else {
+                            throw SelectDirectoryAbortedError()
+                        }
+                    default:
+                        throw SelectDirectoryAbortedError()
+                    }
+                }
+        }
+        
+        select(title: "Select directory which contains \"Positive\" images.")
+            .concat(select(title: "Select directory which contains \"Negative\" images."))
+            .toArray()
+            .subscribe { event in
+                switch event {
+                case .next(let urls):
+                    Swift.print("urls: \(urls)")
+                case .error(let e):
+                    Swift.print("error: \(e)")
+                case .completed:
+                    break
+                }
+            }
+            .addDisposableTo(disposeBag)
+    }
+    
     @IBAction func onPressRandomCropButton(_ sender: AnyObject) {
         
         guard let nsImage = imageView.image else {
@@ -228,8 +285,8 @@ class ViewController: NSViewController {
             return
         }
         
-        let width = widthField.integerValue
-        let height = heightField.integerValue
+        let width = self.width.value
+        let height = self.height.value
         guard width > 0, height > 0 else {
             showAlert("invalid size: \(width), \(height)")
             return
@@ -257,5 +314,9 @@ class ViewController: NSViewController {
         w.window!.orderOut(nil)
     }
     
+}
+
+
+struct SelectDirectoryAbortedError: Error {
     
 }

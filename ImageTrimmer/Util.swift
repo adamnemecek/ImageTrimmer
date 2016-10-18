@@ -28,6 +28,35 @@ func saveImage(image: NSImage, directory: String, fileNumber: Int) -> Bool {
     }
 }
 
+enum SelectDirectoryResult {
+    case ok(URL?)
+    case cancel
+}
+func selectDirectory(title: String? = nil) -> Observable<SelectDirectoryResult> {
+    return Observable.create { observer in
+        let panel = NSOpenPanel()
+        panel.title = title
+        panel.canChooseDirectories = true
+        panel.canChooseFiles = false
+        
+        panel.begin() { result in
+            
+            switch result {
+            case NSFileHandlingPanelOKButton:
+                observer.onNext(.ok(panel.urls.first))
+            case NSFileHandlingPanelCancelButton:
+                observer.onNext(.cancel)
+            default:
+                fatalError("never reaches here.")
+            }
+            observer.onCompleted()
+        }
+        return Disposables.create {
+            panel.close()
+        }
+    }
+}
+
 func showAlert(_ message: String) {
     let alert = NSAlert()
     alert.messageText = message

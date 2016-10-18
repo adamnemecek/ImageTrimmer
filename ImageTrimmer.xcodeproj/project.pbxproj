@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		A70A40171DB5AA5E00F5441A /* RandomCropViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70A40151DB5AA5E00F5441A /* RandomCropViewController.swift */; };
 		A70A40181DB5AA5E00F5441A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70A40161DB5AA5E00F5441A /* ViewController.swift */; };
+		A70A401A1DB5AC2F00F5441A /* PredictiveCropViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70A40191DB5AC2F00F5441A /* PredictiveCropViewController.swift */; };
 		A77FD48A1DAF5A420003E9A3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77FD4891DAF5A420003E9A3 /* AppDelegate.swift */; };
 		A77FD48E1DAF5A420003E9A3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A77FD48D1DAF5A420003E9A3 /* Assets.xcassets */; };
 		A77FD4911DAF5A420003E9A3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A77FD48F1DAF5A420003E9A3 /* Main.storyboard */; };
@@ -61,6 +62,7 @@
 /* Begin PBXFileReference section */
 		A70A40151DB5AA5E00F5441A /* RandomCropViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RandomCropViewController.swift; path = ViewControllers/RandomCropViewController.swift; sourceTree = "<group>"; };
 		A70A40161DB5AA5E00F5441A /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = ViewControllers/ViewController.swift; sourceTree = "<group>"; };
+		A70A40191DB5AC2F00F5441A /* PredictiveCropViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PredictiveCropViewController.swift; sourceTree = "<group>"; };
 		A77FD4861DAF5A420003E9A3 /* ImageTrimmer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageTrimmer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A77FD4891DAF5A420003E9A3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A77FD48D1DAF5A420003E9A3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -111,8 +113,9 @@
 		A70A40141DB5AA3D00F5441A /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				A70A40151DB5AA5E00F5441A /* RandomCropViewController.swift */,
 				A70A40161DB5AA5E00F5441A /* ViewController.swift */,
+				A70A40151DB5AA5E00F5441A /* RandomCropViewController.swift */,
+				A70A40191DB5AC2F00F5441A /* PredictiveCropViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -323,6 +326,7 @@
 				A77FD5061DB085C20003E9A3 /* Util.swift in Sources */,
 				A77FD5041DB085710003E9A3 /* DropImageView.swift in Sources */,
 				A70A40181DB5AA5E00F5441A /* ViewController.swift in Sources */,
+				A70A401A1DB5AC2F00F5441A /* PredictiveCropViewController.swift in Sources */,
 				A77FD48A1DAF5A420003E9A3 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
