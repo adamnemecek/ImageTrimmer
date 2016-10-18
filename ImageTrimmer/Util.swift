@@ -34,6 +34,14 @@ func showAlert(_ message: String) {
     alert.runModal()
 }
 
+func intToStr(_ i: Int) -> String {
+    return "\(i)"
+}
+
+func strToObservableInt(_ str: String) -> Observable<Int> {
+    return Int(str).map(Observable.just) ?? Observable.empty()
+}
+
 
 func * (lhs: CATransform3D, rhs: CATransform3D) -> CATransform3D {
     return CATransform3DConcat(lhs, rhs)

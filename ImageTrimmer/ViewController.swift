@@ -37,7 +37,9 @@ class ViewController: NSViewController {
     @IBOutlet weak var negativeField: NSTextField!
     
     // file No.
+    private let positiveFileNumber = Variable<Int>(0)
     @IBOutlet weak var positiveFileNameField: NSTextField!
+    private let negativeFileNumber = Variable<Int>(0)
     @IBOutlet weak var negativeFileNameField: NSTextField!
     
     override func viewDidLoad() {
@@ -73,50 +75,66 @@ class ViewController: NSViewController {
         
         // variable to control
         x.asObservable()
-            .subscribe(onNext: { [weak self] x in
+            .subscribe(onNext: { x in
                 welf?.xField.integerValue = x
                 welf?.xStepper.integerValue = x
             })
             .addDisposableTo(disposeBag)
         y.asObservable()
-            .subscribe(onNext: { [weak self] y in
+            .subscribe(onNext: { y in
                 welf?.yField.integerValue = y
                 welf?.yStepper.integerValue = y
             })
             .addDisposableTo(disposeBag)
         width.asObservable()
-            .map { "\($0)" }
+            .map(intToStr)
             .bindTo(widthField.rx.text)
             .addDisposableTo(disposeBag)
         height.asObservable()
-            .map { "\($0)" }
+            .map(intToStr)
             .bindTo(heightField.rx.text)
+            .addDisposableTo(disposeBag)
+        positiveFileNumber.asObservable()
+            .map(intToStr)
+            .bindTo(positiveFileNameField.rx.text)
+            .addDisposableTo(disposeBag)
+        negativeFileNumber.asObservable()
+            .map(intToStr)
+            .bindTo(negativeFileNameField.rx.text)
             .addDisposableTo(disposeBag)
         
         // control to variable
         xField.rx.text
-            .flatMap { Int($0).map(Observable.just) ?? Observable.empty() }
+            .flatMap(strToObservableInt)
             .bindTo(x)
             .addDisposableTo(disposeBag)
         yField.rx.text
-            .flatMap { Int($0).map(Observable.just) ?? Observable.empty() }
+            .flatMap(strToObservableInt)
             .bindTo(y)
-            .addDisposableTo(disposeBag)
-        widthField.rx.text
-            .flatMap { Int($0).map(Observable.just) ?? Observable.empty() }
-            .bindTo(width)
-            .addDisposableTo(disposeBag)
-        heightField.rx.text
-            .flatMap { Int($0).map(Observable.just) ?? Observable.empty() }
-            .bindTo(height)
             .addDisposableTo(disposeBag)
         xStepper.rx.controlEvent
             .map { welf!.xStepper.integerValue }
             .bindTo(x)
             .addDisposableTo(disposeBag)
         yStepper.rx.controlEvent
-            .map { self.yStepper.integerValue }
+            .map { welf!.yStepper.integerValue }
             .bindTo(y)
+            .addDisposableTo(disposeBag)
+        widthField.rx.text
+            .flatMap(strToObservableInt)
+            .bindTo(width)
+            .addDisposableTo(disposeBag)
+        heightField.rx.text
+            .flatMap(strToObservableInt)
+            .bindTo(height)
+            .addDisposableTo(disposeBag)
+        positiveFileNameField.rx.text
+            .flatMap(strToObservableInt)
+            .bindTo(positiveFileNumber)
+            .addDisposableTo(disposeBag)
+        negativeFileNameField.rx.text
+            .flatMap(strToObservableInt)
+            .bindTo(negativeFileNumber)
             .addDisposableTo(disposeBag)
         
         imageView.onClickPixel
@@ -124,9 +142,10 @@ class ViewController: NSViewController {
                 welf?.view.window?.makeFirstResponder(nil)
             })
             .subscribe(onNext: { x, y in
-            welf?.x.value = x
-            welf?.y.value = y
-        }).addDisposableTo(disposeBag)
+                welf?.x.value = x
+                welf?.y.value = y
+            })
+            .addDisposableTo(disposeBag)
     }
     
     func cropImage(x: Int, y: Int, width: Int, height: Int) -> NSImage? {
@@ -176,8 +195,8 @@ class ViewController: NSViewController {
             return
         }
         
-        if saveImage(image: image, directory: directory, fileNumber: positiveFileNumber) {
-            positiveFileNumber += 1
+        if saveImage(image: image, directory: directory, fileNumber: positiveFileNumber.value) {
+            positiveFileNumber.value += 1
         }
     }
     
@@ -193,8 +212,8 @@ class ViewController: NSViewController {
             return
         }
         
-        if saveImage(image: image, directory: directory, fileNumber: negativeFileNumber) {
-            negativeFileNumber += 1
+        if saveImage(image: image, directory: directory, fileNumber: negativeFileNumber.value) {
+            negativeFileNumber.value += 1
         }
     }
     
@@ -226,7 +245,8 @@ class ViewController: NSViewController {
         let w = storyboard!.instantiateController(withIdentifier: "RandomCrop") as! NSWindowController
         
         let vc = w.contentViewController! as! RandomCropViewController
-        vc.delegate = self
+        vc.positiveFileNumber = self.positiveFileNumber
+        vc.negativeFileNumber = self.negativeFileNumber
         vc.image = image
         vc.width = width
         vc.height = height
@@ -238,24 +258,4 @@ class ViewController: NSViewController {
     }
     
     
-}
-
-extension ViewController : RandomCropViewControllerDelegate {
-    var positiveFileNumber: Int {
-        get {
-            return self.positiveFileNameField.integerValue
-        }
-        set(value) {
-            self.positiveFileNameField.integerValue = value
-        }
-    }
-    
-    var negativeFileNumber: Int {
-        get {
-            return self.negativeFileNameField.integerValue
-        }
-        set(value) {
-            self.negativeFileNameField.integerValue = value
-        }
-    }
 }

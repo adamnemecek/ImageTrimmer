@@ -9,6 +9,7 @@
 import Foundation
 import Cocoa
 import EasyImagy
+import RxSwift
 
 class RandomCropViewController : NSViewController {
     
@@ -18,7 +19,8 @@ class RandomCropViewController : NSViewController {
     var positiveDirectory: String!
     var negativeDirectory: String!
     
-    var delegate: RandomCropViewControllerDelegate!
+    var positiveFileNumber: Variable<Int>!
+    var negativeFileNumber: Variable<Int>!
     
     @IBOutlet weak var imageView: NSImageView!
     
@@ -41,18 +43,18 @@ class RandomCropViewController : NSViewController {
     }
     
     @IBAction func onPressPosiiveButton(_ sender: AnyObject) {
-        let number = delegate.positiveFileNumber
+        let number = positiveFileNumber.value
         if saveImage(image: imageView.image!, directory: positiveDirectory, fileNumber: number) {
-            delegate.positiveFileNumber += 1
+            positiveFileNumber.value += 1
             cropRandomly()
         }
     }
     
     @IBAction func onPressNeagtiveButton(_ sender: AnyObject) {
-        let number = delegate.negativeFileNumber
+        let number = negativeFileNumber.value
         
         if saveImage(image: imageView.image!, directory: negativeDirectory, fileNumber: number) {
-            delegate.negativeFileNumber += 1
+            negativeFileNumber.value += 1
             cropRandomly()
         }
     }
@@ -61,9 +63,4 @@ class RandomCropViewController : NSViewController {
         NSApplication.shared().stopModal()
     }
     
-}
-
-protocol RandomCropViewControllerDelegate {
-    var positiveFileNumber: Int { get set }
-    var negativeFileNumber: Int { get set }
 }
