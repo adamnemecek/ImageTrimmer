@@ -45,5 +45,5 @@ This feature may not work well...
 1. Positive-like image will be shown, Press "Positive"/"Negative" button to save image.
 
 
-## Licence
-[MIT Licence](./LICENSE)
+## License
+[MIT License](./LICENSE)
