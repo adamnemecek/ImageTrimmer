@@ -11,7 +11,7 @@ import EasyImagy
 import RxSwift
 import RxCocoa
 
-class ViewController: NSViewController {
+class MainViewController: NSViewController {
 
     let disposeBag = DisposeBag()
     

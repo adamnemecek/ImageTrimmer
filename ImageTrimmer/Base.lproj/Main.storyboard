@@ -393,10 +393,10 @@
             </objects>
             <point key="canvasLocation" x="753" y="1214"/>
         </scene>
-        <!--View Controller-->
+        <!--Main View Controller-->
         <scene sceneID="hIz-AP-VOD">
             <objects>
-                <viewController id="XfG-lQ-9wD" customClass="ViewController" customModule="ImageTrimmer" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="XfG-lQ-9wD" customClass="MainViewController" customModule="ImageTrimmer" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" wantsLayer="YES" id="m2S-Jp-Qdl">
                         <rect key="frame" x="0.0" y="0.0" width="640" height="480"/>
                         <autoresizingMask key="autoresizingMask"/>

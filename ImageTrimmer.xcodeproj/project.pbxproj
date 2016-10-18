@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		A70A40211DB5B93500F5441A /* PredictiveCropViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70A401E1DB5B93500F5441A /* PredictiveCropViewController.swift */; };
 		A70A40221DB5B93500F5441A /* RandomCropViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70A401F1DB5B93500F5441A /* RandomCropViewController.swift */; };
-		A70A40231DB5B93500F5441A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70A40201DB5B93500F5441A /* ViewController.swift */; };
+		A70A40231DB5B93500F5441A /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70A40201DB5B93500F5441A /* MainViewController.swift */; };
 		A70A40251DB5B97F00F5441A /* CropViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70A40241DB5B97F00F5441A /* CropViewController.swift */; };
 		A70A402C1DB5BF9500F5441A /* BlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70A40291DB5BF9500F5441A /* BlockView.swift */; };
 		A70A402D1DB5BF9500F5441A /* DropImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70A402A1DB5BF9500F5441A /* DropImageView.swift */; };
@@ -65,7 +65,7 @@
 /* Begin PBXFileReference section */
 		A70A401E1DB5B93500F5441A /* PredictiveCropViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PredictiveCropViewController.swift; sourceTree = "<group>"; };
 		A70A401F1DB5B93500F5441A /* RandomCropViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RandomCropViewController.swift; sourceTree = "<group>"; };
-		A70A40201DB5B93500F5441A /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		A70A40201DB5B93500F5441A /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		A70A40241DB5B97F00F5441A /* CropViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CropViewController.swift; sourceTree = "<group>"; };
 		A70A40291DB5BF9500F5441A /* BlockView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockView.swift; sourceTree = "<group>"; };
 		A70A402A1DB5BF9500F5441A /* DropImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DropImageView.swift; sourceTree = "<group>"; };
@@ -119,7 +119,7 @@
 		A70A401D1DB5B93500F5441A /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				A70A40201DB5B93500F5441A /* ViewController.swift */,
+				A70A40201DB5B93500F5441A /* MainViewController.swift */,
 				A70A40241DB5B97F00F5441A /* CropViewController.swift */,
 				A70A401E1DB5B93500F5441A /* PredictiveCropViewController.swift */,
 				A70A401F1DB5B93500F5441A /* RandomCropViewController.swift */,
@@ -138,12 +138,20 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
-		A77FD47D1DAF5A410003E9A3 = {
+		A70A40331DB6177C00F5441A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				A77FD50A1DB096120003E9A3 /* RxCocoa.framework */,
 				A77FD5071DB096120003E9A3 /* RxSwift.framework */,
 				A77FD4FA1DB07AC10003E9A3 /* EasyImagy.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A77FD47D1DAF5A410003E9A3 = {
+			isa = PBXGroup;
+			children = (
+				A70A40331DB6177C00F5441A /* Frameworks */,
 				A77FD4881DAF5A420003E9A3 /* ImageTrimmer */,
 				A77FD49A1DAF5A420003E9A3 /* ImageTrimmerTests */,
 				A77FD4A51DAF5A420003E9A3 /* ImageTrimmerUITests */,
@@ -334,7 +342,7 @@
 				A77FD5061DB085C20003E9A3 /* Util.swift in Sources */,
 				A70A402D1DB5BF9500F5441A /* DropImageView.swift in Sources */,
 				A77FD48A1DAF5A420003E9A3 /* AppDelegate.swift in Sources */,
-				A70A40231DB5B93500F5441A /* ViewController.swift in Sources */,
+				A70A40231DB5B93500F5441A /* MainViewController.swift in Sources */,
 				A70A40211DB5B93500F5441A /* PredictiveCropViewController.swift in Sources */,
 				A70A402C1DB5BF9500F5441A /* BlockView.swift in Sources */,
 				A70A40251DB5B97F00F5441A /* CropViewController.swift in Sources */,
