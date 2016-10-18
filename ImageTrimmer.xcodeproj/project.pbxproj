@@ -7,13 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A70A40171DB5AA5E00F5441A /* RandomCropViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70A40151DB5AA5E00F5441A /* RandomCropViewController.swift */; };
+		A70A40181DB5AA5E00F5441A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70A40161DB5AA5E00F5441A /* ViewController.swift */; };
 		A77FD48A1DAF5A420003E9A3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77FD4891DAF5A420003E9A3 /* AppDelegate.swift */; };
-		A77FD48C1DAF5A420003E9A3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77FD48B1DAF5A420003E9A3 /* ViewController.swift */; };
 		A77FD48E1DAF5A420003E9A3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A77FD48D1DAF5A420003E9A3 /* Assets.xcassets */; };
 		A77FD4911DAF5A420003E9A3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A77FD48F1DAF5A420003E9A3 /* Main.storyboard */; };
 		A77FD49C1DAF5A420003E9A3 /* ImageTrimmerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77FD49B1DAF5A420003E9A3 /* ImageTrimmerTests.swift */; };
 		A77FD4A71DAF5A420003E9A3 /* ImageTrimmerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77FD4A61DAF5A420003E9A3 /* ImageTrimmerUITests.swift */; };
-		A77FD4F91DB06CBA0003E9A3 /* RandomCropViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77FD4F81DB06CBA0003E9A3 /* RandomCropViewController.swift */; };
 		A77FD4FB1DB07AC10003E9A3 /* EasyImagy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A77FD4FA1DB07AC10003E9A3 /* EasyImagy.framework */; };
 		A77FD4FC1DB07AC10003E9A3 /* EasyImagy.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A77FD4FA1DB07AC10003E9A3 /* EasyImagy.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A77FD5021DB085640003E9A3 /* DropTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77FD5011DB085640003E9A3 /* DropTextField.swift */; };
@@ -59,9 +59,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		A70A40151DB5AA5E00F5441A /* RandomCropViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RandomCropViewController.swift; path = ViewControllers/RandomCropViewController.swift; sourceTree = "<group>"; };
+		A70A40161DB5AA5E00F5441A /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = ViewControllers/ViewController.swift; sourceTree = "<group>"; };
 		A77FD4861DAF5A420003E9A3 /* ImageTrimmer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageTrimmer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A77FD4891DAF5A420003E9A3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		A77FD48B1DAF5A420003E9A3 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		A77FD48D1DAF5A420003E9A3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A77FD4901DAF5A420003E9A3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A77FD4921DAF5A420003E9A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -71,7 +72,6 @@
 		A77FD4A21DAF5A420003E9A3 /* ImageTrimmerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ImageTrimmerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A77FD4A61DAF5A420003E9A3 /* ImageTrimmerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageTrimmerUITests.swift; sourceTree = "<group>"; };
 		A77FD4A81DAF5A420003E9A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A77FD4F81DB06CBA0003E9A3 /* RandomCropViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RandomCropViewController.swift; sourceTree = "<group>"; };
 		A77FD4FA1DB07AC10003E9A3 /* EasyImagy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = EasyImagy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A77FD5011DB085640003E9A3 /* DropTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DropTextField.swift; path = Components/DropTextField.swift; sourceTree = "<group>"; };
 		A77FD5031DB085710003E9A3 /* DropImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DropImageView.swift; path = Components/DropImageView.swift; sourceTree = "<group>"; };
@@ -108,6 +108,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A70A40141DB5AA3D00F5441A /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				A70A40151DB5AA5E00F5441A /* RandomCropViewController.swift */,
+				A70A40161DB5AA5E00F5441A /* ViewController.swift */,
+			);
+			name = ViewControllers;
+			sourceTree = "<group>";
+		};
 		A77FD47D1DAF5A410003E9A3 = {
 			isa = PBXGroup;
 			children = (
@@ -135,9 +144,8 @@
 			isa = PBXGroup;
 			children = (
 				A77FD5001DB085430003E9A3 /* Components */,
+				A70A40141DB5AA3D00F5441A /* ViewControllers */,
 				A77FD4891DAF5A420003E9A3 /* AppDelegate.swift */,
-				A77FD48B1DAF5A420003E9A3 /* ViewController.swift */,
-				A77FD4F81DB06CBA0003E9A3 /* RandomCropViewController.swift */,
 				A77FD5051DB085C20003E9A3 /* Util.swift */,
 				A77FD48D1DAF5A420003E9A3 /* Assets.xcassets */,
 				A77FD48F1DAF5A420003E9A3 /* Main.storyboard */,
@@ -310,11 +318,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A70A40171DB5AA5E00F5441A /* RandomCropViewController.swift in Sources */,
 				A77FD5021DB085640003E9A3 /* DropTextField.swift in Sources */,
 				A77FD5061DB085C20003E9A3 /* Util.swift in Sources */,
-				A77FD48C1DAF5A420003E9A3 /* ViewController.swift in Sources */,
 				A77FD5041DB085710003E9A3 /* DropImageView.swift in Sources */,
-				A77FD4F91DB06CBA0003E9A3 /* RandomCropViewController.swift in Sources */,
+				A70A40181DB5AA5E00F5441A /* ViewController.swift in Sources */,
 				A77FD48A1DAF5A420003E9A3 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
