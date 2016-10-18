@@ -261,10 +261,16 @@ class ViewController: NSViewController {
         select(title: "Select directory which contains \"Positive\" images.")
             .concat(select(title: "Select directory which contains \"Negative\" images."))
             .toArray()
-            .subscribe { event in
+            .subscribe { [weak self] event in
                 switch event {
                 case .next(let urls):
-                    Swift.print("urls: \(urls)")
+                    let w = self!.storyboard!.instantiateController(withIdentifier: "PredictiveCrop") as! NSWindowController
+                    let vc = w.contentViewController! as! PredictiveCropViewController
+                    vc.positiveSupervisorDirectory.onNext(urls[0].path)
+                    vc.negativeSupervisorDirectory.onNext(urls[1].path)
+                    
+                    NSApplication.shared().runModal(for: w.window!)
+                    
                 case .error(let e):
                     Swift.print("error: \(e)")
                 case .completed:
@@ -311,7 +317,6 @@ class ViewController: NSViewController {
         vc.negativeDirectory = negativeDirectory
         
         NSApplication.shared().runModal(for: w.window!)
-        w.window!.orderOut(nil)
     }
     
 }

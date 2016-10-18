@@ -11,16 +11,7 @@ import Cocoa
 import EasyImagy
 import RxSwift
 
-class RandomCropViewController : NSViewController {
-    
-    var image: Image<RGBA>!
-    var width: Int!
-    var height: Int!
-    var positiveDirectory: String!
-    var negativeDirectory: String!
-    
-    var positiveFileNumber: Variable<Int>!
-    var negativeFileNumber: Variable<Int>!
+class RandomCropViewController : CropViewController {
     
     @IBOutlet weak var imageView: NSImageView!
     

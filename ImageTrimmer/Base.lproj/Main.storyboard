@@ -77,7 +77,7 @@
         <scene sceneID="R2V-B0-nI4">
             <objects>
                 <windowController id="B8D-0N-5wS" sceneMemberID="viewController">
-                    <window key="window" title="ImageTrimmer" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA" customClass="AppWindow" customModule="ImageTrimmer" customModuleProvider="target">
+                    <window key="window" title="ImageTrimmer" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="196" y="240" width="640" height="480"/>
@@ -110,77 +110,101 @@
             <point key="canvasLocation" x="753" y="793"/>
         </scene>
         <!--Window Controller-->
-        <scene sceneID="GKY-mA-Lbf">
+        <scene sceneID="BnU-MQ-rta">
             <objects>
-                <windowController id="t3S-P2-H3V" sceneMemberID="viewController">
-                    <window key="window" title="PredictiveTrimmer" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="HK3-fY-YQg">
+                <windowController storyboardIdentifier="PredictiveCrop" id="Uwb-Si-50p" sceneMemberID="viewController">
+                    <window key="window" title="PredictiveTrimmer" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="5ti-6P-gQJ">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="245" y="301" width="480" height="270"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
                     </window>
                     <connections>
-                        <segue destination="l4y-fh-RFl" kind="relationship" relationship="window.shadowedContentViewController" id="Q4X-Yn-N3U"/>
+                        <segue destination="Vpy-Ym-P3B" kind="relationship" relationship="window.shadowedContentViewController" id="i7w-vi-tOX"/>
                     </connections>
                 </windowController>
-                <customObject id="7YK-Bi-7Ig" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <customObject id="im3-JZ-do0" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1309" y="793"/>
+            <point key="canvasLocation" x="1270" y="793"/>
         </scene>
-        <!--View Controller-->
-        <scene sceneID="jex-nD-KU6">
+        <!--Predictive Crop View Controller-->
+        <scene sceneID="eyb-99-9uL">
             <objects>
-                <viewController id="l4y-fh-RFl" sceneMemberID="viewController">
-                    <view key="view" id="xLh-Fa-WGq">
+                <viewController id="Vpy-Ym-P3B" customClass="PredictiveCropViewController" customModule="ImageTrimmer" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="rG1-uL-sUT">
                         <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="z2i-l6-Bhb">
-                                <rect key="frame" x="216" y="172" width="48" height="48"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="pOc-qK-hRr"/>
+                            <stackView distribution="fillEqually" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="249" verticalHuggingPriority="249" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7HZ-sm-nvp">
+                                <rect key="frame" x="4" y="4" width="472" height="21"/>
+                                <subviews>
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ybe-QU-BRQ">
+                                        <rect key="frame" x="-6" y="-7" width="164" height="32"/>
+                                        <buttonCell key="cell" type="push" title="Positive(P)" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="JrD-pk-Mp3">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                            <string key="keyEquivalent">p</string>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="onPressPosiiveButton:" target="XEV-gN-2pQ" id="miP-Mq-lzL"/>
+                                        </connections>
+                                    </button>
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="UXS-Iu-s0I">
+                                        <rect key="frame" x="154" y="-7" width="164" height="32"/>
+                                        <buttonCell key="cell" type="push" title="End" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="YbN-7C-8Np">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="onPressEndButton:" target="XEV-gN-2pQ" id="GGx-TZ-ehi"/>
+                                        </connections>
+                                    </button>
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="wsi-8U-rP7">
+                                        <rect key="frame" x="314" y="-7" width="164" height="32"/>
+                                        <buttonCell key="cell" type="push" title="Negative(N)" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="etg-c7-vpy">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                            <string key="keyEquivalent">n</string>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="onPressNeagtiveButton:" target="XEV-gN-2pQ" id="j2y-EC-6Lo"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="mpJ-6b-gth"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="21" id="qdq-6h-o9B"/>
+                                </constraints>
+                                <visibilityPriorities>
+                                    <integer value="1000"/>
+                                    <integer value="1000"/>
+                                    <integer value="1000"/>
+                                </visibilityPriorities>
+                                <customSpacing>
+                                    <real value="3.4028234663852886e+38"/>
+                                    <real value="3.4028234663852886e+38"/>
+                                    <real value="3.4028234663852886e+38"/>
+                                </customSpacing>
+                            </stackView>
+                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="sex-zg-FoR">
+                                <rect key="frame" x="4" y="29" width="472" height="237"/>
+                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="vhf-L5-kKs"/>
                             </imageView>
-                            <box fixedFrame="YES" boxType="custom" cornerRadius="4" title="Box" translatesAutoresizingMaskIntoConstraints="NO" id="qMN-zg-G8m">
-                                <rect key="frame" x="39" y="20" width="421" height="114"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <view key="contentView" ambiguous="YES" id="mxq-eT-T2a">
-                                    <rect key="frame" x="1" y="1" width="419" height="112"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                    <subviews>
-                                        <button verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ewg-DF-126">
-                                            <rect key="frame" x="6" y="58" width="128" height="32"/>
-                                            <buttonCell key="cell" type="push" title="Load Positives" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="fiG-ZW-1kF">
-                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                            </buttonCell>
-                                        </button>
-                                        <button verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dZ4-91-ZAI">
-                                            <rect key="frame" x="6" y="13" width="134" height="32"/>
-                                            <buttonCell key="cell" type="push" title="Load Negatives" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="GBn-ac-Hk8">
-                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                            </buttonCell>
-                                        </button>
-                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7Rq-te-EC8">
-                                            <rect key="frame" x="234" y="38" width="70" height="32"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="push" title="Start" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="8Fj-TU-D0B">
-                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                            </buttonCell>
-                                        </button>
-                                    </subviews>
-                                    <constraints>
-                                        <constraint firstItem="dZ4-91-ZAI" firstAttribute="width" secondItem="Ewg-DF-126" secondAttribute="width" id="nim-8y-gcs"/>
-                                    </constraints>
-                                </view>
-                            </box>
                         </subviews>
+                        <constraints>
+                            <constraint firstItem="sex-zg-FoR" firstAttribute="leading" secondItem="rG1-uL-sUT" secondAttribute="leading" constant="4" id="D77-0j-9kq"/>
+                            <constraint firstItem="7HZ-sm-nvp" firstAttribute="leading" secondItem="rG1-uL-sUT" secondAttribute="leading" constant="4" id="Ie1-83-vyN"/>
+                            <constraint firstAttribute="trailing" secondItem="7HZ-sm-nvp" secondAttribute="trailing" constant="4" id="Kab-dL-Bcx"/>
+                            <constraint firstAttribute="bottom" secondItem="7HZ-sm-nvp" secondAttribute="bottom" constant="4" id="NOu-Ay-EYW"/>
+                            <constraint firstItem="sex-zg-FoR" firstAttribute="top" secondItem="rG1-uL-sUT" secondAttribute="top" constant="4" id="W2z-hR-uyU"/>
+                            <constraint firstItem="7HZ-sm-nvp" firstAttribute="top" secondItem="sex-zg-FoR" secondAttribute="bottom" constant="4" id="gmp-Kf-xao"/>
+                            <constraint firstAttribute="trailing" secondItem="sex-zg-FoR" secondAttribute="trailing" constant="4" id="y8g-1h-Sw8"/>
+                        </constraints>
                     </view>
                 </viewController>
-                <customObject id="tZI-bK-NmZ" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <customObject id="ILz-Oy-DzW" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1309" y="1214"/>
+            <point key="canvasLocation" x="1270" y="1214"/>
         </scene>
         <!--Random Crop View Controller-->
         <scene sceneID="SF3-8p-bss">
