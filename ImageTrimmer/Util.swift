@@ -8,6 +8,7 @@
 
 import Foundation
 import Cocoa
+import EasyImagy
 import RxSwift
 
 func saveImage(image: NSImage, directory: String, fileNumber: Int) -> Bool {
@@ -57,12 +58,57 @@ func selectDirectory(title: String? = nil) -> Observable<SelectDirectoryResult> 
     }
 }
 
+extension Image where Pixel: RGBAType {
+    init?(contentsOf url: URL) {
+        self.init(contentsOfFile: url.path)
+    }
+    
+    func toGrayImage() -> Image<Double> {
+        return self.map { Double($0.gray) / 255.0 }
+    }
+}
+
+extension Array {
+    func partition(cvarRate: Float) -> (Array<Element>, Array<Element>) {
+        let shuffled = self.shuffled()
+        let cvarCount = Int(cvarRate * Float(shuffled.count))
+        return (Array(shuffled[cvarCount..<self.count]),
+                Array(shuffled[0..<cvarCount]))
+    }
+    
+    func shuffled() -> Array<Element> {
+        var array = self
+        
+        for i in 0..<array.count {
+            let ub = UInt32(array.count - i)
+            let d = Int(arc4random_uniform(ub))
+            
+            let tmp = array[i]
+            array[i] = array[i+d]
+            array[i+d] = tmp
+        }
+        
+        return array
+    }
+    
+    func zip<T,R>(with other: Array<T>, f: (Element, T)->R) -> Array<R> {
+        return Swift.zip(self, other).map(f)
+    }
+}
+
 func showAlert(_ message: String) {
     let alert = NSAlert()
     alert.messageText = message
     alert.runModal()
 }
 
+func linspace(minimum: Double, maximum: Double, count: Int) -> StrideTo<Double> {
+    let strider = (maximum - minimum) / Double(count)
+    return stride(from: minimum, to: maximum, by: strider)
+}
+
+
+// For observable conversion
 func intToStr(_ i: Int) -> String {
     return "\(i)"
 }
@@ -72,6 +118,7 @@ func strToObservableInt(_ str: String) -> Observable<Int> {
 }
 
 
+// CATransform3D
 func * (lhs: CATransform3D, rhs: CATransform3D) -> CATransform3D {
     return CATransform3DConcat(lhs, rhs)
 }

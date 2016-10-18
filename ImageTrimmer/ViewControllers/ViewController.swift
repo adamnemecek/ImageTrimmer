@@ -268,6 +268,16 @@ class ViewController: NSViewController {
                     let vc = w.contentViewController! as! PredictiveCropViewController
                     vc.positiveSupervisorDirectory.onNext(urls[0].path)
                     vc.negativeSupervisorDirectory.onNext(urls[1].path)
+                    vc.x = self!.x
+                    vc.y = self!.y
+                    vc.positiveFileNumber = self!.positiveFileNumber
+                    vc.negativeFileNumber = self!.negativeFileNumber
+                    vc.image = image
+                    vc.width = width
+                    vc.height = height
+                    vc.positiveDirectory = positiveDirectory
+                    vc.negativeDirectory = negativeDirectory
+                    vc.bind()
                     
                     NSApplication.shared().runModal(for: w.window!)
                     
