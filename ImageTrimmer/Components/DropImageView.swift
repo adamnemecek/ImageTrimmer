@@ -56,13 +56,15 @@ class DropImageView : NSImageView {
         sublayer = CALayer()
         self.layer!.addSublayer(sublayer)
         
+        weak var welf = self
+        
         clipRect.subscribe(onNext: { x, y, width, height in
-            self.drawRect(x: x, y: y, width: width, height: height)
+            welf?.drawRect(x: x, y: y, width: width, height: height)
         }).addDisposableTo(disposeBag)
         
         onImageLoaded.withLatestFrom(clipRect)
             .subscribe(onNext: { x, y, width, height in
-                self.drawRect(x: x, y: y, width: width, height: height)
+                welf?.drawRect(x: x, y: y, width: width, height: height)
             })
             .addDisposableTo(disposeBag)
     }

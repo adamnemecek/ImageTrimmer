@@ -43,6 +43,7 @@ class ViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        weak var welf = self
         
         imageView.onImageLoaded
             .map { () -> NSImage? in
@@ -57,7 +58,7 @@ class ViewController: NSViewController {
                            width.asObservable(),
                            height.asObservable())
             { _x, _y, _width, _height -> NSImage? in
-                return self.cropImage(x: _x, y: _y, width: _width, height: _height)
+                return welf?.cropImage(x: _x, y: _y, width: _width, height: _height)
             }
             .bindTo(previewImageView.rx.image)
             .addDisposableTo(disposeBag)
@@ -72,15 +73,15 @@ class ViewController: NSViewController {
         
         // variable to control
         x.asObservable()
-            .subscribe(onNext: { x in
-                self.xField.integerValue = x
-                self.xStepper.integerValue = x
+            .subscribe(onNext: { [weak self] x in
+                welf?.xField.integerValue = x
+                welf?.xStepper.integerValue = x
             })
             .addDisposableTo(disposeBag)
         y.asObservable()
-            .subscribe(onNext: { y in
-                self.yField.integerValue = y
-                self.yStepper.integerValue = y
+            .subscribe(onNext: { [weak self] y in
+                welf?.yField.integerValue = y
+                welf?.yStepper.integerValue = y
             })
             .addDisposableTo(disposeBag)
         width.asObservable()
@@ -110,7 +111,7 @@ class ViewController: NSViewController {
             .bindTo(height)
             .addDisposableTo(disposeBag)
         xStepper.rx.controlEvent
-            .map { self.xStepper.integerValue }
+            .map { welf!.xStepper.integerValue }
             .bindTo(x)
             .addDisposableTo(disposeBag)
         yStepper.rx.controlEvent
@@ -120,11 +121,11 @@ class ViewController: NSViewController {
         
         imageView.onClickPixel
             .do(onNext: { _ in
-                self.view.window?.makeFirstResponder(nil)
+                welf?.view.window?.makeFirstResponder(nil)
             })
             .subscribe(onNext: { x, y in
-            self.x.value = x
-            self.y.value = y
+            welf?.x.value = x
+            welf?.y.value = y
         }).addDisposableTo(disposeBag)
     }
     
