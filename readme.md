@@ -17,7 +17,7 @@ Currently, it's specialized for binary classification.
 1. Set width and height.
 
 ### Trim manually
-1. [Common](#Common)
+1. [Common](#common)
 1. Set x and y(Input value, or just click image).
 1. Trimming preview will be shown on the right box.
 1. Press "Crop(P)" or "Crop(N)" button to trim and save positive/negative image.
@@ -27,7 +27,7 @@ Can zoom, scroll.
 ### Trim randomly
 ![Random trimming](./Resources/random.png)
 
-1. [Common](#Common)
+1. [Common](#common)
 1. Press "Random" button, then new window will open.
 1. Randomly trimmed image will be shown, Press "Positive"/"Negative" button to save image.
 
@@ -37,7 +37,7 @@ Can zoom, scroll.
 Need Positive and Negative samples.  
 This feature may not be working well.  
 
-1. [Common](#Common)
+1. [Common](#common)
 1. Press "Pred" button.
 1. Select directory which contains "Positive" samples(size of images and the values you set mus be same).
 1. Select "Negative" directory likewise.
