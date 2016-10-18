@@ -41,6 +41,10 @@ class PredictiveCropViewController : CropViewController {
         return v
     }()
     
+    override func viewDidDisappear() {
+        NSApplication.shared().stopModal()
+    }
+    
     func bind() {
         
         weak var welf = self
@@ -133,12 +137,14 @@ class PredictiveCropViewController : CropViewController {
                 if(x + self.width >= self.image.width) {
                     x = 0
                     y += strider
-                    
-                    if(y + self.height >= self.image.height){
+                }
+                if(y + self.height >= self.image.height){
+                    DispatchQueue.main.async {
                         showAlert("Reached end.")
                         self.imageView.image = nil
-                        break
+                        self.blockView.hide()
                     }
+                    break
                 }
                 let patch = self.image[x..<x+self.width, y..<y+self.height]
                 let patchGray = patch.pixels.map { Double($0.gray)/255.0 }

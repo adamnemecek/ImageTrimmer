@@ -280,6 +280,7 @@ class ViewController: NSViewController {
                     vc.bind()
                     
                     NSApplication.shared().runModal(for: w.window!)
+                    w.window?.orderOut(nil)
                     
                 case .error(let e):
                     Swift.print("error: \(e)")
@@ -327,6 +328,7 @@ class ViewController: NSViewController {
         vc.negativeDirectory = negativeDirectory
         
         NSApplication.shared().runModal(for: w.window!)
+        w.window?.orderOut(nil)
     }
     
 }

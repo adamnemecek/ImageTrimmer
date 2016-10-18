@@ -20,6 +20,10 @@ class RandomCropViewController : CropViewController {
         cropRandomly()
     }
     
+    override func viewDidDisappear() {
+        NSApplication.shared().stopModal()
+    }
+    
     func cropRandomly() {
         
         let maxX = UInt32(image.width) - UInt32(width)
