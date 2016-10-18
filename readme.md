@@ -35,7 +35,7 @@ Can zoom, scroll.
 ![Predictive trimming](./Resources/pred.png)
 
 Need Positive and Negative samples.  
-This feature may not be working well.  
+This feature may not work well...
 
 1. [Common](#common)
 1. Press "Pred" button.
