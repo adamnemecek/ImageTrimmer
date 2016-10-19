@@ -114,7 +114,6 @@ func strToObservableInt(_ str: String) -> Observable<Int> {
     return Int(str).map(Observable.just) ?? Observable.empty()
 }
 
-
 // CATransform3D
 func * (lhs: CATransform3D, rhs: CATransform3D) -> CATransform3D {
     return CATransform3DConcat(lhs, rhs)

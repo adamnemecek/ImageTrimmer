@@ -40,10 +40,20 @@ class MainViewController: NSViewController {
         
         weak var welf = self
         
-        imageView.onImageLoaded
-            .map { () -> NSImage? in
-                return nil
+        do {
+            let ud = UserDefaults.standard
+            let w = ud.integer(forKey: Keys.UserDefaults.widthKey)
+            if w > 0 {
+                self.width.value = w
             }
+            let h = ud.integer(forKey: Keys.UserDefaults.heightKey)
+            if h > 0 {
+                self.height.value = h
+            }
+        }
+        
+        imageView.onImageLoaded
+            .map { () -> NSImage? in nil }
             .bindTo(previewImageView.rx.image)
             .addDisposableTo(disposeBag)
         
@@ -80,10 +90,18 @@ class MainViewController: NSViewController {
             })
             .addDisposableTo(disposeBag)
         width.asObservable()
+            .do(onNext: { w in
+                let ud = UserDefaults.standard
+                ud.set(w, forKey: Keys.UserDefaults.widthKey)
+            })
             .map(intToStr)
             .bindTo(widthField.rx.text)
             .addDisposableTo(disposeBag)
         height.asObservable()
+            .do(onNext: { h in
+                let ud = UserDefaults.standard
+                ud.set(h, forKey: Keys.UserDefaults.heightKey)
+            })
             .map(intToStr)
             .bindTo(heightField.rx.text)
             .addDisposableTo(disposeBag)
