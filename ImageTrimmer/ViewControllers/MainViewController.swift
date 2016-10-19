@@ -155,6 +155,9 @@ class MainViewController: NSViewController {
         guard 0<x && x+width<=image.width && 0<y && y+height<=image.height else {
             return nil
         }
+        guard width>0 && height>0 else {
+            return nil
+        }
         let crop = Image(image[x..<x+width, y..<y+height])
         return crop.nsImage
     }

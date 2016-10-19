@@ -173,6 +173,12 @@ class DropImageView : NSImageView {
             return
         }
         
+        guard width>0 && height>0 else {
+            overlay.isHidden = true
+            return
+        }
+        overlay.isHidden = false
+        
         let y_ = imageSize.height - CGFloat(y)
         
         let imageAspectRatio = imageSize.width / imageSize.height

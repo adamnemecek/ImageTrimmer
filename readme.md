@@ -41,9 +41,11 @@ This feature may not work well...
 1. Press "Pred" button.
 1. Select directory which contains "Positive" samples(size of images and the values you set mus be same).
 1. Select "Negative" directory likewise.
-1. New window will open. Set stride and click "CropNext" button.
+1. New window will open. Set "stride" and click "CropNext" button.
 1. Positive-like image will be shown, Press "Positive"/"Negative" button to save image.
 
+- Search proceeds by "stride" pixels in Row-major order.
+- Can choose "Precision" or "F1 score" for cross varidation, but, for collecting positive samples, "Recall" may work better than them.
 
 ## License
 [MIT License](./LICENSE)
