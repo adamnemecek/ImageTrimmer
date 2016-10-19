@@ -106,9 +106,16 @@ class PredictiveCropViewController : CropViewController {
                     self.blockView.hide()
                 }
             } catch(let e) {
-                Swift.print("error: \(e.localizedDescription)")
+                let message: String
+                switch e {
+                case is InvalidInputError:
+                    message = (e as! InvalidInputError).description
+                default:
+                    message = e.localizedDescription
+                }
+                Swift.print("error: \(message)")
                 DispatchQueue.main.async {
-                    showAlert("Error:\n\(e.localizedDescription)")
+                    showAlert("Error:\n\(message)")
                     self.view.window?.close()
                 }
                 
@@ -336,9 +343,12 @@ class PredictiveCropViewController : CropViewController {
     }
 }
 
-private struct InvalidInputError: Error {
-    private var localizedDescription: String
-    init(_ localizedDescription: String) {
-        self.localizedDescription = localizedDescription
+private class InvalidInputError: Error {
+    
+    let description: String
+    init(_ description: String) {
+        self.description = description
     }
+    
+    
 }
