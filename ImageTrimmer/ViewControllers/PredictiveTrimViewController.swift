@@ -16,12 +16,6 @@ class PredictiveTrimViewController : TrimViewController {
     @IBOutlet weak var strideField: NSTextField!
     @IBOutlet weak var measureField: NSPopUpButton!
     
-    
-    var positiveSupervisorDirectory = ReplaySubject<String>.create(bufferSize: 1)
-    var negativeSupervisorDirectory = ReplaySubject<String>.create(bufferSize: 1)
-    var x: Variable<Int>!
-    var y: Variable<Int>!
-    
     // Model
     private var mu: [Double]!
     private var sigma2: [Double]!
@@ -40,25 +34,41 @@ class PredictiveTrimViewController : TrimViewController {
         NSApplication.shared().stopModal()
     }
     
-    func bind() {
+    override func bind(image: Image<RGBA>!, x: Variable<Int>, y: Variable<Int>, width: Int, height: Int, positiveDirectory: String, negativeDirectory: String, positiveFileNumber: Variable<Int>, negativeFileNumber: Variable<Int>) {
+        fatalError("use another")
+    }
+    
+    func bind(image: Image<RGBA>!,
+                       x: Variable<Int>,
+                       y: Variable<Int>,
+                       width: Int,
+                       height: Int,
+                       positiveDirectory: String,
+                       negativeDirectory: String,
+                       positiveFileNumber: Variable<Int>,
+                       negativeFileNumber: Variable<Int>,
+                       positiveSupervisorDirectory: String,
+                       negativeSupervisorDirectory: String) {
+        
+        super.bind(image: image,
+                   x: x,
+                   y: y,
+                   width: width,
+                   height: height,
+                   positiveDirectory: positiveDirectory,
+                   negativeDirectory: negativeDirectory,
+                   positiveFileNumber: positiveFileNumber,
+                   negativeFileNumber: negativeFileNumber)
         
         weak var welf = self
         
-        Observable.combineLatest(positiveSupervisorDirectory,
-                                 negativeSupervisorDirectory) { ($0, $1) }
-            .subscribe(onNext: {
-                Swift.print($0)
-                welf!.createModel(positiveDirectory: $0.0, negativeDirectory: $0.1, measure: "Recall")
-            })
-            .addDisposableTo(disposeBag)
-        
-        measureField.rx.controlEvent
+        measureField.rx.controlEvent.startWith(())
             .map { welf!.measureField.selectedItem!.title }
-            .withLatestFrom(positiveSupervisorDirectory) { ($0, $1) }
-            .withLatestFrom(negativeSupervisorDirectory) { ($0.0, $0.1, $1) }
             .subscribe(onNext: {
                 Swift.print($0)
-                welf!.createModel(positiveDirectory: $0.1, negativeDirectory: $0.2, measure: $0.0)
+                welf!.createModel(positiveDirectory: positiveSupervisorDirectory,
+                                  negativeDirectory: negativeSupervisorDirectory,
+                                  measure: $0)
             })
             .addDisposableTo(disposeBag)
         

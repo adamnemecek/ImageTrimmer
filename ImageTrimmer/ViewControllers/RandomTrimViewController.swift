@@ -10,11 +10,33 @@ class RandomTrimViewController : TrimViewController {
     
     override func viewDidAppear() {
         super.viewDidAppear()
-        trimRandomly()
     }
     
     override func viewDidDisappear() {
         NSApplication.shared().stopModal()
+    }
+    
+    override func bind(image: Image<RGBA>!,
+                       x: Variable<Int>,
+                       y: Variable<Int>,
+                       width: Int,
+                       height: Int,
+                       positiveDirectory: String,
+                       negativeDirectory: String,
+                       positiveFileNumber: Variable<Int>,
+                       negativeFileNumber: Variable<Int>) {
+        
+        super.bind(image: image,
+                   x: x,
+                   y: y,
+                   width: width,
+                   height: height,
+                   positiveDirectory: positiveDirectory,
+                   negativeDirectory: negativeDirectory,
+                   positiveFileNumber: positiveFileNumber,
+                   negativeFileNumber: negativeFileNumber)
+        
+        trimRandomly()
     }
     
     func trimRandomly() {
@@ -28,6 +50,8 @@ class RandomTrimViewController : TrimViewController {
         let trimmed = Image(image[x..<x+width, y..<y+height])
         
         imageView.image = trimmed.nsImage
+        self.x.value = x
+        self.y.value = y
     }
     
     @IBAction func onPressPosiiveButton(_ sender: AnyObject) {

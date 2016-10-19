@@ -184,12 +184,11 @@ class MainViewController: NSViewController {
                 }
             })
             .addDisposableTo(disposeBag)
-        
     }
     
     @IBAction func onPressTrimP(_ sender: AnyObject) {
         guard let image = previewImageView.image else {
-            showAlert("image is not loaded")
+            showAlert("preview is empty")
             return
         }
         let directory = positiveField.stringValue
@@ -206,7 +205,7 @@ class MainViewController: NSViewController {
     
     @IBAction func onPressTrimN(_ sender: AnyObject) {
         guard let image = previewImageView.image else {
-            showAlert("image is not loaded")
+            showAlert("preview is empty")
             return
         }
         let directory = negativeField.stringValue
@@ -269,18 +268,17 @@ class MainViewController: NSViewController {
                 case .next(let urls):
                     let w = self!.storyboard!.instantiateController(withIdentifier: "PredictiveTrim") as! NSWindowController
                     let vc = w.contentViewController! as! PredictiveTrimViewController
-                    vc.positiveSupervisorDirectory.onNext(urls[0].path)
-                    vc.negativeSupervisorDirectory.onNext(urls[1].path)
-                    vc.x = self!.x
-                    vc.y = self!.y
-                    vc.positiveFileNumber = self!.positiveFileNumber
-                    vc.negativeFileNumber = self!.negativeFileNumber
-                    vc.image = image
-                    vc.width = width
-                    vc.height = height
-                    vc.positiveDirectory = positiveDirectory
-                    vc.negativeDirectory = negativeDirectory
-                    vc.bind()
+                    vc.bind(image: image,
+                            x: self!.x,
+                            y: self!.y,
+                            width: width,
+                            height: height,
+                            positiveDirectory: positiveDirectory,
+                            negativeDirectory: negativeDirectory,
+                            positiveFileNumber: self!.positiveFileNumber,
+                            negativeFileNumber: self!.negativeFileNumber,
+                            positiveSupervisorDirectory: urls[0].path,
+                            negativeSupervisorDirectory: urls[1].path)
                     
                     NSApplication.shared().runModal(for: w.window!)
                     w.window?.orderOut(nil)
@@ -322,13 +320,15 @@ class MainViewController: NSViewController {
         let w = storyboard!.instantiateController(withIdentifier: "RandomTrim") as! NSWindowController
         
         let vc = w.contentViewController! as! RandomTrimViewController
-        vc.positiveFileNumber = self.positiveFileNumber
-        vc.negativeFileNumber = self.negativeFileNumber
-        vc.image = image
-        vc.width = width
-        vc.height = height
-        vc.positiveDirectory = positiveDirectory
-        vc.negativeDirectory = negativeDirectory
+        vc.bind(image: image,
+                x: self.x,
+                y: self.y,
+                width: width,
+                height: height,
+                positiveDirectory: positiveDirectory,
+                negativeDirectory: negativeDirectory,
+                positiveFileNumber: self.positiveFileNumber,
+                negativeFileNumber: self.negativeFileNumber)
         
         NSApplication.shared().runModal(for: w.window!)
         w.window?.orderOut(nil)
