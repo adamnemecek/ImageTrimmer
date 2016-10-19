@@ -101,7 +101,7 @@
         <!--Window Controller-->
         <scene sceneID="Ck2-h5-sbR">
             <objects>
-                <windowController storyboardIdentifier="RandomCrop" id="ocM-WX-EGL" sceneMemberID="viewController">
+                <windowController storyboardIdentifier="RandomTrim" id="ocM-WX-EGL" sceneMemberID="viewController">
                     <window key="window" title="RandomTrimmer" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="aKS-af-F9C">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
@@ -119,7 +119,7 @@
         <!--Window Controller-->
         <scene sceneID="BnU-MQ-rta">
             <objects>
-                <windowController storyboardIdentifier="PredictiveCrop" id="Uwb-Si-50p" sceneMemberID="viewController">
+                <windowController storyboardIdentifier="PredictiveTrim" id="Uwb-Si-50p" sceneMemberID="viewController">
                     <window key="window" title="PredictiveTrimmer" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="5ti-6P-gQJ">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
@@ -134,10 +134,10 @@
             </objects>
             <point key="canvasLocation" x="1270" y="793"/>
         </scene>
-        <!--Predictive Crop View Controller-->
+        <!--Predictive Trim View Controller-->
         <scene sceneID="eyb-99-9uL">
             <objects>
-                <viewController id="Vpy-Ym-P3B" customClass="PredictiveCropViewController" customModule="ImageTrimmer" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="Vpy-Ym-P3B" customClass="PredictiveTrimViewController" customModule="ImageTrimmer" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="rG1-uL-sUT">
                         <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -213,13 +213,13 @@
                                         </textFieldCell>
                                     </textField>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="KZD-0G-rJj">
-                                        <rect key="frame" x="380" y="-7" width="98" height="32"/>
-                                        <buttonCell key="cell" type="push" title="CropNext" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="NJc-Ig-Tjw">
+                                        <rect key="frame" x="383" y="-7" width="95" height="32"/>
+                                        <buttonCell key="cell" type="push" title="TrimNext" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="NJc-Ig-Tjw">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
                                         <connections>
-                                            <action selector="onPressCropNextButton:" target="Vpy-Ym-P3B" id="4Hr-OP-Icp"/>
+                                            <action selector="onPressTrimNextButton:" target="Vpy-Ym-P3B" id="0nl-tC-MOr"/>
                                         </connections>
                                     </button>
                                     <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="b2h-Tr-aw4">
@@ -336,10 +336,10 @@
             </objects>
             <point key="canvasLocation" x="1270" y="1214"/>
         </scene>
-        <!--Random Crop View Controller-->
+        <!--Random Trim View Controller-->
         <scene sceneID="SF3-8p-bss">
             <objects>
-                <viewController id="XEV-gN-2pQ" customClass="RandomCropViewController" customModule="ImageTrimmer" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="XEV-gN-2pQ" customClass="RandomTrimViewController" customModule="ImageTrimmer" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="HU6-ml-pHh">
                         <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -484,7 +484,7 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="onPressRandomCropButton:" target="XfG-lQ-9wD" id="U8c-uQ-Wi2"/>
+                                    <action selector="onPressRandomButton:" target="XfG-lQ-9wD" id="o3X-tA-V8Y"/>
                                 </connections>
                             </button>
                             <box horizontalHuggingPriority="249" horizontalCompressionResistancePriority="751" boxType="custom" cornerRadius="4" title="Box" translatesAutoresizingMaskIntoConstraints="NO" id="Q0V-re-TEc" userLabel="Controls">
@@ -630,7 +630,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField horizontalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4g9-bP-4sv" customClass="DropTextField" customModule="ImageTrimmer" customModuleProvider="target">
-                                            <rect key="frame" x="240" y="36" width="147" height="22"/>
+                                            <rect key="frame" x="240" y="36" width="150" height="22"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="B0x-96-uYz">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -638,7 +638,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="uLu-97-2eO">
-                                            <rect key="frame" x="385" y="29" width="87" height="32"/>
+                                            <rect key="frame" x="388" y="29" width="87" height="32"/>
                                             <buttonCell key="cell" type="push" title="Change" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Mab-xI-amU">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
@@ -648,7 +648,7 @@
                                             </buttonCell>
                                         </button>
                                         <textField horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oq8-KP-8T6" customClass="DropTextField" customModule="ImageTrimmer" customModuleProvider="target">
-                                            <rect key="frame" x="240" y="6" width="147" height="22"/>
+                                            <rect key="frame" x="240" y="6" width="150" height="22"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="KPl-y6-eFy">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -656,7 +656,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="hHp-Il-YEe">
-                                            <rect key="frame" x="385" y="0.0" width="87" height="32"/>
+                                            <rect key="frame" x="388" y="0.0" width="87" height="32"/>
                                             <buttonCell key="cell" type="push" title="Change" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="0Pe-QE-ifD">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
@@ -666,7 +666,7 @@
                                             </connections>
                                         </button>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6GS-e2-WCi">
-                                            <rect key="frame" x="472" y="66" width="50" height="17"/>
+                                            <rect key="frame" x="475" y="66" width="50" height="17"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="File No." id="Qsv-pF-Itt">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -674,7 +674,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="RFV-xZ-08w">
-                                            <rect key="frame" x="474" y="35" width="64" height="22"/>
+                                            <rect key="frame" x="477" y="35" width="64" height="22"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="64" id="5vk-xi-hez"/>
                                             </constraints>
@@ -688,7 +688,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Emg-zo-SmM">
-                                            <rect key="frame" x="474" y="6" width="64" height="22"/>
+                                            <rect key="frame" x="477" y="6" width="64" height="22"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" title="0" drawsBackground="YES" id="oc4-XU-kfC">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -699,25 +699,25 @@
                                             </textFieldCell>
                                         </textField>
                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="own-cr-TEJ">
-                                            <rect key="frame" x="540" y="29" width="88" height="32"/>
-                                            <buttonCell key="cell" type="push" title="Crop(P)" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="3Ul-8n-6Eb">
+                                            <rect key="frame" x="543" y="29" width="85" height="32"/>
+                                            <buttonCell key="cell" type="push" title="Trim(P)" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="3Ul-8n-6Eb">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
                                                 <string key="keyEquivalent">p</string>
                                             </buttonCell>
                                             <connections>
-                                                <action selector="onPressCropP:" target="XfG-lQ-9wD" id="uPR-Mv-sfV"/>
+                                                <action selector="onPressTrimP:" target="XfG-lQ-9wD" id="UDc-aW-fzG"/>
                                             </connections>
                                         </button>
                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="SDj-qI-PgD">
-                                            <rect key="frame" x="540" y="0.0" width="88" height="32"/>
-                                            <buttonCell key="cell" type="push" title="Crop(N)" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Emo-9p-nAu">
+                                            <rect key="frame" x="543" y="0.0" width="85" height="32"/>
+                                            <buttonCell key="cell" type="push" title="Trim(N)" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Emo-9p-nAu">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
                                                 <string key="keyEquivalent">n</string>
                                             </buttonCell>
                                             <connections>
-                                                <action selector="onPressCropN:" target="XfG-lQ-9wD" id="OV7-WT-vGE"/>
+                                                <action selector="onPressTrimN:" target="XfG-lQ-9wD" id="Xrq-HT-b4z"/>
                                             </connections>
                                         </button>
                                     </subviews>

@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A70A40211DB5B93500F5441A /* PredictiveCropViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70A401E1DB5B93500F5441A /* PredictiveCropViewController.swift */; };
-		A70A40221DB5B93500F5441A /* RandomCropViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70A401F1DB5B93500F5441A /* RandomCropViewController.swift */; };
+		A70A40211DB5B93500F5441A /* PredictiveTrimViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70A401E1DB5B93500F5441A /* PredictiveTrimViewController.swift */; };
+		A70A40221DB5B93500F5441A /* RandomTrimViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70A401F1DB5B93500F5441A /* RandomTrimViewController.swift */; };
 		A70A40231DB5B93500F5441A /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70A40201DB5B93500F5441A /* MainViewController.swift */; };
-		A70A40251DB5B97F00F5441A /* CropViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70A40241DB5B97F00F5441A /* CropViewController.swift */; };
+		A70A40251DB5B97F00F5441A /* TrimViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70A40241DB5B97F00F5441A /* TrimViewController.swift */; };
 		A70A402C1DB5BF9500F5441A /* BlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70A40291DB5BF9500F5441A /* BlockView.swift */; };
 		A70A402D1DB5BF9500F5441A /* DropImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70A402A1DB5BF9500F5441A /* DropImageView.swift */; };
 		A70A402E1DB5BF9500F5441A /* DropTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70A402B1DB5BF9500F5441A /* DropTextField.swift */; };
@@ -63,10 +63,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		A70A401E1DB5B93500F5441A /* PredictiveCropViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PredictiveCropViewController.swift; sourceTree = "<group>"; };
-		A70A401F1DB5B93500F5441A /* RandomCropViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RandomCropViewController.swift; sourceTree = "<group>"; };
+		A70A401E1DB5B93500F5441A /* PredictiveTrimViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PredictiveTrimViewController.swift; sourceTree = "<group>"; };
+		A70A401F1DB5B93500F5441A /* RandomTrimViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RandomTrimViewController.swift; sourceTree = "<group>"; };
 		A70A40201DB5B93500F5441A /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
-		A70A40241DB5B97F00F5441A /* CropViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CropViewController.swift; sourceTree = "<group>"; };
+		A70A40241DB5B97F00F5441A /* TrimViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrimViewController.swift; sourceTree = "<group>"; };
 		A70A40291DB5BF9500F5441A /* BlockView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockView.swift; sourceTree = "<group>"; };
 		A70A402A1DB5BF9500F5441A /* DropImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DropImageView.swift; sourceTree = "<group>"; };
 		A70A402B1DB5BF9500F5441A /* DropTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DropTextField.swift; sourceTree = "<group>"; };
@@ -120,9 +120,9 @@
 			isa = PBXGroup;
 			children = (
 				A70A40201DB5B93500F5441A /* MainViewController.swift */,
-				A70A40241DB5B97F00F5441A /* CropViewController.swift */,
-				A70A401E1DB5B93500F5441A /* PredictiveCropViewController.swift */,
-				A70A401F1DB5B93500F5441A /* RandomCropViewController.swift */,
+				A70A40241DB5B97F00F5441A /* TrimViewController.swift */,
+				A70A401E1DB5B93500F5441A /* PredictiveTrimViewController.swift */,
+				A70A401F1DB5B93500F5441A /* RandomTrimViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -343,10 +343,10 @@
 				A70A402D1DB5BF9500F5441A /* DropImageView.swift in Sources */,
 				A77FD48A1DAF5A420003E9A3 /* AppDelegate.swift in Sources */,
 				A70A40231DB5B93500F5441A /* MainViewController.swift in Sources */,
-				A70A40211DB5B93500F5441A /* PredictiveCropViewController.swift in Sources */,
+				A70A40211DB5B93500F5441A /* PredictiveTrimViewController.swift in Sources */,
 				A70A402C1DB5BF9500F5441A /* BlockView.swift in Sources */,
-				A70A40251DB5B97F00F5441A /* CropViewController.swift in Sources */,
-				A70A40221DB5B93500F5441A /* RandomCropViewController.swift in Sources */,
+				A70A40251DB5B97F00F5441A /* TrimViewController.swift in Sources */,
+				A70A40221DB5B93500F5441A /* RandomTrimViewController.swift in Sources */,
 				A70A402E1DB5BF9500F5441A /* DropTextField.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

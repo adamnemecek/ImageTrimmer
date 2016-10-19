@@ -60,7 +60,7 @@ class MainViewController: NSViewController {
                            width.asObservable(),
                            height.asObservable())
             { _x, _y, _width, _height -> NSImage? in
-                return welf?.cropImage(x: _x, y: _y, width: _width, height: _height)
+                return welf?.trimImage(x: _x, y: _y, width: _width, height: _height)
             }
             .bindTo(previewImageView.rx.image)
             .addDisposableTo(disposeBag)
@@ -70,7 +70,7 @@ class MainViewController: NSViewController {
                            y.asObservable(),
                            width.asObservable(),
                            height.asObservable()){ ($0, $1, $2, $3) }
-            .bindTo(imageView.clipRect)
+            .bindTo(imageView.trimRect)
             .addDisposableTo(disposeBag)
         
         // variable to control
@@ -148,7 +148,7 @@ class MainViewController: NSViewController {
             .addDisposableTo(disposeBag)
     }
     
-    func cropImage(x: Int, y: Int, width: Int, height: Int) -> NSImage? {
+    func trimImage(x: Int, y: Int, width: Int, height: Int) -> NSImage? {
         guard let image = self.imageView.easyImage else {
             return nil
         }
@@ -158,8 +158,8 @@ class MainViewController: NSViewController {
         guard width>0 && height>0 else {
             return nil
         }
-        let crop = Image(image[x..<x+width, y..<y+height])
-        return crop.nsImage
+        let trim = Image(image[x..<x+width, y..<y+height])
+        return trim.nsImage
     }
 
     @IBAction func onPressChangeP(_ sender: AnyObject) {
@@ -187,7 +187,7 @@ class MainViewController: NSViewController {
         
     }
     
-    @IBAction func onPressCropP(_ sender: AnyObject) {
+    @IBAction func onPressTrimP(_ sender: AnyObject) {
         guard let image = previewImageView.image else {
             showAlert("image is not loaded")
             return
@@ -204,7 +204,7 @@ class MainViewController: NSViewController {
         }
     }
     
-    @IBAction func onPressCropN(_ sender: AnyObject) {
+    @IBAction func onPressTrimN(_ sender: AnyObject) {
         guard let image = previewImageView.image else {
             showAlert("image is not loaded")
             return
@@ -267,8 +267,8 @@ class MainViewController: NSViewController {
             .subscribe { [weak self] event in
                 switch event {
                 case .next(let urls):
-                    let w = self!.storyboard!.instantiateController(withIdentifier: "PredictiveCrop") as! NSWindowController
-                    let vc = w.contentViewController! as! PredictiveCropViewController
+                    let w = self!.storyboard!.instantiateController(withIdentifier: "PredictiveTrim") as! NSWindowController
+                    let vc = w.contentViewController! as! PredictiveTrimViewController
                     vc.positiveSupervisorDirectory.onNext(urls[0].path)
                     vc.negativeSupervisorDirectory.onNext(urls[1].path)
                     vc.x = self!.x
@@ -294,7 +294,7 @@ class MainViewController: NSViewController {
             .addDisposableTo(disposeBag)
     }
     
-    @IBAction func onPressRandomCropButton(_ sender: AnyObject) {
+    @IBAction func onPressRandomButton(_ sender: AnyObject) {
         
         guard let nsImage = imageView.image else {
             showAlert("image is not loaded")
@@ -319,9 +319,9 @@ class MainViewController: NSViewController {
             return
         }
         
-        let w = storyboard!.instantiateController(withIdentifier: "RandomCrop") as! NSWindowController
+        let w = storyboard!.instantiateController(withIdentifier: "RandomTrim") as! NSWindowController
         
-        let vc = w.contentViewController! as! RandomCropViewController
+        let vc = w.contentViewController! as! RandomTrimViewController
         vc.positiveFileNumber = self.positiveFileNumber
         vc.negativeFileNumber = self.negativeFileNumber
         vc.image = image

@@ -1,10 +1,3 @@
-//
-//  PredictiveCropViewController.swift
-//  ImageTrimmer
-//
-//  Created by Araki Takehiro on 2016/10/18.
-//  Copyright © 2016年 Araki Takehiro. All rights reserved.
-//
 
 import Foundation
 import Cocoa
@@ -12,7 +5,7 @@ import RxSwift
 import RxCocoa
 import EasyImagy
 
-class PredictiveCropViewController : CropViewController {
+class PredictiveTrimViewController : TrimViewController {
     
     let disposeBag = DisposeBag()
     
@@ -137,7 +130,7 @@ class PredictiveCropViewController : CropViewController {
         }
     }
     
-    func cropNext() {
+    func trimNext() {
         let strider = strideField.integerValue
         guard strider > 0 else {
             showAlert("Stirde must be greater than 0.")
@@ -194,9 +187,9 @@ class PredictiveCropViewController : CropViewController {
         }
     }
     
-    @IBAction func onPressCropNextButton(_ sender: AnyObject) {
+    @IBAction func onPressTrimNextButton(_ sender: AnyObject) {
         self.view.window?.makeFirstResponder(nil)
-        cropNext()
+        trimNext()
     }
     
     @IBAction func onPressPosiiveButton(_ sender: AnyObject) {
@@ -209,7 +202,7 @@ class PredictiveCropViewController : CropViewController {
         
         if saveImage(image: image, directory: positiveDirectory, fileNumber: number) {
             positiveFileNumber.value += 1
-            cropNext()
+            trimNext()
         }
     }
     
@@ -224,7 +217,7 @@ class PredictiveCropViewController : CropViewController {
         
         if saveImage(image: image, directory: negativeDirectory, fileNumber: number) {
             negativeFileNumber.value += 1
-            cropNext()
+            trimNext()
         }
     }
     

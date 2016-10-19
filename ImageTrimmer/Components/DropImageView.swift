@@ -30,7 +30,7 @@ class DropImageView : NSImageView {
         return _onClickPixel
     }
     
-    let clipRect = ReplaySubject<(Int, Int, Int, Int)>.create(bufferSize: 1)
+    let trimRect = ReplaySubject<(Int, Int, Int, Int)>.create(bufferSize: 1)
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -58,11 +58,11 @@ class DropImageView : NSImageView {
         
         weak var welf = self
         
-        clipRect.subscribe(onNext: { x, y, width, height in
+        trimRect.subscribe(onNext: { x, y, width, height in
             welf?.drawRect(x: x, y: y, width: width, height: height)
         }).addDisposableTo(disposeBag)
         
-        onImageLoaded.withLatestFrom(clipRect)
+        onImageLoaded.withLatestFrom(trimRect)
             .subscribe(onNext: { x, y, width, height in
                 welf?.drawRect(x: x, y: y, width: width, height: height)
             })
