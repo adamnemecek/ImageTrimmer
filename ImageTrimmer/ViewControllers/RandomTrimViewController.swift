@@ -35,7 +35,7 @@ class RandomTrimViewController : TrimViewController {
         trimRandomly()
     }
     
-    func trimRandomly() {
+    private func trimRandomly() {
         
         let maxX = UInt32(image.width) - UInt32(width)
         let x = Int(arc4random_uniform(maxX))

@@ -61,6 +61,10 @@ extension Image where Pixel: RGBAType {
     }
 }
 
+func loadGrayImage(url: URL) -> Image<Double>? {
+    return Image<RGBA>(contentsOf: url)?.toGrayImage()
+}
+
 extension Array {
     func partition(cvarRate: Float) -> (Array<Element>, Array<Element>) {
         let shuffled = self.shuffled()

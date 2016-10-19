@@ -160,7 +160,7 @@ class DropImageView : NSImageView {
         _onClickPixel.onNext((Int(pt.x), Int(imageSize.height - pt.y)))
     }
     
-    func drawRect(x: Int, y: Int, width: Int, height: Int) {
+    private func drawRect(x: Int, y: Int, width: Int, height: Int) {
         
         guard let imageSize = self.image?.size else {
             return

@@ -141,7 +141,7 @@ class MainViewController: NSViewController {
             .addDisposableTo(disposeBag)
     }
     
-    func trimImage(x: Int, y: Int, width: Int, height: Int) -> NSImage? {
+    private func trimImage(x: Int, y: Int, width: Int, height: Int) -> NSImage? {
         guard let image = self.imageView.easyImage else {
             return nil
         }
@@ -163,7 +163,7 @@ class MainViewController: NSViewController {
         chooseDirectory(for: negativeField)
     }
     
-    func chooseDirectory(for field: NSTextField) {
+    private func chooseDirectory(for field: NSTextField) {
         
         selectDirectory()
             .subscribe(onNext: { result in
@@ -330,6 +330,6 @@ class MainViewController: NSViewController {
     
 }
 
-struct SelectDirectoryAbortedError: Error {
+private struct SelectDirectoryAbortedError: Error {
     
 }

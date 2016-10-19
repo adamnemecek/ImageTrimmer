@@ -21,7 +21,7 @@ class PredictiveTrimViewController : TrimViewController {
     private var sigma2: [Double]!
     private var epsilon: Double!
     
-    lazy var blockView: BlockView = {
+    private lazy var blockView: BlockView = {
         var array = NSArray()
         Bundle.main.loadNibNamed("BlockView", owner: nil, topLevelObjects: &array)
         let v = array.filter{ $0 is BlockView }.first as! BlockView
@@ -137,7 +137,7 @@ class PredictiveTrimViewController : TrimViewController {
         
     }
     
-    func createModel(positiveDirectory: String, negativeDirectory: String, measure: String) {
+    private func createModel(positiveDirectory: String, negativeDirectory: String, measure: String) {
         blockView.show(with: "Creating model.")
         DispatchQueue.global().async {
             
@@ -322,13 +322,13 @@ class PredictiveTrimViewController : TrimViewController {
         NSApplication.shared().stopModal()
     }
     
-    func getGaussianParameter(positiveDirectory: String, positiveFiles: [String]) throws -> (mu: [Double], sigma2: [Double]) {
+    private func getGaussianParameter(positiveDirectory: String, positiveFiles: [String]) throws -> (mu: [Double], sigma2: [Double]) {
         
         let positiveUrl = URL(fileURLWithPath: positiveDirectory)
         
         let initial = (0, [Double](repeating: 0.0, count: width*height), [Double](repeating: 0.0, count: width*height))
         let (num, sums, sums2) = positiveFiles.reduce(initial) { acc, p in
-            guard let gray = self.loadGrayImage(url: positiveUrl.appendingPathComponent(p)) else {
+            guard let gray = loadGrayImage(url: positiveUrl.appendingPathComponent(p)) else {
                 return acc
             }
             
@@ -352,7 +352,7 @@ class PredictiveTrimViewController : TrimViewController {
         return (mu, sigma2)
     }
     
-    func gaussian(x: [Double], mu: [Double], sigma2: [Double]) -> Double {
+    private func gaussian(x: [Double], mu: [Double], sigma2: [Double]) -> Double {
         
         assert(x.count == mu.count && mu.count == sigma2.count)
         
@@ -366,7 +366,7 @@ class PredictiveTrimViewController : TrimViewController {
             .reduce(1.0, +)
     }
     
-    func findEpsilon(positiveDirectory: String, positiveFiles: [String],
+    private func findEpsilon(positiveDirectory: String, positiveFiles: [String],
                      negativeDirectory: String, negativeFiles: [String],
                      mu: [Double], sigma2: [Double], measure: String) throws -> Double {
         
@@ -374,7 +374,7 @@ class PredictiveTrimViewController : TrimViewController {
         let initial = (DBL_MAX, DBL_MIN, [Double]())
         let (_minimum, _maximum, positiveValues) = positiveFiles
             .reduce(initial) { acc, p in
-                guard let gray = self.loadGrayImage(url: positiveUrl.appendingPathComponent(p)) else {
+                guard let gray = loadGrayImage(url: positiveUrl.appendingPathComponent(p)) else {
                     return acc
                 }
                 guard gray.width==self.width && gray.height==self.height else {
@@ -393,7 +393,7 @@ class PredictiveTrimViewController : TrimViewController {
         let negativeUrl = URL(fileURLWithPath: negativeDirectory)
         let initial2 = (_minimum, _maximum, [Double]())
         let (minimum, maximum, negativeValues) = negativeFiles.reduce(initial2) { acc, n in
-            guard let gray = self.loadGrayImage(url: negativeUrl.appendingPathComponent(n)) else {
+            guard let gray = loadGrayImage(url: negativeUrl.appendingPathComponent(n)) else {
                 return acc
             }
             guard gray.width==self.width && gray.height==self.height else {
@@ -451,10 +451,6 @@ class PredictiveTrimViewController : TrimViewController {
         Swift.print("Max \(measure): \(maxScore)")
         Swift.print("epsilon: \(epsilon)")
         return epsilon
-    }
-    
-    func loadGrayImage(url: URL) -> Image<Double>? {
-        return Image<RGBA>(contentsOf: url)?.toGrayImage()
     }
 }
 
