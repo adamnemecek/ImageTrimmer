@@ -60,8 +60,14 @@ class PredictiveTrimViewController : TrimViewController {
             ])
         v.translatesAutoresizingMaskIntoConstraints = false
         
+        v.onClickListener = { [weak self] in self!.cancelSearch() }
+        
         return v
     }()
+    
+    override func viewWillDisappear() {
+        cancelSearch()
+    }
     
     override func viewDidDisappear() {
         NSApplication.shared().stopModal()
@@ -129,7 +135,6 @@ class PredictiveTrimViewController : TrimViewController {
             .bindTo(y)
             .addDisposableTo(disposeBag)
         
-        
     }
     
     func createModel(positiveDirectory: String, negativeDirectory: String, measure: String) {
@@ -170,65 +175,112 @@ class PredictiveTrimViewController : TrimViewController {
                     showAlert("Error:\n\(message)")
                     self.view.window?.close()
                 }
-                
             }
         }
     }
     
-    func trimNext() {
-        let strider = strideField.integerValue
+    private var searchNextDisposable: Disposable?
+    
+    private func trimNext() {
+        
+        let strider = self.strideField.integerValue
         guard strider > 0 else {
             showAlert("Stirde must be greater than 0.")
             return
         }
         
-        var x = self.x.value
-        var y = self.y.value
+        let x = self.x.value
+        let y = self.y.value
         
         guard x>=0 && y>=0 else {
             showAlert("Invalid position.")
             return
         }
         
-        blockView.show(with: "Searching...")
+        guard let observable = searchNext(x: x, y: y ,strider: strider) else {
+            return
+        }
         
-        DispatchQueue.global().async {
-            var v = DBL_MIN
+        self.blockView.show(with: "Searching...")
+        
+        weak var welf = self
+        let disposable = observable.observeOn(MainScheduler.instance)
+            .subscribe(
+            onNext: { state in
+                switch state {
+                case .progress(let x, let y):
+                    welf?.blockView.messageLabel.stringValue = "Searching...(\(x), \(y))"
+                case .found(let x, let y):
+                    welf?.x.value = x
+                    welf?.y.value = y
+                    welf?.imageView.image = Image(welf!.image[x..<x+welf!.width, y..<y+welf!.height]).nsImage
+                case .notFound:
+                    showAlert("Reached end.")
+                    welf?.imageView.image = nil
+                }
+            },
+            onCompleted: { welf?.blockView.hide() },
+            onDisposed: { welf?.blockView.hide() })
+        
+        disposable.addDisposableTo(disposeBag)
+        searchNextDisposable = disposable
+    }
+    
+    private func cancelSearch() {
+        searchNextDisposable?.dispose()
+        searchNextDisposable = nil
+    }
+    
+    private enum SearchState {
+        case progress(x: Int, y: Int)
+        case found(x: Int, y: Int)
+        case notFound
+    }
+    
+    private func searchNext(x: Int, y: Int, strider: Int) -> Observable<SearchState>? {
+        
+        return Observable<SearchState>.create { observer in
+            var canceled = false
             
-            repeat {
-                x += strider
-                if(x + self.width >= self.image.width) {
-                    x = 0
-                    y += strider
-                }
-                if(y + self.height >= self.image.height){
-                    DispatchQueue.main.async {
-                        showAlert("Reached end.")
-                        self.imageView.image = nil
-                        self.blockView.hide()
-                    }
-                    break
-                }
-                let patch = self.image[x..<x+self.width, y..<y+self.height]
-                let patchGray = patch.pixels.map { Double($0.gray)/255.0 }
-                v = self.gaussian(x: patchGray, mu: self.mu, sigma2: self.sigma2)
+            DispatchQueue.global().async {
+                var v = DBL_MIN
+                var x = x
+                var y = y
                 
-                if(v > self.epsilon) {
-                    // found positive-like point
-                    print("(\(x), \(y)): score \(v) > \(self.epsilon)")
-                    self.imageView.image = Image(self.image[x..<x+self.width, y..<y+self.height]).nsImage
-                    DispatchQueue.main.async {
-                        self.x.value = x
-                        self.y.value = y
-                        self.blockView.hide()
+                repeat {
+                    guard !canceled else {
+                        break
                     }
-                    break
-                }else {
-                    DispatchQueue.main.async {
-                        self.blockView.messageLabel.stringValue = "Searching...(\(x), \(y))"
+                    x += strider
+                    if(x + self.width >= self.image.width) {
+                        x = 0
+                        y += strider
                     }
-                }
-            } while(true)
+                    if(y + self.height >= self.image.height){
+                        observer.onNext(.notFound)
+                        break
+                    }
+                    let patch = self.image[x..<x+self.width, y..<y+self.height]
+                    let patchGray = patch.pixels.map { Double($0.gray)/255.0 }
+                    v = self.gaussian(x: patchGray, mu: self.mu, sigma2: self.sigma2)
+                    
+                    if(v > self.epsilon) {
+                        // found positive-like point
+                        print("(\(x), \(y)): score \(v) > \(self.epsilon)")
+                        observer.onNext(.found(x: x, y: y))
+                        self.imageView.image = Image(self.image[x..<x+self.width, y..<y+self.height]).nsImage
+                        break
+                    }else {
+                        observer.onNext(.progress(x: x, y: y))
+                    }
+                } while(true)
+                
+                observer.onCompleted()
+            }
+            
+            return Disposables.create {
+                canceled = true
+            }
         }
     }
     
