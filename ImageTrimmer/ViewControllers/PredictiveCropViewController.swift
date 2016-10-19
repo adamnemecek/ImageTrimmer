@@ -105,11 +105,13 @@ class PredictiveCropViewController : CropViewController {
                 DispatchQueue.main.async {
                     self.blockView.hide()
                 }
-            } catch is InvalidInputError {
-                self.view.window?.close()
             } catch(let e) {
                 Swift.print("error: \(e.localizedDescription)")
-                self.view.window?.close()
+                DispatchQueue.main.async {
+                    showAlert("Error:\n\(e.localizedDescription)")
+                    self.view.window?.close()
+                }
+                
             }
         }
     }
@@ -230,7 +232,7 @@ class PredictiveCropViewController : CropViewController {
     
         print("Number of samples for gaussian parameter: \(num)")
         if(num == 0) {
-            throw InvalidInputError()
+            throw InvalidInputError("No valid positive samples found.")
         }
         let mu = sums.map { $0 / Double(num) }
         let sigma2 = sums2.map { $0 / Double(num) }
@@ -298,7 +300,7 @@ class PredictiveCropViewController : CropViewController {
         
         print("Epsilon estimation samples: P: \(positiveValues.count) N: \(negativeValues.count)")
         guard positiveValues.count > 0 && negativeValues.count > 0 else {
-            throw InvalidInputError()
+            throw InvalidInputError("No samples for cross validation found.\nP: \(positiveValues.count)\nN: \(negativeValues.count)")
         }
         
         Swift.print("\(minimum) <= epsilon <= \(maximum)")
@@ -335,5 +337,8 @@ class PredictiveCropViewController : CropViewController {
 }
 
 private struct InvalidInputError: Error {
-    
+    private var localizedDescription: String
+    init(_ localizedDescription: String) {
+        self.localizedDescription = localizedDescription
+    }
 }
