@@ -21,6 +21,8 @@ class PredictiveCropViewController : CropViewController {
     @IBOutlet weak var xField: NSTextField!
     @IBOutlet weak var yField: NSTextField!
     @IBOutlet weak var strideField: NSTextField!
+    @IBOutlet weak var measureField: NSPopUpButton!
+    
     
     var positiveSupervisorDirectory = ReplaySubject<String>.create(bufferSize: 1)
     var negativeSupervisorDirectory = ReplaySubject<String>.create(bufferSize: 1)
@@ -53,7 +55,17 @@ class PredictiveCropViewController : CropViewController {
                                  negativeSupervisorDirectory) { ($0, $1) }
             .subscribe(onNext: {
                 Swift.print($0)
-                welf!.createModel(positiveDirectory: $0.0, negativeDirectory: $0.1)
+                welf!.createModel(positiveDirectory: $0.0, negativeDirectory: $0.1, measure: "Recall")
+            })
+            .addDisposableTo(disposeBag)
+        
+        measureField.rx.controlEvent
+            .map { welf!.measureField.selectedItem!.title }
+            .withLatestFrom(positiveSupervisorDirectory) { ($0, $1) }
+            .withLatestFrom(negativeSupervisorDirectory) { ($0.0, $0.1, $1) }
+            .subscribe(onNext: {
+                Swift.print($0)
+                welf!.createModel(positiveDirectory: $0.1, negativeDirectory: $0.2, measure: $0.0)
             })
             .addDisposableTo(disposeBag)
         
@@ -78,9 +90,11 @@ class PredictiveCropViewController : CropViewController {
             .flatMap(strToObservableInt)
             .bindTo(y)
             .addDisposableTo(disposeBag)
+        
+        
     }
     
-    func createModel(positiveDirectory: String, negativeDirectory: String) {
+    func createModel(positiveDirectory: String, negativeDirectory: String, measure: String) {
         blockView.show(with: "Creating model.")
         DispatchQueue.global().async {
             
@@ -96,7 +110,7 @@ class PredictiveCropViewController : CropViewController {
                 
                 let epsilon = try self.findEpsilon(positiveDirectory: positiveDirectory, positiveFiles: pVar,
                                                negativeDirectory: negativeDirectory, negativeFiles: negatives,
-                                               mu: mu, sigma2: sigma2)
+                                               mu: mu, sigma2: sigma2, measure: measure)
                 
                 self.mu = mu
                 self.sigma2 = sigma2
@@ -264,7 +278,7 @@ class PredictiveCropViewController : CropViewController {
     
     func findEpsilon(positiveDirectory: String, positiveFiles: [String],
                      negativeDirectory: String, negativeFiles: [String],
-                     mu: [Double], sigma2: [Double]) throws -> Double {
+                     mu: [Double], sigma2: [Double], measure: String) throws -> Double {
         
         let positiveUrl = URL(fileURLWithPath: positiveDirectory)
         let initial = (DBL_MAX, DBL_MIN, [Double]())
@@ -315,7 +329,7 @@ class PredictiveCropViewController : CropViewController {
         let candidates = linspace(minimum: minimum, maximum: maximum, count: 100)
         
         // score and best e
-        let (maxScore, epsilon) = candidates.reduce((DBL_MIN, DBL_MIN)) { acc, e in
+        let (maxScore, epsilon) = try candidates.reduce((DBL_MIN, DBL_MIN)) { acc, e in
             let truePositive = positiveValues.filter { $0 > e }.count
             let falsePositive = negativeValues.filter { $0 > e }.count
             
@@ -325,15 +339,26 @@ class PredictiveCropViewController : CropViewController {
             
 //            print("\(e): \nrec: \(recall)\nprec: \(precision)\nf1: \(f1Score)\n")
             
-            // using recall may help to find boundary sample.
-            if acc.0 <= recall {
-                return (recall, e)
+            let score: Double
+            switch measure {
+            case "Recall":
+                score = recall
+            case "Precision":
+                score = precision
+            case "F1 score":
+                score = f1Score
+            default:
+                throw InvalidInputError("Invalid measure: \(measure)")
+            }
+            
+            if acc.0 <= score {
+                return (score, e)
             } else {
                 return acc
             }
         }
         
-//        Swift.print("maxScore: \(maxScore)")
+        Swift.print("Max \(measure): \(maxScore)")
         Swift.print("epsilon: \(epsilon)")
         return epsilon
     }
