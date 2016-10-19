@@ -8,10 +8,6 @@ class RandomTrimViewController : TrimViewController {
     
     @IBOutlet weak var imageView: NSImageView!
     
-    override func viewDidDisappear() {
-        NSApplication.shared().stopModal()
-    }
-    
     override func bind(image: Image<RGBA>!,
                        x: Variable<Int>,
                        y: Variable<Int>,
@@ -68,7 +64,7 @@ class RandomTrimViewController : TrimViewController {
     }
     
     @IBAction func onPressEndButton(_ sender: AnyObject) {
-        NSApplication.shared().stopModal()
+        self.view.window?.close()
     }
     
 }

@@ -7,7 +7,7 @@ import EasyImagy
 
 class PredictiveTrimViewController : TrimViewController {
     
-    let disposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
     
     @IBOutlet weak var imageView: NSImageView!
     
@@ -67,10 +67,6 @@ class PredictiveTrimViewController : TrimViewController {
     
     override func viewWillDisappear() {
         cancelSearch()
-    }
-    
-    override func viewDidDisappear() {
-        NSApplication.shared().stopModal()
     }
     
     override func bind(image: Image<RGBA>!, x: Variable<Int>, y: Variable<Int>, width: Int, height: Int, positiveDirectory: String, negativeDirectory: String, positiveFileNumber: Variable<Int>, negativeFileNumber: Variable<Int>) {
@@ -319,7 +315,7 @@ class PredictiveTrimViewController : TrimViewController {
     }
     
     @IBAction func onPressEndButton(_ sender: AnyObject) {
-        NSApplication.shared().stopModal()
+        self.view.window?.close()
     }
     
     private func getGaussianParameter(positiveDirectory: String, positiveFiles: [String]) throws -> (mu: [Double], sigma2: [Double]) {

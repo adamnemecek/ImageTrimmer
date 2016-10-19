@@ -20,6 +20,10 @@ class TrimViewController: NSViewController {
     private(set) var positiveFileNumber: Variable<Int>!
     private(set) var negativeFileNumber: Variable<Int>!
     
+    override func viewDidDisappear() {
+        NSApplication.shared().stopModal()
+    }
+    
     func bind(image: Image<RGBA>!,
               x: Variable<Int>,
               y: Variable<Int>,

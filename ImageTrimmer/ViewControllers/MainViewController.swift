@@ -6,7 +6,7 @@ import RxCocoa
 
 class MainViewController: NSViewController {
 
-    let disposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
     
     @IBOutlet weak var imageView: DropImageView!
     @IBOutlet weak var previewImageView: NSImageView!

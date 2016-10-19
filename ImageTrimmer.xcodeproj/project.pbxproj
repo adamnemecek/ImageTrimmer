@@ -178,10 +178,10 @@
 				A70A401D1DB5B93500F5441A /* ViewControllers */,
 				A77FD4891DAF5A420003E9A3 /* AppDelegate.swift */,
 				A77FD5051DB085C20003E9A3 /* Util.swift */,
+				A70A40361DB7526700F5441A /* Keys.swift */,
 				A77FD48D1DAF5A420003E9A3 /* Assets.xcassets */,
 				A77FD48F1DAF5A420003E9A3 /* Main.storyboard */,
 				A77FD4921DAF5A420003E9A3 /* Info.plist */,
-				A70A40361DB7526700F5441A /* Keys.swift */,
 			);
 			path = ImageTrimmer;
 			sourceTree = "<group>";
