@@ -91,10 +91,10 @@ class PredictiveCropViewController : CropViewController {
                 
                 let (pEstimate, pVar) = positives.partition(cvarRate: 0.1)
                 
-                let (mu, sigma2) = self.getGaussianParameter(positiveDirectory: positiveDirectory,
+                let (mu, sigma2) = try self.getGaussianParameter(positiveDirectory: positiveDirectory,
                                                              positiveFiles: pEstimate)
                 
-                let epsilon = self.findEpsilon(positiveDirectory: positiveDirectory, positiveFiles: pVar,
+                let epsilon = try self.findEpsilon(positiveDirectory: positiveDirectory, positiveFiles: pVar,
                                                negativeDirectory: negativeDirectory, negativeFiles: negatives,
                                                mu: mu, sigma2: sigma2)
                 
@@ -105,9 +105,11 @@ class PredictiveCropViewController : CropViewController {
                 DispatchQueue.main.async {
                     self.blockView.hide()
                 }
-
-            } catch {
-                fatalError("will replace with alert")
+            } catch is InvalidInputError {
+                self.view.window?.close()
+            } catch(let e) {
+                Swift.print("error: \(e.localizedDescription)")
+                self.view.window?.close()
             }
         }
     }
@@ -170,6 +172,7 @@ class PredictiveCropViewController : CropViewController {
     }
     
     @IBAction func onPressCropNextButton(_ sender: AnyObject) {
+        self.view.window?.makeFirstResponder(nil)
         cropNext()
     }
     
@@ -206,7 +209,7 @@ class PredictiveCropViewController : CropViewController {
         NSApplication.shared().stopModal()
     }
     
-    func getGaussianParameter(positiveDirectory: String, positiveFiles: [String]) -> (mu: [Double], sigma2: [Double]) {
+    func getGaussianParameter(positiveDirectory: String, positiveFiles: [String]) throws -> (mu: [Double], sigma2: [Double]) {
         
         let positiveUrl = URL(fileURLWithPath: positiveDirectory)
         
@@ -225,9 +228,9 @@ class PredictiveCropViewController : CropViewController {
             return (acc.0+1, sums, sums2)
         }
     
-        print("Number of samples for estimation.")
+        print("Number of samples for gaussian parameter: \(num)")
         if(num == 0) {
-            fatalError("num is 0")
+            throw InvalidInputError()
         }
         let mu = sums.map { $0 / Double(num) }
         let sigma2 = sums2.map { $0 / Double(num) }
@@ -252,13 +255,16 @@ class PredictiveCropViewController : CropViewController {
     
     func findEpsilon(positiveDirectory: String, positiveFiles: [String],
                      negativeDirectory: String, negativeFiles: [String],
-                     mu: [Double], sigma2: [Double]) -> Double {
+                     mu: [Double], sigma2: [Double]) throws -> Double {
         
         let positiveUrl = URL(fileURLWithPath: positiveDirectory)
         let initial = (DBL_MAX, DBL_MIN, [Double]())
         let (_minimum, _maximum, positiveValues) = positiveFiles
             .reduce(initial) { acc, p in
                 guard let gray = self.loadGrayImage(url: positiveUrl.appendingPathComponent(p)) else {
+                    return acc
+                }
+                guard gray.width==self.width && gray.height==self.height else {
                     return acc
                 }
                 let v = gaussian(x: gray.pixels, mu: mu, sigma2: sigma2)
@@ -277,6 +283,9 @@ class PredictiveCropViewController : CropViewController {
             guard let gray = self.loadGrayImage(url: negativeUrl.appendingPathComponent(n)) else {
                 return acc
             }
+            guard gray.width==self.width && gray.height==self.height else {
+                return acc
+            }
             let v = gaussian(x: gray.pixels, mu: mu, sigma2: sigma2)
             if v < acc.0 {
                 return (v, acc.1, acc.2+[v])
@@ -285,6 +294,11 @@ class PredictiveCropViewController : CropViewController {
             } else {
                 return (acc.0, acc.1, acc.2+[v])
             }
+        }
+        
+        print("Epsilon estimation samples: P: \(positiveValues.count) N: \(negativeValues.count)")
+        guard positiveValues.count > 0 && negativeValues.count > 0 else {
+            throw InvalidInputError()
         }
         
         Swift.print("\(minimum) <= epsilon <= \(maximum)")
@@ -318,4 +332,8 @@ class PredictiveCropViewController : CropViewController {
     func loadGrayImage(url: URL) -> Image<Double>? {
         return Image<RGBA>(contentsOf: url)?.toGrayImage()
     }
+}
+
+private struct InvalidInputError: Error {
+    
 }

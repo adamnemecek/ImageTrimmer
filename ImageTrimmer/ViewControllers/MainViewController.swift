@@ -331,8 +331,8 @@ class MainViewController: NSViewController {
         w.window?.orderOut(nil)
     }
     
+    
 }
-
 
 struct SelectDirectoryAbortedError: Error {
     

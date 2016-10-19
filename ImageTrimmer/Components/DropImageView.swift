@@ -81,9 +81,13 @@ class DropImageView : NSImageView {
             return false
         }
         
-        self.image = NSImage(contentsOfFile: file)
+        guard let image = NSImage(contentsOfFile: file) else {
+            showAlert("invalid image file.")
+            return false
+        }
+        self.image = image
         
-        self.easyImage = Image(nsImage: self.image!)
+        self.easyImage = Image(nsImage: image)
         
         self.layer!.sublayerTransform = CATransform3DIdentity
         
