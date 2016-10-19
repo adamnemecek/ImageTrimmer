@@ -25,8 +25,41 @@ class PredictiveTrimViewController : TrimViewController {
         var array = NSArray()
         Bundle.main.loadNibNamed("BlockView", owner: nil, topLevelObjects: &array)
         let v = array.filter{ $0 is BlockView }.first as! BlockView
+        
         self.view.addSubview(v)
-        v.bounds = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height)
+        
+        self.view.addConstraints([
+                NSLayoutConstraint(item: v,
+                                   attribute: .top,
+                                   relatedBy: .equal,
+                                   toItem: self.view,
+                                   attribute: .top,
+                                   multiplier: 1,
+                                   constant: 0),
+                NSLayoutConstraint(item: v,
+                                   attribute: .left,
+                                   relatedBy: .equal,
+                                   toItem: self.view,
+                                   attribute: .left,
+                                   multiplier: 1,
+                                   constant: 0),
+                NSLayoutConstraint(item: v,
+                                   attribute: .bottom,
+                                   relatedBy: .equal,
+                                   toItem: self.view,
+                                   attribute: .bottom,
+                                   multiplier: 1,
+                                   constant: 0),
+                NSLayoutConstraint(item: v,
+                                   attribute: .right,
+                                   relatedBy: .equal,
+                                   toItem: self.view,
+                                   attribute: .right,
+                                   multiplier: 1,
+                                   constant: 0)
+            ])
+        v.translatesAutoresizingMaskIntoConstraints = false
+        
         return v
     }()
     
@@ -35,7 +68,9 @@ class PredictiveTrimViewController : TrimViewController {
     }
     
     override func bind(image: Image<RGBA>!, x: Variable<Int>, y: Variable<Int>, width: Int, height: Int, positiveDirectory: String, negativeDirectory: String, positiveFileNumber: Variable<Int>, negativeFileNumber: Variable<Int>) {
+        
         fatalError("use another")
+        
     }
     
     func bind(image: Image<RGBA>!,

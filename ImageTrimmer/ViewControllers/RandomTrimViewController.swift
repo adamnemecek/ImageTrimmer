@@ -8,10 +8,6 @@ class RandomTrimViewController : TrimViewController {
     
     @IBOutlet weak var imageView: NSImageView!
     
-    override func viewDidAppear() {
-        super.viewDidAppear()
-    }
-    
     override func viewDidDisappear() {
         NSApplication.shared().stopModal()
     }
