@@ -108,7 +108,7 @@ class DropImageView : NSImageView {
     }
     
     override func scrollWheel(with event: NSEvent) {
-        self.layer!.sublayerTransform *= CATransform3DMakeTranslation(event.deltaX, -event.deltaY, 0)
+        self.layer!.sublayerTransform *= CATransform3DMakeTranslation(event.deltaX, event.deltaY, 0)
     }
     
     private func selectPoint(location: CGPoint) {
