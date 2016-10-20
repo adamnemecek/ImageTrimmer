@@ -107,6 +107,10 @@ extension Array {
     }
 }
 
+func zip3<T1,T2, T3, R>(a: [T1], b: [T2], c: [T3], f:(T1, T2, T3)->R) -> [R] {
+    return a.zip(with: b, f: { ($0, $1) }).zip(with: c, f: { f($0.0, $0.1, $1) })
+}
+
 func showAlert(_ message: String) {
     let alert = NSAlert()
     alert.messageText = message

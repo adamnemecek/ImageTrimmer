@@ -341,8 +341,9 @@ class PredictiveTrimViewController : TrimViewController {
             throw InvalidInputError("No valid positive samples found.")
         }
         let mu = sums.map { $0 / Double(num) }
+        let mu2 = mu.zip(with: mu, f: *)
         let sigma2 = sums2.map { $0 / Double(num) }
-            .zip(with: mu.zip(with: mu, f: *), f: -)
+            .zip(with: mu2, f: -)
         
         return (mu, sigma2)
     }
@@ -351,14 +352,12 @@ class PredictiveTrimViewController : TrimViewController {
         
         assert(x.count == mu.count && mu.count == sigma2.count)
         
-        let a = sigma2.map { sqrt(2*M_PI*$0) }
+        let gs = zip3(a: x, b: mu, c: sigma2) { x, mu, sigma2 -> Double in
+            let exponent = -pow(x-mu, 2) / (2*sigma2)
+            return exp(exponent) / sqrt(2*M_PI*sigma2)
+        }
         
-        let xmu = x.zip(with: mu) { x, mu in pow(x-mu, 2) }
-        
-        let exponent = xmu.zip(with: sigma2) { xmu, sigma2 in -xmu/(2*sigma2) }
-        
-        return a.zip(with: exponent) { a, exponent in exp(exponent)/a }
-            .reduce(1.0, +)
+        return gs.reduce(1.0, +)
     }
     
     private func findEpsilon(positiveDirectory: String, positiveFiles: [String],
