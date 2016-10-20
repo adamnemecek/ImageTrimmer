@@ -142,7 +142,7 @@ class PredictiveTrimViewController : TrimViewController {
                 
                 let (pEstimate, pVar) = positives.partition(cvarRate: 0.1)
                 
-                let (mu, sigma2) = try self.getGaussianParameter(positiveDirectory: positiveDirectory,
+                let (mu, sigma2) = try self.getGaussianParameters(positiveDirectory: positiveDirectory,
                                                              positiveFiles: pEstimate)
                 
                 let epsilon = try self.findEpsilon(positiveDirectory: positiveDirectory, positiveFiles: pVar,
@@ -317,7 +317,7 @@ class PredictiveTrimViewController : TrimViewController {
         self.view.window?.close()
     }
     
-    private func getGaussianParameter(positiveDirectory: String, positiveFiles: [String]) throws -> (mu: [Double], sigma2: [Double]) {
+    private func getGaussianParameters(positiveDirectory: String, positiveFiles: [String]) throws -> (mu: [Double], sigma2: [Double]) {
         
         let positiveUrl = URL(fileURLWithPath: positiveDirectory)
         
