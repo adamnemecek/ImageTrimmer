@@ -25,6 +25,11 @@ class DropImageView : NSImageView {
     
     let trimRect = ReplaySubject<(Int, Int, Int, Int)>.create(bufferSize: 1)
     
+    // make origin left-top
+    override var isFlipped: Bool {
+        return true
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -51,12 +56,13 @@ class DropImageView : NSImageView {
         
         weak var welf = self
         
-        trimRect.subscribe(onNext: { x, y, width, height in
-            welf?.drawRect(x: x, y: y, width: width, height: height)
-        }).addDisposableTo(disposeBag)
-        
-        onImageLoaded.withLatestFrom(trimRect)
+        Observable.of(trimRect,
+                      onImageLoaded
+                        .do(onNext: { welf?.layer?.sublayerTransform = CATransform3DIdentity })
+                        .withLatestFrom(trimRect))
+            .merge()
             .subscribe(onNext: { x, y, width, height in
+                Swift.print(welf?.image)
                 welf?.drawRect(x: x, y: y, width: width, height: height)
             })
             .addDisposableTo(disposeBag)
@@ -78,46 +84,54 @@ class DropImageView : NSImageView {
             showAlert("invalid image file.")
             return false
         }
+        
+        // ignore dpi
+        guard let rep = image.bitmapRep else {
+            showAlert("failed to load image.")
+            return false
+        }
+        let sizeInPixels = NSSize(width: rep.pixelsWide, height: rep.pixelsHigh)
+        image.size = sizeInPixels
+        rep.size = sizeInPixels
+        
         self.image = image
         
-        self.easyImage = Image(nsImage: image)
-        
-        self.layer!.sublayerTransform = CATransform3DIdentity
+        self.easyImage = Image<RGBA>(nsImage: image)
         
         _onImageLoaded.onNext()
         
         return true
     }
     
+    override func concludeDragOperation(_ sender: NSDraggingInfo?) {
+        // Intercept super.concludeDragOperation
+    }
+    
     override func scrollWheel(with event: NSEvent) {
         self.layer!.sublayerTransform *= CATransform3DMakeTranslation(event.deltaX, -event.deltaY, 0)
+    }
+    
+    private func selectPoint(location: CGPoint) {
+        
+        guard let imageSize = self.image?.size else {
+            return
+        }
+        
+        let inSublayer = self.layer!.convert(location, to: self.sublayer)
+        
+        let (scale, imageOrigin) = self.getScaleAndImageOrigin(imageSize: imageSize)
+        
+        let pt = (inSublayer - imageOrigin)/scale
+        Swift.print(pt)
+        _onClickPixel.onNext((Int(pt.x), Int(pt.y)))
     }
     
     func onPan(_ recognizer: NSPanGestureRecognizer) {
         
         switch recognizer.state {
         case .began, .changed:
-            guard let imageSize = self.image?.size else {
-                return
-            }
             let location = recognizer.location(in: self)
-            let inSublayer = self.layer!.convert(location, to: self.sublayer)
-            
-            let imageAspectRatio = imageSize.width / imageSize.height
-            let viewAspectRatio = self.bounds.width / self.bounds.height
-            
-            let imageOrigin: CGPoint
-            let scale: CGFloat
-            if imageAspectRatio < viewAspectRatio {
-                scale = self.bounds.height / imageSize.height
-                imageOrigin = CGPoint(x: (self.bounds.width - imageSize.width*scale)/2, y: 0)
-            } else {
-                scale = self.bounds.width / imageSize.width
-                imageOrigin = CGPoint(x: 0, y: (self.bounds.height - imageSize.height*scale)/2)
-            }
-            
-            let pt = (inSublayer - imageOrigin)/scale
-            _onClickPixel.onNext((Int(pt.x), Int(imageSize.height - pt.y)))
+            selectPoint(location: location)
         default:
             break
         }
@@ -137,32 +151,15 @@ class DropImageView : NSImageView {
     }
     
     func onClick(_ recognizer: NSClickGestureRecognizer) {
-        guard let imageSize = self.image?.size else {
-            return
-        }
         let location = recognizer.location(in: self)
-        let inSublayer = self.layer!.convert(location, to: self.sublayer)
         
-        let imageAspectRatio = imageSize.width / imageSize.height
-        let viewAspectRatio = self.bounds.width / self.bounds.height
-        
-        let imageOrigin: CGPoint
-        let scale: CGFloat
-        if imageAspectRatio < viewAspectRatio {
-            scale = self.bounds.height / imageSize.height
-            imageOrigin = CGPoint(x: (self.bounds.width - imageSize.width*scale)/2, y: 0)
-        } else {
-            scale = self.bounds.width / imageSize.width
-            imageOrigin = CGPoint(x: 0, y: (self.bounds.height - imageSize.height*scale)/2)
-        }
-        
-        let pt = (inSublayer - imageOrigin)/scale
-        _onClickPixel.onNext((Int(pt.x), Int(imageSize.height - pt.y)))
+        selectPoint(location: location)
     }
     
     private func drawRect(x: Int, y: Int, width: Int, height: Int) {
         
         guard let imageSize = self.image?.size else {
+            Swift.print("image is nil")
             return
         }
         
@@ -172,29 +169,37 @@ class DropImageView : NSImageView {
         }
         overlay.isHidden = false
         
-        let y_ = imageSize.height - CGFloat(y)
+        let (scale, imageOrigin) = self.getScaleAndImageOrigin(imageSize: imageSize)
         
-        let imageAspectRatio = imageSize.width / imageSize.height
-        let viewAspectRatio = self.bounds.width / self.bounds.height
-        
-        let imageOrigin: CGPoint
-        let scale: CGFloat
-        if imageAspectRatio < viewAspectRatio {
-            scale = self.bounds.height / imageSize.height
-            imageOrigin = CGPoint(x: (self.bounds.width - imageSize.width*scale)/2, y: 0)
-        } else {
-            scale = self.bounds.width / imageSize.width
-            imageOrigin = CGPoint(x: 0, y: (self.bounds.height - imageSize.height*scale)/2)
-        }
-        
-        let inSublayer = CGPoint(x: CGFloat(x), y: y_) * scale + imageOrigin
+        let inSublayer = CGPoint(x: CGFloat(x), y: CGFloat(y)) * scale + imageOrigin
         
         let w = scale*CGFloat(width)
         let h = scale*CGFloat(height)
         overlay.bounds = CGRect(x: 0, y: 0, width: w, height: h)
         CATransaction.begin()
         CATransaction.setDisableActions(true)
-        overlay.position = inSublayer + CGPoint(x: w/2, y: -h/2)
+        overlay.position = inSublayer + CGPoint(x: w/2, y: h/2)
         CATransaction.commit()
+    }
+    
+    private func getScaleAndImageOrigin(imageSize: CGSize) -> (CGFloat, CGPoint) {
+        
+        let imageAspectRatio = imageSize.width / imageSize.height
+        let viewAspectRatio = self.bounds.width / self.bounds.height
+        
+        let imageOrigin: CGPoint
+        let scale: CGFloat
+        if imageSize.width <= self.bounds.width && imageSize.height <= self.bounds.height {
+            scale = 1
+            imageOrigin = CGPoint(x: (self.bounds.width - imageSize.width)/2,
+                                  y: (self.bounds.height - imageSize.height)/2)
+        } else if imageAspectRatio < viewAspectRatio {
+            scale = self.bounds.height / imageSize.height
+            imageOrigin = CGPoint(x: (self.bounds.width - imageSize.width*scale)/2, y: 0)
+        } else {
+            scale = self.bounds.width / imageSize.width
+            imageOrigin = CGPoint(x: 0, y: (self.bounds.height - imageSize.height*scale)/2)
+        }
+        return (scale, imageOrigin)
     }
 }

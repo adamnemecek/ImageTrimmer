@@ -110,16 +110,14 @@ class PredictiveTrimViewController : TrimViewController {
             .addDisposableTo(disposeBag)
         
         x.asObservable()
+            .map(intToStr)
             .observeOn(MainScheduler.instance)
-            .subscribe(onNext: { x in
-                welf?.xField.integerValue = x
-            })
+            .bindTo(xField.rx.text)
             .addDisposableTo(disposeBag)
         y.asObservable()
+            .map(intToStr)
             .observeOn(MainScheduler.instance)
-            .subscribe(onNext: { y in
-                welf?.yField.integerValue = y
-            })
+            .bindTo(yField.rx.text)
             .addDisposableTo(disposeBag)
         
         xField.rx.text
@@ -200,7 +198,8 @@ class PredictiveTrimViewController : TrimViewController {
         self.blockView.show(with: "Searching...")
         
         weak var welf = self
-        let disposable = observable.observeOn(MainScheduler.instance)
+        let disposable = observable
+            .observeOn(MainScheduler.instance)
             .subscribe(
             onNext: { state in
                 switch state {

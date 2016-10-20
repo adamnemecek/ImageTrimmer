@@ -65,6 +65,18 @@ func loadGrayImage(url: URL) -> Image<Double>? {
     return Image<RGBA>(contentsOf: url)?.toGrayImage()
 }
 
+extension NSImage {
+    var bitmapRep: NSBitmapImageRep? {
+        for rep in representations {
+            guard let rep = rep as? NSBitmapImageRep else {
+                continue
+            }
+            return rep
+        }
+        return nil
+    }
+}
+
 extension Array {
     func partition(cvarRate: Float) -> (Array<Element>, Array<Element>) {
         let shuffled = self.shuffled()
