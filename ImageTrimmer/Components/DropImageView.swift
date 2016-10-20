@@ -62,7 +62,6 @@ class DropImageView : NSImageView {
                         .withLatestFrom(trimRect))
             .merge()
             .subscribe(onNext: { x, y, width, height in
-                Swift.print(welf?.image)
                 welf?.drawRect(x: x, y: y, width: width, height: height)
             })
             .addDisposableTo(disposeBag)
@@ -122,7 +121,6 @@ class DropImageView : NSImageView {
         let (scale, imageOrigin) = self.getScaleAndImageOrigin(imageSize: imageSize)
         
         let pt = (inSublayer - imageOrigin)/scale
-        Swift.print(pt)
         _onClickPixel.onNext((Int(pt.x), Int(pt.y)))
     }
     

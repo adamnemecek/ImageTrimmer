@@ -30,6 +30,8 @@ func selectDirectory(title: String? = nil) -> Observable<SelectDirectoryResult> 
     return Observable.create { observer in
         let panel = NSOpenPanel()
         panel.title = title
+        panel.allowsMultipleSelection = false
+        panel.canCreateDirectories = true
         panel.canChooseDirectories = true
         panel.canChooseFiles = false
         

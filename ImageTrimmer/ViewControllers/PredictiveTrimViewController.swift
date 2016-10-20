@@ -357,7 +357,7 @@ class PredictiveTrimViewController : TrimViewController {
         
         let exponent = xmu.zip(with: sigma2) { xmu, sigma2 in -xmu/(2*sigma2) }
         
-        return a.zip(with: exponent) { a, exponent in a*exp(exponent) }
+        return a.zip(with: exponent) { a, exponent in exp(exponent)/a }
             .reduce(1.0, +)
     }
     
