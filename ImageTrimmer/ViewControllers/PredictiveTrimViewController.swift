@@ -155,8 +155,10 @@ class PredictiveTrimViewController : TrimViewController {
                 let nUrl = URL(fileURLWithPath: negativeDirectory)
                 
                 let (pTrain, pVar) = createSamples(directory: pUrl, files: positives, positive: true)
+                    .shuffled()
                     .partition(cvarRate: 0.3)
                 let (nTrain, nVar) = createSamples(directory: nUrl, files: negatives, positive: false)
+                    .shuffled()
                     .partition(cvarRate: 0.3)
                 
                 guard pVar.count > 0 && nVar.count > 0 else {
