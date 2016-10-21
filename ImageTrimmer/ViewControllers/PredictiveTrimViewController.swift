@@ -135,22 +135,20 @@ class PredictiveTrimViewController : TrimViewController {
                 let pxCount = self.width * self.height
                 
                 func createSamples(directory: URL, files: [String], positive: Bool) -> [Sample] {
-                    var samples: [Sample] = []
-                    for f in files {
+                    return files.flatMap { f -> Sample? in
                         let url = directory.appendingPathComponent(f)
                         guard let image = loadGrayImage(url: url) else {
-                            continue
+                            return nil
                         }
                         guard image.pixels.count == pxCount else {
-                            continue
+                            return nil
                         }
                         let elements = UnsafeMutablePointer<Double>.allocate(capacity: pxCount)
                         memcpy(elements, image.pixels, pxCount * MemoryLayout<Double>.size)
-                        samples.append(Sample(elements: elements,
-                                              length: Int32(image.pixels.count),
-                                              positive: positive))
+                        return Sample(elements: elements,
+                                      length: Int32(image.pixels.count),
+                                      positive: positive)
                     }
-                    return samples
                 }
                 
                 let pUrl = URL(fileURLWithPath: positiveDirectory)
@@ -173,7 +171,7 @@ class PredictiveTrimViewController : TrimViewController {
                 }
                 
                 let initial: (max: Double, model: UnsafeMutablePointer<svm_model>?) = (Double.nan, nil)
-                let comb = candidateC.flatMap{ C in candidateGamma.map { (C, $0) } }
+                let comb = candidateC.combine(with: candidateGamma) { ($0, $1) }
                 let result = comb.reduce(initial) { acc, param in
                     let model = train(&trains, Int32(pxCount), Int32(trains.count), param.0, param.1)
                     
@@ -184,7 +182,6 @@ class PredictiveTrimViewController : TrimViewController {
                     let rec = Double(tp) / Double(tp + fn)
                     let prec = Double(tp) / Double(tp + fp)
                     let f1 = 2*rec*prec/(rec+prec)
-                    
                     
                     if acc.model == nil || acc.max.isNaN || acc.0 < f1 {
                         if let m = acc.model {

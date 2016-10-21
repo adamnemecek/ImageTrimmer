@@ -102,6 +102,12 @@ extension Array {
         return array
     }
     
+    func combine<T, R>(with other: Array<T>, f: (Element, T)->R) -> Array<R> {
+        return self.flatMap { a in
+            other.map { f(a, $0) }
+        }
+    }
+    
     func zip<T,R>(with other: Array<T>, f: (Element, T)->R) -> Array<R> {
         return Swift.zip(self, other).map(f)
     }
