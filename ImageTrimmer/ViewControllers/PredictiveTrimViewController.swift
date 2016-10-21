@@ -64,7 +64,7 @@ class PredictiveTrimViewController : TrimViewController {
     override func viewWillDisappear() {
         cancelSearch()
         if let model = self.model {
-            destroy(model)
+            destroy_model(model)
         }
     }
     
@@ -154,18 +154,20 @@ class PredictiveTrimViewController : TrimViewController {
                 let pUrl = URL(fileURLWithPath: positiveDirectory)
                 let nUrl = URL(fileURLWithPath: negativeDirectory)
                 
-                let (pTrain, pVar) = createSamples(directory: pUrl, files: positives, positive: true)
+                let (pTrain, pVal) = createSamples(directory: pUrl, files: positives, positive: true)
                     .shuffled()
                     .partition(cvarRate: 0.3)
-                let (nTrain, nVar) = createSamples(directory: nUrl, files: negatives, positive: false)
+                let (nTrain, nVal) = createSamples(directory: nUrl, files: negatives, positive: false)
                     .shuffled()
                     .partition(cvarRate: 0.3)
                 
-                guard pVar.count > 0 && nVar.count > 0 else {
+                guard pVal.count > 0 && nVal.count > 0 else {
                     throw InvalidInputError("Too few samples.")
                 }
                 
                 var trains = pTrain+nTrain
+                
+                let prob = create_problem(&trains, Int32(pxCount), Int32(trains.count))
                 
                 let candidateC = [1.0, 10.0, 100.0, 1000.0]
                 let candidateGamma = [1.0/Double(pxCount)].flatMap { g in
@@ -174,11 +176,12 @@ class PredictiveTrimViewController : TrimViewController {
                 let initial: (max: Double, model: UnsafeMutablePointer<svm_model>?) = (Double.nan, nil)
                 let comb = candidateC.combine(with: candidateGamma) { (C: $0, gamma: $1) }
                 let result = comb.reduce(initial) { acc, param in
-                    let model = train(&trains, Int32(pxCount), Int32(trains.count), param.C, param.gamma)
                     
-                    let tp = pVar.filter { predict(model, $0) }.count
-                    let fp = nVar.filter { predict(model, $0) }.count
-                    let fn = pVar.count - tp
+                    let model = train(prob, param.C, param.gamma)
+                    
+                    let tp = pVal.filter { predict(model, $0) }.count
+                    let fp = nVal.filter { predict(model, $0) }.count
+                    let fn = pVal.count - tp
                     
                     let rec = Double(tp) / Double(tp + fn)
                     let prec = Double(tp) / Double(tp + fp)
@@ -188,11 +191,11 @@ class PredictiveTrimViewController : TrimViewController {
                     
                     if acc.model == nil || acc.max.isNaN || acc.max < f1 {
                         if let m = acc.model {
-                            destroy(m)
+                            destroy_model(m)
                         }
                         return (f1, model)
                     } else {
-                        destroy(model)
+                        destroy_model(model)
                         return acc
                     }
                 }
@@ -203,8 +206,8 @@ class PredictiveTrimViewController : TrimViewController {
                 if result.max.isNaN {
                     throw InvalidInputError("F1 score is nan.")
                 }
-                
-                (trains+pVar+nVar).forEach { $0.elements.deallocate(capacity: pxCount) }
+                destroy_problem(prob, Int32(pxCount), Int32(trains.count))
+                (trains+pVal+nVal).forEach { $0.elements.deallocate(capacity: pxCount) }
                 
                 DispatchQueue.main.async {
                     self.blockView.hide()

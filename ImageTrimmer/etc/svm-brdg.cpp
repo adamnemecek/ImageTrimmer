@@ -4,7 +4,38 @@
 
 extern "C" {
     
-    svm_model* train(Sample *samples, int length, int sampleCount, double C, double gamma) {
+    svm_problem* create_problem(Sample *samples, int length, int sampleCount) {
+        svm_problem *prob = new svm_problem();
+        
+        prob->l = sampleCount;
+        prob->x = new svm_node*[sampleCount];
+        prob->y = new double[sampleCount];
+        
+        for(int i = 0 ; i < sampleCount ; i++) {
+            prob->y[i] = samples[i].positive ? 1 : 0;
+            prob->x[i] = new svm_node[length+1];
+            
+            int j;
+            for(j = 0 ; j < length ; j++) {
+                prob->x[i][j].index = j;
+                prob->x[i][j].value = samples[i].elements[j];
+            }
+            prob->x[i][j].index = -1;
+        }
+        return prob;
+    }
+    
+    void destroy_problem(svm_problem* prob, int length, int sampleCount) {
+        for(int i = 0 ; i < sampleCount ; i++) {
+            delete prob->x[i];
+        }
+        
+        delete prob->x;
+        delete prob->y;
+        delete prob;
+    }
+    
+    svm_model* train(svm_problem *prob, double C, double gamma) {
         
         svm_parameter param;
         param.svm_type = C_SVC;
@@ -22,25 +53,7 @@ extern "C" {
         param.probability = 0;
         param.nr_weight = 0;
         
-        svm_problem prob;
-        
-        prob.l = sampleCount;
-        prob.x = new svm_node*[sampleCount];
-        prob.y = new double[sampleCount];
-        
-        for(int i = 0 ; i < sampleCount ; i++) {
-            prob.y[i] = samples[i].positive ? 1 : 0;
-            prob.x[i] = new svm_node[length+1];
-            
-            int j;
-            for(j = 0 ; j < length ; j++) {
-                prob.x[i][j].index = j;
-                prob.x[i][j].value = samples[i].elements[j];
-            }
-            prob.x[i][j].index = -1;
-        }
-        
-        svm_model *model = svm_train(&prob, &param);
+        svm_model *model = svm_train(prob, &param);
         
         return model;
     }
@@ -60,7 +73,7 @@ extern "C" {
         return r > 0;
     }
     
-    void destroy(svm_model* model) {
+    void destroy_model(svm_model* model) {
         svm_free_and_destroy_model(&model);
     }
 }

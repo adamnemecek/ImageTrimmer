@@ -14,9 +14,12 @@ extern "C"{
         bool positive;
     } Sample;
     
-    struct svm_model* train(Sample *samples, int length, int sampleCount, double C, double gamma);
+    struct svm_problem* create_problem(Sample *samples, int length, int sampleCount);
+    void destroy_problem(struct svm_problem* prob, int length, int sampleCount);
+    
+    struct svm_model* train(struct svm_problem *prob, double C, double gamma);
     bool predict(struct svm_model *model, Sample sample);
-    void destroy(struct svm_model *model);
+    void destroy_model(struct svm_model *model);
 
 #ifdef __cplusplus
 }

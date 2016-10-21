@@ -173,8 +173,8 @@
 		A70A408D1DB8BD8500F5441A /* libsvm */ = {
 			isa = PBXGroup;
 			children = (
-				A70A40921DB8BDA900F5441A /* svm.cpp */,
 				A70A40931DB8BDA900F5441A /* svm.h */,
+				A70A40921DB8BDA900F5441A /* svm.cpp */,
 			);
 			path = libsvm;
 			sourceTree = "<group>";
