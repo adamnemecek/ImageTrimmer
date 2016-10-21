@@ -26,7 +26,7 @@ enum SelectDirectoryResult {
     case ok(URL?)
     case cancel
 }
-func selectDirectory(title: String? = nil) -> Observable<SelectDirectoryResult> {
+func selectDirectory(title: String? = nil, url: URL? = nil) -> Observable<SelectDirectoryResult> {
     return Observable.create { observer in
         let panel = NSOpenPanel()
         panel.title = title
@@ -34,6 +34,7 @@ func selectDirectory(title: String? = nil) -> Observable<SelectDirectoryResult> 
         panel.canCreateDirectories = true
         panel.canChooseDirectories = true
         panel.canChooseFiles = false
+        panel.directoryURL = url
         
         panel.begin() { result in
             

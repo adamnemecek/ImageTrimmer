@@ -255,8 +255,8 @@ class MainViewController: NSViewController {
             return
         }
         
-        func select(title: String) -> Observable<URL> {
-            return selectDirectory(title: title)
+        func select(title: String, url: URL? = nil) -> Observable<URL> {
+            return selectDirectory(title: title, url: url)
                 .map{ result in
                     switch result {
                     case .ok(let _url):
@@ -272,7 +272,11 @@ class MainViewController: NSViewController {
         }
         
         select(title: "Select directory which contains \"Positive\" images.")
-            .concat(select(title: "Select directory which contains \"Negative\" images."))
+            .flatMap { url in
+                select(title: "Select directory which contains \"Negative\" images.",
+                       url: url)
+                    .startWith(url)
+            }
             .toArray()
             .subscribe { [weak self] event in
                 switch event {
