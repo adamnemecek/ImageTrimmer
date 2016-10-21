@@ -163,6 +163,10 @@ class PredictiveTrimViewController : TrimViewController {
                 let (nTrain, nVar) = createSamples(directory: nUrl, files: negatives, positive: false)
                     .partition(cvarRate: 0.3)
                 
+                guard pVar.count > 0 && nVar.count > 0 else {
+                    throw InvalidInputError("Too few samples.")
+                }
+                
                 var trains = pTrain+nTrain
                 let vars = pVar + nVar
                 
