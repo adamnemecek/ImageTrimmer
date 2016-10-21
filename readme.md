@@ -38,7 +38,7 @@ Need Positive and Negative samples.
 
 1. [Common](#common)
 1. Press "Pred" button.
-1. Select directory which contains "Positive" samples(size of images and "width" and "height" you set must be same).
+1. Select directory which contains "Positive" samples(size of images and ("width", "height") you set must be same).
 1. Select "Negative" directory likewise.
 1. New window will open. Set "stride" and click "TrimNext" button.
 1. Positive-like image will be shown, Press "Positive"/"Negative" button to save image.
