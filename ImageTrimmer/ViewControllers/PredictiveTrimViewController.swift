@@ -15,10 +15,7 @@ class PredictiveTrimViewController : TrimViewController {
     @IBOutlet weak var yField: NSTextField!
     @IBOutlet weak var strideField: NSTextField!
     
-    // Model
-    private var mu: [Double]!
-    private var sigma2: [Double]!
-    private var epsilon: Double!
+    private var model: UnsafeMutablePointer<svm_model>?
     
     private lazy var blockView: BlockView = {
         var array = NSArray()
@@ -66,6 +63,9 @@ class PredictiveTrimViewController : TrimViewController {
     
     override func viewWillDisappear() {
         cancelSearch()
+        if let model = self.model {
+            destroy(model)
+        }
     }
     
     override func bind(image: Image<RGBA>!, x: Variable<Int>, y: Variable<Int>, width: Int, height: Int, positiveDirectory: String, negativeDirectory: String, positiveFileNumber: Variable<Int>, negativeFileNumber: Variable<Int>) {
@@ -122,8 +122,6 @@ class PredictiveTrimViewController : TrimViewController {
         
     }
     
-    private var model: UnsafeMutablePointer<svm_model>!
-    
     private func createModel(positiveDirectory: String, negativeDirectory: String) {
         blockView.show(with: "Creating model.")
         DispatchQueue.global().async {
@@ -168,36 +166,45 @@ class PredictiveTrimViewController : TrimViewController {
                 }
                 
                 var trains = pTrain+nTrain
-                let vars = pVar + nVar
                 
                 let candidateC = [0.1, 1.0, 10.0, 100.0, 1000.0, 10000.0]
                 let candidateGamma = [1.0/Double(pxCount)].flatMap { g in
                     [0.1, 0.3, 1.0, 3.0, 10.0].map { g*$0 }
                 }
                 
-                let initial: (max: Double, model: UnsafeMutablePointer<svm_model>?) = (0.0, nil)
+                let initial: (max: Double, model: UnsafeMutablePointer<svm_model>?) = (Double.nan, nil)
                 let comb = candidateC.flatMap{ C in candidateGamma.map { (C, $0) } }
                 let result = comb.reduce(initial) { acc, param in
                     let model = train(&trains, Int32(pxCount), Int32(trains.count), param.0, param.1)
                     
-                    let correct = vars.filter { predict(model, $0) == $0.positive }.count
-                    let accuracy = Double(correct) / Double(vars.count)
+                    let tp = pVar.filter { predict(model, $0) }.count
+                    let fp = nVar.filter { predict(model, $0) }.count
+                    let fn = pVar.count - tp
                     
-                    if acc.1 == nil || acc.0 < accuracy {
-                        if let m = acc.1 {
+                    let rec = Double(tp) / Double(tp + fn)
+                    let prec = Double(tp) / Double(tp + fp)
+                    let f1 = 2*rec*prec/(rec+prec)
+                    
+                    
+                    if acc.model == nil || acc.max.isNaN || acc.0 < f1 {
+                        if let m = acc.model {
                             destroy(m)
                         }
-                        return (accuracy, model)
+                        return (f1, model)
                     } else {
                         destroy(model)
                         return acc
                     }
                 }
                 
-                self.model = result.1
-                print("Accuracy: \(result.0)")
+                self.model = result.model
+                print("F1 score: \(result.max)")
                 
-                (trains+vars).forEach { $0.elements.deallocate(capacity: pxCount) }
+                if result.max.isNaN {
+                    throw InvalidInputError("F1 score is nan.")
+                }
+                
+                (trains+pVar+nVar).forEach { $0.elements.deallocate(capacity: pxCount) }
                 
                 DispatchQueue.main.async {
                     self.blockView.hide()
@@ -237,7 +244,12 @@ class PredictiveTrimViewController : TrimViewController {
             return
         }
         
-        guard let observable = searchNext(x: x, y: y ,strider: strider) else {
+        guard let model = self.model else {
+            showAlert("SVM model is nil.")
+            return
+        }
+        
+        guard let observable = searchNext(x: x, y: y ,strider: strider, model: model) else {
             return
         }
         
@@ -278,7 +290,7 @@ class PredictiveTrimViewController : TrimViewController {
         case notFound
     }
     
-    private func searchNext(x: Int, y: Int, strider: Int) -> Observable<SearchState>? {
+    private func searchNext(x: Int, y: Int, strider: Int, model: UnsafeMutablePointer<svm_model>) -> Observable<SearchState>? {
         
         return Observable<SearchState>.create { observer in
             var canceled = false
@@ -305,7 +317,7 @@ class PredictiveTrimViewController : TrimViewController {
                     
                     var pixels = patchGray
                     let sample = Sample(elements: &pixels, length: Int32(self.width*self.height), positive: false)
-                    let r = predict(self.model, sample)
+                    let r = predict(model, sample)
                     
                     if(r) {
                         observer.onNext(.found(x: x, y: y))
