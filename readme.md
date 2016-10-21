@@ -20,7 +20,7 @@ Currently, it's specialized for binary classification.
 1. [Common](#common)
 1. Set x and y(Input value, or just click image).
 1. Trimming preview will be shown on the right box.
-1. Press "Crop(P)" or "Crop(N)" button to trim and save positive/negative image.
+1. Press "Trim(P)" or "Trim(N)" button to trim and save positive/negative image.
 
 Can zoom, scroll.
 
@@ -41,11 +41,10 @@ This feature may not work well...
 1. Press "Pred" button.
 1. Select directory which contains "Positive" samples(size of images and the values you set mus be same).
 1. Select "Negative" directory likewise.
-1. New window will open. Set "stride" and click "CropNext" button.
+1. New window will open. Set "stride" and click "TrimNext" button.
 1. Positive-like image will be shown, Press "Positive"/"Negative" button to save image.
 
 - Search proceeds by "stride" pixels in Row-major order.
-- Can choose "Precision" or "F1 score" for cross varidation, but, for collecting positive samples, "Recall" may work better than them.
 
 ## License
 [MIT License](./LICENSE)

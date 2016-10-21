@@ -222,20 +222,6 @@
                                             <action selector="onPressTrimNextButton:" target="Vpy-Ym-P3B" id="0nl-tC-MOr"/>
                                         </connections>
                                     </button>
-                                    <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="b2h-Tr-aw4">
-                                        <rect key="frame" x="272" y="-3" width="93" height="26"/>
-                                        <popUpButtonCell key="cell" type="push" title="Recall" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="usr-5S-11o" id="plC-gl-QYH">
-                                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="menu"/>
-                                            <menu key="menu" id="b11-zz-XZP">
-                                                <items>
-                                                    <menuItem title="Recall" state="on" id="usr-5S-11o"/>
-                                                    <menuItem title="Precision" id="wfj-WR-rEt"/>
-                                                    <menuItem title="F1 score" id="pBx-Sr-Ckv"/>
-                                                </items>
-                                            </menu>
-                                        </popUpButtonCell>
-                                    </popUpButton>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="dWw-bT-IMR" firstAttribute="centerY" secondItem="cwd-yR-GRI" secondAttribute="centerY" id="Akg-md-Ogh"/>
@@ -246,7 +232,6 @@
                                     <constraint firstAttribute="trailing" secondItem="KZD-0G-rJj" secondAttribute="trailing" id="JFh-b7-rci"/>
                                     <constraint firstItem="ZJ9-1q-h3o" firstAttribute="width" secondItem="ACn-tf-YLE" secondAttribute="width" id="MmD-C5-yEy"/>
                                     <constraint firstItem="ZJ9-1q-h3o" firstAttribute="centerY" secondItem="xmg-oN-ynv" secondAttribute="centerY" id="YYW-OC-m1U"/>
-                                    <constraint firstItem="b2h-Tr-aw4" firstAttribute="centerY" secondItem="b4k-mv-Sh1" secondAttribute="centerY" id="ZUF-Ro-Lcw"/>
                                     <constraint firstItem="xmg-oN-ynv" firstAttribute="leading" secondItem="b4k-mv-Sh1" secondAttribute="leading" id="bYb-ql-a12"/>
                                     <constraint firstItem="ZJ9-1q-h3o" firstAttribute="leading" secondItem="xmg-oN-ynv" secondAttribute="trailing" id="cNL-pq-CWV"/>
                                     <constraint firstItem="dWw-bT-IMR" firstAttribute="leading" secondItem="cwd-yR-GRI" secondAttribute="trailing" id="dAL-ru-7h9"/>
@@ -254,7 +239,6 @@
                                     <constraint firstItem="cwd-yR-GRI" firstAttribute="centerY" secondItem="b4k-mv-Sh1" secondAttribute="centerY" id="iZs-Ld-RYs"/>
                                     <constraint firstItem="ACn-tf-YLE" firstAttribute="centerY" secondItem="fBE-qg-gFK" secondAttribute="centerY" id="lcd-8Z-kMX"/>
                                     <constraint firstItem="fBE-qg-gFK" firstAttribute="centerY" secondItem="b4k-mv-Sh1" secondAttribute="centerY" id="n4b-2F-Iqo"/>
-                                    <constraint firstItem="b2h-Tr-aw4" firstAttribute="leading" secondItem="dWw-bT-IMR" secondAttribute="trailing" constant="8" id="qWT-H8-Eqw"/>
                                 </constraints>
                             </customView>
                             <stackView distribution="fillEqually" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="249" verticalHuggingPriority="249" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7HZ-sm-nvp">
@@ -325,7 +309,6 @@
                     </view>
                     <connections>
                         <outlet property="imageView" destination="sex-zg-FoR" id="b3j-Fq-IIj"/>
-                        <outlet property="measureField" destination="b2h-Tr-aw4" id="Jyk-Re-CXl"/>
                         <outlet property="strideField" destination="dWw-bT-IMR" id="0vN-RM-YUW"/>
                         <outlet property="xField" destination="ZJ9-1q-h3o" id="P48-jz-mhX"/>
                         <outlet property="yField" destination="ACn-tf-YLE" id="5iE-qe-vlc"/>

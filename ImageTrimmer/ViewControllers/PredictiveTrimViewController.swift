@@ -14,7 +14,6 @@ class PredictiveTrimViewController : TrimViewController {
     @IBOutlet weak var xField: NSTextField!
     @IBOutlet weak var yField: NSTextField!
     @IBOutlet weak var strideField: NSTextField!
-    @IBOutlet weak var measureField: NSPopUpButton!
     
     // Model
     private var mu: [Double]!
@@ -97,17 +96,6 @@ class PredictiveTrimViewController : TrimViewController {
                    positiveFileNumber: positiveFileNumber,
                    negativeFileNumber: negativeFileNumber)
         
-        weak var welf = self
-        
-        measureField.rx.controlEvent.startWith(())
-            .map { welf!.measureField.selectedItem!.title }
-            .subscribe(onNext: {
-                Swift.print($0)
-                welf!.createModel(positiveDirectory: positiveSupervisorDirectory,
-                                  negativeDirectory: negativeSupervisorDirectory,
-                                  measure: $0)
-            })
-            .addDisposableTo(disposeBag)
         
         x.asObservable()
             .map(intToStr)
@@ -129,11 +117,14 @@ class PredictiveTrimViewController : TrimViewController {
             .bindTo(y)
             .addDisposableTo(disposeBag)
         
+        createModel(positiveDirectory: positiveSupervisorDirectory,
+                    negativeDirectory: negativeSupervisorDirectory)
+        
     }
     
     private var model: UnsafeMutablePointer<svm_model>!
     
-    private func createModel(positiveDirectory: String, negativeDirectory: String, measure: String) {
+    private func createModel(positiveDirectory: String, negativeDirectory: String) {
         blockView.show(with: "Creating model.")
         DispatchQueue.global().async {
             
