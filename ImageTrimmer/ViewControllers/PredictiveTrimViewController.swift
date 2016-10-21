@@ -167,15 +167,14 @@ class PredictiveTrimViewController : TrimViewController {
                 
                 var trains = pTrain+nTrain
                 
-                let candidateC = [0.1, 1.0, 10.0, 100.0, 1000.0, 10000.0]
+                let candidateC = [1.0, 10.0, 100.0, 1000.0]
                 let candidateGamma = [1.0/Double(pxCount)].flatMap { g in
-                    [0.1, 0.3, 1.0, 3.0, 10.0].map { g*$0 }
+                    [0.1, 0.3, 1.0, 3.0, 10.0, 30.0, 100.0].map { g*$0 }
                 }
-                
                 let initial: (max: Double, model: UnsafeMutablePointer<svm_model>?) = (Double.nan, nil)
-                let comb = candidateC.combine(with: candidateGamma) { ($0, $1) }
+                let comb = candidateC.combine(with: candidateGamma) { (C: $0, gamma: $1) }
                 let result = comb.reduce(initial) { acc, param in
-                    let model = train(&trains, Int32(pxCount), Int32(trains.count), param.0, param.1)
+                    let model = train(&trains, Int32(pxCount), Int32(trains.count), param.C, param.gamma)
                     
                     let tp = pVar.filter { predict(model, $0) }.count
                     let fp = nVar.filter { predict(model, $0) }.count
@@ -185,7 +184,9 @@ class PredictiveTrimViewController : TrimViewController {
                     let prec = Double(tp) / Double(tp + fp)
                     let f1 = 2*rec*prec/(rec+prec)
                     
-                    if acc.model == nil || acc.max.isNaN || acc.0 < f1 {
+                    print("F1 score: \(f1), C: \(param.C), gamma: \(param.gamma)")
+                    
+                    if acc.model == nil || acc.max.isNaN || acc.max < f1 {
                         if let m = acc.model {
                             destroy(m)
                         }
@@ -197,7 +198,7 @@ class PredictiveTrimViewController : TrimViewController {
                 }
                 
                 self.model = result.model
-                print("F1 score: \(result.max)")
+                print("\nmax F1 score: \(result.max)")
                 
                 if result.max.isNaN {
                     throw InvalidInputError("F1 score is nan.")

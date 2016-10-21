@@ -44,17 +44,16 @@ class SVMTests: XCTestCase {
     
     func testTrain2() {
         
-        let s = 100
+        let s = 300
         
         let vecs = linspace(minimum: -1, maximum: 1, count: s)
-            .flatMap { x in linspace(minimum: -1, maximum: 1, count: s).map { (x,$0) } }
-            .shuffled()
+            .flatMap { x in linspace(minimum: -1, maximum: 1, count: s)
+                .map { (x,$0) } }
         
         var samples = vecs.map { x, y -> Sample in
             let e = UnsafeMutablePointer<Double>.allocate(capacity: 2)
             e[0] = x
             e[1] = y
-            print(e[0], e[1])
             return Sample(elements: e, length: 2, positive: x*x+y*y<1.0)
         }
         
@@ -63,10 +62,11 @@ class SVMTests: XCTestCase {
         print("elapsed time:", Date().timeIntervalSince(start))
         
         do{
-            let p = vecs.filter { x, y in
-                var e = [x, y]
-                let r = predict(model, Sample(elements: &e, length: 2, positive: false))
-                return (x*x+y*y<1.0) == r
+            let p = vecs
+                .filter { x, y in
+                    var e = [x, y]
+                    let r = predict(model, Sample(elements: &e, length: 2, positive: false))
+                    return (x*x+y*y<1.0) == r
                 }.count
             
             print("train accuracy: \(Double(p)/Double(vecs.count))")
@@ -76,9 +76,9 @@ class SVMTests: XCTestCase {
             let c: Int = 1000
             let p = (0..<c)
                 .map { _ -> (Double, Double) in
-                let x = 1.0 - 2*Double(arc4random_uniform(1024*1024)) / (1024*1024)
-                let y = 1.0 - 2*Double(arc4random_uniform(1024*1024)) / (1024*1024)
-                return (x, y)
+                    let x = 1.0 - 2*Double(arc4random_uniform(1024*1024)) / (1024*1024)
+                    let y = 1.0 - 2*Double(arc4random_uniform(1024*1024)) / (1024*1024)
+                    return (x, y)
                 }
                 .filter { x, y in
                     var e = [x, y]
