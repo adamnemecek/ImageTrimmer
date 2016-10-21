@@ -131,27 +131,78 @@ class PredictiveTrimViewController : TrimViewController {
         
     }
     
+    private var model: UnsafeMutablePointer<svm_model>!
+    
     private func createModel(positiveDirectory: String, negativeDirectory: String, measure: String) {
         blockView.show(with: "Creating model.")
         DispatchQueue.global().async {
             
             do {
+                
                 let fm = FileManager.default
                 let positives = try fm.contentsOfDirectory(atPath: positiveDirectory)
                 let negatives = try fm.contentsOfDirectory(atPath: negativeDirectory)
                 
-                let (pEstimate, pVar) = positives.partition(cvarRate: 0.1)
+                let pxCount = self.width * self.height
                 
-                let (mu, sigma2) = try self.getGaussianParameters(positiveDirectory: positiveDirectory,
-                                                             positiveFiles: pEstimate)
+                func createSamples(directory: URL, files: [String], positive: Bool) -> [Sample] {
+                    var samples: [Sample] = []
+                    for f in files {
+                        let url = directory.appendingPathComponent(f)
+                        guard let image = loadGrayImage(url: url) else {
+                            continue
+                        }
+                        guard image.pixels.count == pxCount else {
+                            continue
+                        }
+                        let elements = UnsafeMutablePointer<Double>.allocate(capacity: pxCount)
+                        memcpy(elements, image.pixels, pxCount * MemoryLayout<Double>.size)
+                        samples.append(Sample(elements: elements,
+                                              length: Int32(image.pixels.count),
+                                              positive: positive))
+                    }
+                    return samples
+                }
                 
-                let epsilon = try self.findEpsilon(positiveDirectory: positiveDirectory, positiveFiles: pVar,
-                                               negativeDirectory: negativeDirectory, negativeFiles: negatives,
-                                               mu: mu, sigma2: sigma2, measure: measure)
+                let pUrl = URL(fileURLWithPath: positiveDirectory)
+                let nUrl = URL(fileURLWithPath: negativeDirectory)
                 
-                self.mu = mu
-                self.sigma2 = sigma2
-                self.epsilon = epsilon
+                let (pTrain, pVar) = createSamples(directory: pUrl, files: positives, positive: true)
+                    .partition(cvarRate: 0.3)
+                let (nTrain, nVar) = createSamples(directory: nUrl, files: negatives, positive: false)
+                    .partition(cvarRate: 0.3)
+                
+                var trains = pTrain+nTrain
+                let vars = pVar + nVar
+                
+                let candidateC = [0.1, 1.0, 10.0, 100.0, 1000.0, 10000.0]
+                let candidateGamma = [1.0/Double(pxCount)].flatMap { g in
+                    [0.1, 0.3, 1.0, 3.0, 10.0].map { g*$0 }
+                }
+                
+                let initial: (max: Double, model: UnsafeMutablePointer<svm_model>?) = (0.0, nil)
+                let comb = candidateC.flatMap{ C in candidateGamma.map { (C, $0) } }
+                let result = comb.reduce(initial) { acc, param in
+                    let model = train(&trains, Int32(pxCount), Int32(trains.count), param.0, param.1)
+                    
+                    let correct = vars.filter { predict(model, $0) == $0.positive }.count
+                    let accuracy = Double(correct) / Double(vars.count)
+                    
+                    if acc.1 == nil || acc.0 < accuracy {
+                        if let m = acc.1 {
+                            destroy(m)
+                        }
+                        return (accuracy, model)
+                    } else {
+                        destroy(model)
+                        return acc
+                    }
+                }
+                
+                self.model = result.1
+                print("Accuracy: \(result.0)")
+                
+                (trains+vars).forEach { $0.elements.deallocate(capacity: pxCount) }
                 
                 DispatchQueue.main.async {
                     self.blockView.hide()
@@ -238,7 +289,6 @@ class PredictiveTrimViewController : TrimViewController {
             var canceled = false
             
             DispatchQueue.global().async {
-                var v = DBL_MIN
                 var x = x
                 var y = y
                 
@@ -257,11 +307,12 @@ class PredictiveTrimViewController : TrimViewController {
                     }
                     let patch = self.image[x..<x+self.width, y..<y+self.height]
                     let patchGray = patch.pixels.map { Double($0.gray)/255.0 }
-                    v = self.gaussian(x: patchGray, mu: self.mu, sigma2: self.sigma2)
                     
-                    if(v > self.epsilon) {
-                        // found positive-like point
-                        print("(\(x), \(y)): score \(v) > \(self.epsilon)")
+                    var pixels = patchGray
+                    let sample = Sample(elements: &pixels, length: Int32(self.width*self.height), positive: false)
+                    let r = predict(self.model, sample)
+                    
+                    if(r) {
                         observer.onNext(.found(x: x, y: y))
                         self.imageView.image = Image(self.image[x..<x+self.width, y..<y+self.height]).nsImage
                         break
@@ -317,135 +368,6 @@ class PredictiveTrimViewController : TrimViewController {
         self.view.window?.close()
     }
     
-    private func getGaussianParameters(positiveDirectory: String, positiveFiles: [String]) throws -> (mu: [Double], sigma2: [Double]) {
-        
-        let positiveUrl = URL(fileURLWithPath: positiveDirectory)
-        
-        let initial = (0, [Double](repeating: 0.0, count: width*height), [Double](repeating: 0.0, count: width*height))
-        let (num, sums, sums2) = positiveFiles.reduce(initial) { acc, p in
-            guard let gray = loadGrayImage(url: positiveUrl.appendingPathComponent(p)) else {
-                return acc
-            }
-            
-            guard gray.width == self.width && gray.height == self.height else {
-                return acc
-            }
-            
-            let sums = acc.1.zip(with: gray.pixels, f: +)
-            let sums2 = acc.2.zip(with: gray.pixels) { acc, p in acc + p*p }
-            return (acc.0+1, sums, sums2)
-        }
-    
-        print("Number of samples for gaussian parameter: \(num)")
-        if(num == 0) {
-            throw InvalidInputError("No valid positive samples found.")
-        }
-        let mu = sums.map { $0 / Double(num) }
-        let mu2 = mu.zip(with: mu, f: *)
-        let sigma2 = sums2.map { $0 / Double(num) }
-            .zip(with: mu2, f: -)
-        
-        return (mu, sigma2)
-    }
-    
-    private func gaussian(x: [Double], mu: [Double], sigma2: [Double]) -> Double {
-        
-        assert(x.count == mu.count && mu.count == sigma2.count)
-        
-        let gs = zip3(a: x, b: mu, c: sigma2) { x, mu, sigma2 -> Double in
-            let exponent = -pow(x-mu, 2) / (2*sigma2)
-            return exp(exponent) / sqrt(2*M_PI*sigma2)
-        }
-        
-        return gs.reduce(1.0, +)
-    }
-    
-    private func findEpsilon(positiveDirectory: String, positiveFiles: [String],
-                     negativeDirectory: String, negativeFiles: [String],
-                     mu: [Double], sigma2: [Double], measure: String) throws -> Double {
-        
-        let positiveUrl = URL(fileURLWithPath: positiveDirectory)
-        let initial = (DBL_MAX, DBL_MIN, [Double]())
-        let (_minimum, _maximum, positiveValues) = positiveFiles
-            .reduce(initial) { acc, p in
-                guard let gray = loadGrayImage(url: positiveUrl.appendingPathComponent(p)) else {
-                    return acc
-                }
-                guard gray.width==self.width && gray.height==self.height else {
-                    return acc
-                }
-                let v = gaussian(x: gray.pixels, mu: mu, sigma2: sigma2)
-                if v < acc.0 {
-                    return (v, acc.1, acc.2+[v])
-                } else if v > acc.1 {
-                    return (acc.0, v, acc.2+[v])
-                } else {
-                    return (acc.0, acc.1, acc.2+[v])
-                }
-        }
-        
-        let negativeUrl = URL(fileURLWithPath: negativeDirectory)
-        let initial2 = (_minimum, _maximum, [Double]())
-        let (minimum, maximum, negativeValues) = negativeFiles.reduce(initial2) { acc, n in
-            guard let gray = loadGrayImage(url: negativeUrl.appendingPathComponent(n)) else {
-                return acc
-            }
-            guard gray.width==self.width && gray.height==self.height else {
-                return acc
-            }
-            let v = gaussian(x: gray.pixels, mu: mu, sigma2: sigma2)
-            if v < acc.0 {
-                return (v, acc.1, acc.2+[v])
-            } else if v > acc.1 {
-                return (acc.0, v, acc.2+[v])
-            } else {
-                return (acc.0, acc.1, acc.2+[v])
-            }
-        }
-        
-        print("Epsilon estimation samples: P: \(positiveValues.count) N: \(negativeValues.count)")
-        guard positiveValues.count > 0 && negativeValues.count > 0 else {
-            throw InvalidInputError("No samples for cross validation found.\nP: \(positiveValues.count)\nN: \(negativeValues.count)")
-        }
-        
-        Swift.print("\(minimum) <= epsilon <= \(maximum)")
-        
-        let candidates = linspace(minimum: minimum, maximum: maximum, count: 100)
-        
-        // score and best e
-        let (maxScore, epsilon) = try candidates.reduce((DBL_MIN, DBL_MIN)) { acc, e in
-            let truePositive = positiveValues.filter { $0 > e }.count
-            let falsePositive = negativeValues.filter { $0 > e }.count
-            
-            let recall = Double(truePositive) / Double(positiveValues.count)
-            let precision = Double(truePositive) / Double(truePositive + falsePositive)
-            let f1Score = (2*recall*precision)/(recall+precision)
-            
-//            print("\(e): \nrec: \(recall)\nprec: \(precision)\nf1: \(f1Score)\n")
-            
-            let score: Double
-            switch measure {
-            case "Recall":
-                score = recall
-            case "Precision":
-                score = precision
-            case "F1 score":
-                score = f1Score
-            default:
-                throw InvalidInputError("Invalid measure: \(measure)")
-            }
-            
-            if acc.0 <= score {
-                return (score, e)
-            } else {
-                return acc
-            }
-        }
-        
-        Swift.print("Max \(measure): \(maxScore)")
-        Swift.print("epsilon: \(epsilon)")
-        return epsilon
-    }
 }
 
 private class InvalidInputError: Error {

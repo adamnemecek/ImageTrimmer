@@ -17,6 +17,9 @@
 		A70A40301DB5BF9E00F5441A /* BlockView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A70A402F1DB5BF9E00F5441A /* BlockView.xib */; };
 		A70A40751DB867A300F5441A /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70A40731DB867A300F5441A /* Keys.swift */; };
 		A70A40761DB867A300F5441A /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70A40741DB867A300F5441A /* Util.swift */; };
+		A70A40971DB8BDA900F5441A /* svm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A70A40921DB8BDA900F5441A /* svm.cpp */; };
+		A70A409A1DB8BDCB00F5441A /* svm-brdg.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A70A40981DB8BDCB00F5441A /* svm-brdg.cpp */; };
+		A70A409C1DB8C96B00F5441A /* SVMTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70A409B1DB8C96B00F5441A /* SVMTests.swift */; };
 		A77FD48A1DAF5A420003E9A3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77FD4891DAF5A420003E9A3 /* AppDelegate.swift */; };
 		A77FD48E1DAF5A420003E9A3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A77FD48D1DAF5A420003E9A3 /* Assets.xcassets */; };
 		A77FD4911DAF5A420003E9A3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A77FD48F1DAF5A420003E9A3 /* Main.storyboard */; };
@@ -74,6 +77,12 @@
 		A70A402F1DB5BF9E00F5441A /* BlockView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BlockView.xib; sourceTree = "<group>"; };
 		A70A40731DB867A300F5441A /* Keys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keys.swift; sourceTree = "<group>"; };
 		A70A40741DB867A300F5441A /* Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
+		A70A408E1DB8BDA800F5441A /* ImageTrimmer-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "ImageTrimmer-Bridging-Header.h"; path = "libsvm/ImageTrimmer-Bridging-Header.h"; sourceTree = "<group>"; };
+		A70A40921DB8BDA900F5441A /* svm.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = svm.cpp; sourceTree = "<group>"; };
+		A70A40931DB8BDA900F5441A /* svm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = svm.h; sourceTree = "<group>"; };
+		A70A40981DB8BDCB00F5441A /* svm-brdg.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "svm-brdg.cpp"; sourceTree = "<group>"; };
+		A70A40991DB8BDCB00F5441A /* svm-brdg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "svm-brdg.h"; sourceTree = "<group>"; };
+		A70A409B1DB8C96B00F5441A /* SVMTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVMTests.swift; sourceTree = "<group>"; };
 		A77FD4861DAF5A420003E9A3 /* ImageTrimmer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageTrimmer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A77FD4891DAF5A420003E9A3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A77FD48D1DAF5A420003E9A3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -155,8 +164,19 @@
 			children = (
 				A70A40731DB867A300F5441A /* Keys.swift */,
 				A70A40741DB867A300F5441A /* Util.swift */,
+				A70A40991DB8BDCB00F5441A /* svm-brdg.h */,
+				A70A40981DB8BDCB00F5441A /* svm-brdg.cpp */,
 			);
 			path = etc;
+			sourceTree = "<group>";
+		};
+		A70A408D1DB8BD8500F5441A /* libsvm */ = {
+			isa = PBXGroup;
+			children = (
+				A70A40921DB8BDA900F5441A /* svm.cpp */,
+				A70A40931DB8BDA900F5441A /* svm.h */,
+			);
+			path = libsvm;
 			sourceTree = "<group>";
 		};
 		A77FD47D1DAF5A410003E9A3 = {
@@ -185,8 +205,10 @@
 			children = (
 				A70A40281DB5BF9500F5441A /* Components */,
 				A70A401D1DB5B93500F5441A /* ViewControllers */,
+				A70A408D1DB8BD8500F5441A /* libsvm */,
 				A70A40721DB867A300F5441A /* etc */,
 				A77FD4891DAF5A420003E9A3 /* AppDelegate.swift */,
+				A70A408E1DB8BDA800F5441A /* ImageTrimmer-Bridging-Header.h */,
 				A77FD48D1DAF5A420003E9A3 /* Assets.xcassets */,
 				A77FD48F1DAF5A420003E9A3 /* Main.storyboard */,
 				A77FD4921DAF5A420003E9A3 /* Info.plist */,
@@ -198,6 +220,7 @@
 			isa = PBXGroup;
 			children = (
 				A77FD49B1DAF5A420003E9A3 /* ImageTrimmerTests.swift */,
+				A70A409B1DB8C96B00F5441A /* SVMTests.swift */,
 				A77FD49D1DAF5A420003E9A3 /* Info.plist */,
 			);
 			path = ImageTrimmerTests;
@@ -282,6 +305,7 @@
 					A77FD4851DAF5A420003E9A3 = {
 						CreatedOnToolsVersion = 8.0;
 						DevelopmentTeam = AX6P4U3X2R;
+						LastSwiftMigration = 0800;
 						ProvisioningStyle = Automatic;
 					};
 					A77FD4961DAF5A420003E9A3 = {
@@ -355,9 +379,11 @@
 				A70A40231DB5B93500F5441A /* MainViewController.swift in Sources */,
 				A70A40751DB867A300F5441A /* Keys.swift in Sources */,
 				A70A40211DB5B93500F5441A /* PredictiveTrimViewController.swift in Sources */,
+				A70A409A1DB8BDCB00F5441A /* svm-brdg.cpp in Sources */,
 				A70A402C1DB5BF9500F5441A /* BlockView.swift in Sources */,
 				A70A40761DB867A300F5441A /* Util.swift in Sources */,
 				A70A40251DB5B97F00F5441A /* TrimViewController.swift in Sources */,
+				A70A40971DB8BDA900F5441A /* svm.cpp in Sources */,
 				A70A40221DB5B93500F5441A /* RandomTrimViewController.swift in Sources */,
 				A70A402E1DB5BF9500F5441A /* DropTextField.swift in Sources */,
 			);
@@ -367,6 +393,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A70A409C1DB8C96B00F5441A /* SVMTests.swift in Sources */,
 				A77FD49C1DAF5A420003E9A3 /* ImageTrimmerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -500,6 +527,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = AX6P4U3X2R;
 				INFOPLIST_FILE = ImageTrimmer/Info.plist;
@@ -507,6 +535,8 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_BUNDLE_IDENTIFIER = jp.co.qoncept.ImageTrimmer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "ImageTrimmer/libsvm/ImageTrimmer-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -515,6 +545,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = AX6P4U3X2R;
 				INFOPLIST_FILE = ImageTrimmer/Info.plist;
@@ -522,6 +553,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_BUNDLE_IDENTIFIER = jp.co.qoncept.ImageTrimmer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "ImageTrimmer/libsvm/ImageTrimmer-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
