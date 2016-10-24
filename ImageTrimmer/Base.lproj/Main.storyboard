@@ -142,7 +142,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="sex-zg-FoR">
+                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="sex-zg-FoR" customClass="ScalableImageView" customModule="ImageTrimmer" customModuleProvider="target">
                                 <rect key="frame" x="4" y="54" width="472" height="212"/>
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="vhf-L5-kKs"/>
                             </imageView>
@@ -327,7 +327,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="d1w-dO-FrG">
+                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="d1w-dO-FrG" customClass="ScalableImageView" customModule="ImageTrimmer" customModuleProvider="target">
                                 <rect key="frame" x="8" y="37" width="464" height="225"/>
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="tO1-6E-S7n"/>
                             </imageView>
