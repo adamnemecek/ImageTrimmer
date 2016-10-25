@@ -184,7 +184,7 @@ class MainViewController: NSViewController {
         guard let image = self.imageView.easyImage else {
             return nil
         }
-        guard 0<x && x+width<=image.width && 0<y && y+height<=image.height else {
+        guard 0<=x && x+width<=image.width && 0<=y && y+height<=image.height else {
             return nil
         }
         guard width>0 && height>0 else {

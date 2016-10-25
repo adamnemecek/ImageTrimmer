@@ -141,7 +141,7 @@ class DropImageView : ScalableImageView {
     private func drawRect(x: Int, y: Int, width: Int, height: Int) {
         
         guard let imageSize = self.image?.size else {
-            Swift.print("image is nil")
+//            Swift.print("image is nil")
             return
         }
         
