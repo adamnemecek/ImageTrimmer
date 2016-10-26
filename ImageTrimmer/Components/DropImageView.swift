@@ -50,7 +50,6 @@ class DropImageView : NSView {
         addGestureRecognizer(clickRecog)
         
         overlay = CALayer()
-        overlay.borderWidth = 0.3
         overlay.borderColor = CGColor(red: 1, green: 0, blue: 0, alpha: 1)
         overlay.zPosition = 0.001
         overlay.bounds = CGRect(x: 0, y: 0, width: 0, height: 0)
@@ -110,6 +109,9 @@ class DropImageView : NSView {
         imageLayer.bounds = self.bounds
         
         self.easyImage = Image<RGBA>(nsImage: image)
+        
+        let (scale, _) = getScaleAndImageOrigin(imageSize: image.size)
+        overlay.borderWidth = scale * 0.3
         
         _onImageLoaded.onNext()
         
