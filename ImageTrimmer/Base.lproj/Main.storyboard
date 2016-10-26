@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16B2555" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11201"/>
@@ -414,16 +414,15 @@
                                     <rect key="frame" x="1" y="1" width="562" height="373"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="Oxl-Fc-2SU" customClass="DropImageView" customModule="ImageTrimmer" customModuleProvider="target">
-                                            <rect key="frame" x="4" y="4" width="554" height="365"/>
-                                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="Rbh-HP-iHP"/>
-                                        </imageView>
+                                        <customView translatesAutoresizingMaskIntoConstraints="NO" id="e1s-VM-WQq" customClass="DropImageView" customModule="ImageTrimmer" customModuleProvider="target">
+                                            <rect key="frame" x="2" y="2" width="558" height="369"/>
+                                        </customView>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="Oxl-Fc-2SU" firstAttribute="top" secondItem="JWC-W7-NSI" secondAttribute="top" constant="4" id="Acw-RI-rzn"/>
-                                        <constraint firstAttribute="bottom" secondItem="Oxl-Fc-2SU" secondAttribute="bottom" constant="4" id="NPq-sk-hoF"/>
-                                        <constraint firstItem="Oxl-Fc-2SU" firstAttribute="leading" secondItem="JWC-W7-NSI" secondAttribute="leading" constant="4" id="QNB-pF-2gZ"/>
-                                        <constraint firstAttribute="trailing" secondItem="Oxl-Fc-2SU" secondAttribute="trailing" constant="4" id="qrw-Tn-DQo"/>
+                                        <constraint firstItem="e1s-VM-WQq" firstAttribute="top" secondItem="JWC-W7-NSI" secondAttribute="top" constant="2" id="7eA-yd-MmS"/>
+                                        <constraint firstAttribute="bottom" secondItem="e1s-VM-WQq" secondAttribute="bottom" constant="2" id="EJt-4L-7Wh"/>
+                                        <constraint firstAttribute="trailing" secondItem="e1s-VM-WQq" secondAttribute="trailing" constant="2" id="SDh-TZ-xFa"/>
+                                        <constraint firstItem="e1s-VM-WQq" firstAttribute="leading" secondItem="JWC-W7-NSI" secondAttribute="leading" constant="2" id="t5V-h9-h1N"/>
                                     </constraints>
                                 </view>
                             </box>
@@ -786,14 +785,14 @@
                             <constraint firstItem="Q0V-re-TEc" firstAttribute="top" secondItem="2MU-xg-xup" secondAttribute="bottom" constant="4" id="Zvj-tW-IT1"/>
                             <constraint firstAttribute="trailing" secondItem="Q0V-re-TEc" secondAttribute="trailing" constant="4" id="eoQ-77-r3G"/>
                             <constraint firstItem="Q0V-re-TEc" firstAttribute="top" secondItem="dQe-a3-Uzi" secondAttribute="bottom" constant="4" id="htp-nc-f3S"/>
+                            <constraint firstItem="gfn-QC-DUj" firstAttribute="centerY" secondItem="e1s-VM-WQq" secondAttribute="centerY" id="i4B-Gv-ot3"/>
                             <constraint firstItem="dQe-a3-Uzi" firstAttribute="leading" secondItem="2MU-xg-xup" secondAttribute="trailing" constant="4" id="jfs-sx-8dk"/>
                             <constraint firstItem="2MU-xg-xup" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="4" id="kmi-wh-g89"/>
-                            <constraint firstItem="H7z-Q6-e28" firstAttribute="centerY" secondItem="Oxl-Fc-2SU" secondAttribute="centerY" id="uKK-pT-8rm"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="heightField" destination="1xp-su-jqm" id="UuI-Uj-PPX"/>
-                        <outlet property="imageView" destination="Oxl-Fc-2SU" id="fx0-h2-Gnw"/>
+                        <outlet property="imageView" destination="e1s-VM-WQq" id="TLb-EI-cxH"/>
                         <outlet property="negativeField" destination="oq8-KP-8T6" id="OdR-te-cBM"/>
                         <outlet property="negativeFileNameField" destination="Emg-zo-SmM" id="cnr-6X-PeL"/>
                         <outlet property="positiveField" destination="4g9-bP-4sv" id="Ggx-Gs-hd0"/>

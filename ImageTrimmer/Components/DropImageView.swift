@@ -4,19 +4,24 @@ import Cocoa
 import EasyImagy
 import RxSwift
 
-class DropImageView : ScalableImageView {
+class DropImageView : NSView {
     
     private let disposeBag = DisposeBag()
     
     private(set) var easyImage: Image<RGBA>?
     
+    var image: NSImage?
+    
     private var overlay: CALayer!
+    private var imageLayer: CALayer!
     private var sublayer: CALayer!
     
     private let _onImageLoaded = PublishSubject<Void>()
     var onImageLoaded: Observable<Void> {
         return _onImageLoaded
     }
+    
+    private let onResize = PublishSubject<Void>()
     
     private let _onClickPixel = PublishSubject<(Int, Int)>()
     var onClickPixel: Observable<(Int, Int)> {
@@ -35,6 +40,9 @@ class DropImageView : ScalableImageView {
         
         register(forDraggedTypes: [NSFilenamesPboardType])
         
+        let zoomRecog = NSMagnificationGestureRecognizer(target: self, action: #selector(onZoom))
+        addGestureRecognizer(zoomRecog)
+        
         let panRecog = NSPanGestureRecognizer(target: self, action: #selector(onPan))
         addGestureRecognizer(panRecog)
         
@@ -48,6 +56,11 @@ class DropImageView : ScalableImageView {
         overlay.bounds = CGRect(x: 0, y: 0, width: 0, height: 0)
         self.layer!.addSublayer(overlay)
         
+        imageLayer = CALayer()
+        imageLayer.contentsGravity = kCAGravityResizeAspect
+        imageLayer.anchorPoint = CGPoint.zero
+        self.layer!.addSublayer(imageLayer)
+        
         sublayer = CALayer()
         self.layer!.addSublayer(sublayer)
         
@@ -56,7 +69,8 @@ class DropImageView : ScalableImageView {
         Observable.of(trimRect,
                       onImageLoaded
                         .do(onNext: { welf?.layer?.sublayerTransform = CATransform3DIdentity })
-                        .withLatestFrom(trimRect))
+                        .withLatestFrom(trimRect),
+                      onResize.withLatestFrom(trimRect))
             .merge()
             .subscribe(onNext: { x, y, width, height in
                 welf?.drawRect(x: x, y: y, width: width, height: height)
@@ -92,11 +106,25 @@ class DropImageView : ScalableImageView {
         
         self.image = image
         
+        imageLayer.contents = image
+        imageLayer.bounds = self.bounds
+        
         self.easyImage = Image<RGBA>(nsImage: image)
         
         _onImageLoaded.onNext()
         
         return true
+    }
+    
+    override func setFrameSize(_ newSize: NSSize) {
+        super.setFrameSize(newSize)
+        
+        CATransaction.begin()
+        CATransaction.setDisableActions(true)
+        imageLayer.bounds = self.bounds
+        onResize.onNext(())
+        CATransaction.commit()
+        
     }
     
     override func concludeDragOperation(_ sender: NSDraggingInfo?) {
@@ -120,6 +148,20 @@ class DropImageView : ScalableImageView {
         let pt = (inSublayer - imageOrigin)/scale
         _onClickPixel.onNext((Int(pt.x), Int(pt.y)))
     }
+    
+    func onZoom(_ recognizer: NSMagnificationGestureRecognizer) {
+        let magnification = recognizer.magnification
+        let scaleFactor = (magnification >= 0.0) ? (1.0 + magnification) : 1.0 / (1.0 - magnification)
+        
+        let location = recognizer.location(in: self)
+        let move = CGPoint(x: location.x * (scaleFactor-1), y: location.y * (scaleFactor-1))
+        
+        self.layer!.sublayerTransform *= CATransform3DMakeScale(scaleFactor, scaleFactor, 1)
+        self.layer!.sublayerTransform *= CATransform3DMakeTranslation(-move.x, -move.y, 0)
+        
+        recognizer.magnification = 0
+    }
+
     
     func onPan(_ recognizer: NSPanGestureRecognizer) {
         
@@ -171,11 +213,13 @@ class DropImageView : ScalableImageView {
         
         let imageOrigin: CGPoint
         let scale: CGFloat
-        if imageSize.width <= self.bounds.width && imageSize.height <= self.bounds.height {
-            scale = 1
-            imageOrigin = CGPoint(x: (self.bounds.width - imageSize.width)/2,
-                                  y: (self.bounds.height - imageSize.height)/2)
-        } else if imageAspectRatio < viewAspectRatio {
+        // Original Size
+//        if imageSize.width <= self.bounds.width && imageSize.height <= self.bounds.height {
+//            scale = 1
+//            imageOrigin = CGPoint(x: (self.bounds.width - imageSize.width)/2,
+//                                  y: (self.bounds.height - imageSize.height)/2)
+//        } else
+        if imageAspectRatio < viewAspectRatio {
             scale = self.bounds.height / imageSize.height
             imageOrigin = CGPoint(x: (self.bounds.width - imageSize.width*scale)/2, y: 0)
         } else {
