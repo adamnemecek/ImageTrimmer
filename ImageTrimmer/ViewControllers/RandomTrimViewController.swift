@@ -63,6 +63,10 @@ class RandomTrimViewController : TrimViewController {
         }
     }
     
+    @IBAction func onPressSkipButton(_ sender: AnyObject) {
+        trimRandomly()
+    }
+    
     @IBAction func onPressEndButton(_ sender: AnyObject) {
         self.view.window?.close()
     }

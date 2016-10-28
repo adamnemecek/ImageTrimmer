@@ -213,8 +213,8 @@
                                         </textFieldCell>
                                     </textField>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="KZD-0G-rJj">
-                                        <rect key="frame" x="383" y="-7" width="95" height="32"/>
-                                        <buttonCell key="cell" type="push" title="TrimNext" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="NJc-Ig-Tjw">
+                                        <rect key="frame" x="367" y="-7" width="111" height="32"/>
+                                        <buttonCell key="cell" type="push" title="SearchNext" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="NJc-Ig-Tjw">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
@@ -335,7 +335,7 @@
                                 <rect key="frame" x="8" y="8" width="464" height="21"/>
                                 <subviews>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="0a1-oU-a2i">
-                                        <rect key="frame" x="-6" y="-7" width="162" height="32"/>
+                                        <rect key="frame" x="-6" y="-7" width="122" height="32"/>
                                         <buttonCell key="cell" type="push" title="Positive(P)" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="UxL-nH-jRz">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -345,8 +345,18 @@
                                             <action selector="onPressPosiiveButton:" target="XEV-gN-2pQ" id="rBe-uh-SKW"/>
                                         </connections>
                                     </button>
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="76b-IY-gbu">
+                                        <rect key="frame" x="112" y="-7" width="122" height="32"/>
+                                        <buttonCell key="cell" type="push" title="Skip" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="nNW-TJ-Zdu">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="onPressSkipButton:" target="XEV-gN-2pQ" id="w5y-Rd-MvF"/>
+                                        </connections>
+                                    </button>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="H44-Ts-JOh">
-                                        <rect key="frame" x="152" y="-7" width="161" height="32"/>
+                                        <rect key="frame" x="230" y="-7" width="122" height="32"/>
                                         <buttonCell key="cell" type="push" title="End" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="dSI-14-THh">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -356,7 +366,7 @@
                                         </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Ue7-9k-2bi">
-                                        <rect key="frame" x="309" y="-7" width="162" height="32"/>
+                                        <rect key="frame" x="348" y="-7" width="122" height="32"/>
                                         <buttonCell key="cell" type="push" title="Negative(N)" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="KEe-qz-301">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -374,8 +384,10 @@
                                     <integer value="1000"/>
                                     <integer value="1000"/>
                                     <integer value="1000"/>
+                                    <integer value="1000"/>
                                 </visibilityPriorities>
                                 <customSpacing>
+                                    <real value="3.4028234663852886e+38"/>
                                     <real value="3.4028234663852886e+38"/>
                                     <real value="3.4028234663852886e+38"/>
                                     <real value="3.4028234663852886e+38"/>
