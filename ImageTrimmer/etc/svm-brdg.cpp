@@ -30,8 +30,8 @@ extern "C" {
             delete prob->x[i];
         }
         
-        delete prob->x;
-        delete prob->y;
+        delete[] prob->x;
+        delete[] prob->y;
         delete prob;
     }
     
