@@ -169,13 +169,17 @@ class PredictiveTrimViewController : TrimViewController {
                 
                 let prob = create_problem(&trains, Int32(pxCount), Int32(trains.count))
                 
-                let candidateC = [1.0, 10.0, 100.0, 1000.0]
+                let candidateC = [10.0, 1.0, 100.0, 1000.0]
                 let candidateGamma = [1.0/Double(pxCount)].flatMap { g in
-                    [0.1, 0.3, 1.0, 3.0, 10.0, 30.0, 100.0].map { g*$0 }
+                    [1.0, 0.3, 3.0, 0.1, 10.0, 30.0, 100.0].map { g*$0 }
                 }
                 let initial: (max: Double, model: UnsafeMutablePointer<svm_model>?) = (Double.nan, nil)
                 let comb = candidateC.combine(with: candidateGamma) { (C: $0, gamma: $1) }
                 let result = comb.reduce(initial) { acc, param in
+                    
+                    if acc.max >= 0.999 {
+                        return acc
+                    }
                     
                     let model = train(prob, param.C, param.gamma)
                     
