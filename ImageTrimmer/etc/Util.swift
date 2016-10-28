@@ -60,7 +60,7 @@ extension Image where Pixel: RGBAType {
     }
     
     func toGrayImage() -> Image<Double> {
-        return self.map { Double($0.gray) / 255.0 }
+        return self.map { (Double($0.gray) / 255.0 - 0.5) * 2 }
     }
 }
 

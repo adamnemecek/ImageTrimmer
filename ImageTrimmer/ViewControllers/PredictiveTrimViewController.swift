@@ -68,7 +68,15 @@ class PredictiveTrimViewController : TrimViewController {
         }
     }
     
-    override func bind(image: Image<RGBA>!, x: Variable<Int>, y: Variable<Int>, width: Int, height: Int, positiveDirectory: String, negativeDirectory: String, positiveFileNumber: Variable<Int>, negativeFileNumber: Variable<Int>) {
+    override func bind(image: Image<RGBA>!,
+                       x: Variable<Int>,
+                       y: Variable<Int>,
+                       width: Int,
+                       height: Int,
+                       positiveDirectory: String,
+                       negativeDirectory: String,
+                       positiveFileNumber: Variable<Int>,
+                       negativeFileNumber: Variable<Int>) {
         
         fatalError("use another")
         
