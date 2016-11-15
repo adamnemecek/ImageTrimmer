@@ -20,17 +20,17 @@
 		A70A40971DB8BDA900F5441A /* svm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A70A40921DB8BDA900F5441A /* svm.cpp */; };
 		A70A409A1DB8BDCB00F5441A /* svm-brdg.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A70A40981DB8BDCB00F5441A /* svm-brdg.cpp */; };
 		A70A409C1DB8C96B00F5441A /* SVMTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70A409B1DB8C96B00F5441A /* SVMTests.swift */; };
+		A72709331DDAF21E0077C1D8 /* EasyImagy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A727092D1DDAF2050077C1D8 /* EasyImagy.framework */; };
+		A72709341DDAF21E0077C1D8 /* EasyImagy.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A727092D1DDAF2050077C1D8 /* EasyImagy.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A72709351DDAF21E0077C1D8 /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A727092E1DDAF2050077C1D8 /* RxCocoa.framework */; };
+		A72709361DDAF21E0077C1D8 /* RxCocoa.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A727092E1DDAF2050077C1D8 /* RxCocoa.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A72709371DDAF21E0077C1D8 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A727092F1DDAF2050077C1D8 /* RxSwift.framework */; };
+		A72709381DDAF21E0077C1D8 /* RxSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A727092F1DDAF2050077C1D8 /* RxSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A77FD48A1DAF5A420003E9A3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77FD4891DAF5A420003E9A3 /* AppDelegate.swift */; };
 		A77FD48E1DAF5A420003E9A3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A77FD48D1DAF5A420003E9A3 /* Assets.xcassets */; };
 		A77FD4911DAF5A420003E9A3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A77FD48F1DAF5A420003E9A3 /* Main.storyboard */; };
 		A77FD49C1DAF5A420003E9A3 /* ImageTrimmerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77FD49B1DAF5A420003E9A3 /* ImageTrimmerTests.swift */; };
 		A77FD4A71DAF5A420003E9A3 /* ImageTrimmerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77FD4A61DAF5A420003E9A3 /* ImageTrimmerUITests.swift */; };
-		A77FD4FB1DB07AC10003E9A3 /* EasyImagy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A77FD4FA1DB07AC10003E9A3 /* EasyImagy.framework */; };
-		A77FD4FC1DB07AC10003E9A3 /* EasyImagy.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A77FD4FA1DB07AC10003E9A3 /* EasyImagy.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		A77FD5081DB096120003E9A3 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A77FD5071DB096120003E9A3 /* RxSwift.framework */; };
-		A77FD5091DB096120003E9A3 /* RxSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A77FD5071DB096120003E9A3 /* RxSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		A77FD50B1DB096120003E9A3 /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A77FD50A1DB096120003E9A3 /* RxCocoa.framework */; };
-		A77FD50C1DB096120003E9A3 /* RxCocoa.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A77FD50A1DB096120003E9A3 /* RxCocoa.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A7F196771DBD97260007B51A /* ScalableImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F196761DBD97260007B51A /* ScalableImageView.swift */; };
 /* End PBXBuildFile section */
 
@@ -58,9 +58,9 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				A77FD50C1DB096120003E9A3 /* RxCocoa.framework in Embed Frameworks */,
-				A77FD5091DB096120003E9A3 /* RxSwift.framework in Embed Frameworks */,
-				A77FD4FC1DB07AC10003E9A3 /* EasyImagy.framework in Embed Frameworks */,
+				A72709361DDAF21E0077C1D8 /* RxCocoa.framework in Embed Frameworks */,
+				A72709341DDAF21E0077C1D8 /* EasyImagy.framework in Embed Frameworks */,
+				A72709381DDAF21E0077C1D8 /* RxSwift.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -84,6 +84,9 @@
 		A70A40981DB8BDCB00F5441A /* svm-brdg.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "svm-brdg.cpp"; sourceTree = "<group>"; };
 		A70A40991DB8BDCB00F5441A /* svm-brdg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "svm-brdg.h"; sourceTree = "<group>"; };
 		A70A409B1DB8C96B00F5441A /* SVMTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVMTests.swift; sourceTree = "<group>"; };
+		A727092D1DDAF2050077C1D8 /* EasyImagy.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EasyImagy.framework; path = "../../../../../../../../Desktop/t-ae/ImageTrimmer/Carthage/Build/Mac/EasyImagy.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A727092E1DDAF2050077C1D8 /* RxCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxCocoa.framework; path = "../../../../../../../../Desktop/t-ae/ImageTrimmer/Carthage/Build/Mac/RxCocoa.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A727092F1DDAF2050077C1D8 /* RxSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxSwift.framework; path = "../../../../../../../../Desktop/t-ae/ImageTrimmer/Carthage/Build/Mac/RxSwift.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A77FD4861DAF5A420003E9A3 /* ImageTrimmer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageTrimmer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A77FD4891DAF5A420003E9A3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A77FD48D1DAF5A420003E9A3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -95,9 +98,6 @@
 		A77FD4A21DAF5A420003E9A3 /* ImageTrimmerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ImageTrimmerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A77FD4A61DAF5A420003E9A3 /* ImageTrimmerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageTrimmerUITests.swift; sourceTree = "<group>"; };
 		A77FD4A81DAF5A420003E9A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A77FD4FA1DB07AC10003E9A3 /* EasyImagy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = EasyImagy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		A77FD5071DB096120003E9A3 /* RxSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RxSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		A77FD50A1DB096120003E9A3 /* RxCocoa.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RxCocoa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7F196761DBD97260007B51A /* ScalableImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScalableImageView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -106,9 +106,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A77FD50B1DB096120003E9A3 /* RxCocoa.framework in Frameworks */,
-				A77FD5081DB096120003E9A3 /* RxSwift.framework in Frameworks */,
-				A77FD4FB1DB07AC10003E9A3 /* EasyImagy.framework in Frameworks */,
+				A72709351DDAF21E0077C1D8 /* RxCocoa.framework in Frameworks */,
+				A72709331DDAF21E0077C1D8 /* EasyImagy.framework in Frameworks */,
+				A72709371DDAF21E0077C1D8 /* RxSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -155,9 +155,9 @@
 		A70A40331DB6177C00F5441A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				A77FD50A1DB096120003E9A3 /* RxCocoa.framework */,
-				A77FD5071DB096120003E9A3 /* RxSwift.framework */,
-				A77FD4FA1DB07AC10003E9A3 /* EasyImagy.framework */,
+				A727092D1DDAF2050077C1D8 /* EasyImagy.framework */,
+				A727092E1DDAF2050077C1D8 /* RxCocoa.framework */,
+				A727092F1DDAF2050077C1D8 /* RxSwift.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -536,6 +536,10 @@
 				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = AX6P4U3X2R;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
 				INFOPLIST_FILE = ImageTrimmer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
@@ -554,6 +558,10 @@
 				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = AX6P4U3X2R;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
 				INFOPLIST_FILE = ImageTrimmer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
