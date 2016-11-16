@@ -129,6 +129,21 @@ func linspace(minimum: Double, maximum: Double, count: Int) -> StrideTo<Double> 
     return stride(from: minimum, to: maximum, by: strider)
 }
 
+protocol OptionalType {
+    associatedtype WrappedElement
+    func map<U>(_ f: (WrappedElement) throws -> U) rethrows -> U?
+}
+
+extension Optional: OptionalType {
+    typealias WrappedElement = Wrapped
+}
+
+extension ObservableType where E: OptionalType {
+    func filterNil() -> Observable<E.WrappedElement> {
+        return self.flatMap { $0.map { Observable.just($0) } ?? Observable.empty() }
+    }
+}
+
 
 // For observable conversion
 func intToStr(_ i: Int) -> String {

@@ -117,10 +117,12 @@ class PredictiveTrimViewController : TrimViewController {
             .addDisposableTo(disposeBag)
         
         xField.rx.text
+            .filterNil()
             .flatMap(strToObservableInt)
             .bindTo(x)
             .addDisposableTo(disposeBag)
         yField.rx.text
+            .filterNil()
             .flatMap(strToObservableInt)
             .bindTo(y)
             .addDisposableTo(disposeBag)

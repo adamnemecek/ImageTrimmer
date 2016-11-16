@@ -137,10 +137,12 @@ class MainViewController: NSViewController {
         
         // control to variable
         xField.rx.text
+            .filterNil()
             .flatMap(strToObservableInt)
             .bindTo(x)
             .addDisposableTo(disposeBag)
         yField.rx.text
+            .filterNil()
             .flatMap(strToObservableInt)
             .bindTo(y)
             .addDisposableTo(disposeBag)
@@ -153,18 +155,22 @@ class MainViewController: NSViewController {
             .bindTo(y)
             .addDisposableTo(disposeBag)
         widthField.rx.text
+            .filterNil()
             .flatMap(strToObservableInt)
             .bindTo(width)
             .addDisposableTo(disposeBag)
         heightField.rx.text
+            .filterNil()
             .flatMap(strToObservableInt)
             .bindTo(height)
             .addDisposableTo(disposeBag)
         positiveFileNameField.rx.text
+            .filterNil()
             .flatMap(strToObservableInt)
             .bindTo(positiveFileNumber)
             .addDisposableTo(disposeBag)
         negativeFileNameField.rx.text
+            .filterNil()
             .flatMap(strToObservableInt)
             .bindTo(negativeFileNumber)
             .addDisposableTo(disposeBag)
