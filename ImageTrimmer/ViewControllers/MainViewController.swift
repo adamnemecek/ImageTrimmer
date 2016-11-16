@@ -74,7 +74,7 @@ class MainViewController: NSViewController {
         
         
         imageView.onImageLoaded
-            .map { () -> NSImage? in nil }
+            .map { _ -> NSImage? in nil }
             .bindTo(previewImageView.rx.image)
             .addDisposableTo(disposeBag)
         
@@ -95,6 +95,13 @@ class MainViewController: NSViewController {
                            width.asObservable(),
                            height.asObservable()){ ($0, $1, $2, $3) }
             .bindTo(imageView.trimRect)
+            .addDisposableTo(disposeBag)
+        
+        
+        imageView.onImageLoaded
+            .subscribe(onNext: { file in
+                self.view.window?.title = file
+            })
             .addDisposableTo(disposeBag)
         
         // variable to control

@@ -16,8 +16,8 @@ class DropImageView : NSView {
     private var imageLayer: CALayer!
     private var sublayer: CALayer!
     
-    private let _onImageLoaded = PublishSubject<Void>()
-    var onImageLoaded: Observable<Void> {
+    private let _onImageLoaded = PublishSubject<String>()
+    var onImageLoaded: Observable<String> {
         return _onImageLoaded
     }
     
@@ -67,7 +67,7 @@ class DropImageView : NSView {
         
         Observable.of(trimRect,
                       onImageLoaded
-                        .do(onNext: { welf?.layer?.sublayerTransform = CATransform3DIdentity })
+                        .do(onNext: { _ in welf?.layer?.sublayerTransform = CATransform3DIdentity })
                         .withLatestFrom(trimRect),
                       onResize.withLatestFrom(trimRect))
             .merge()
@@ -113,7 +113,7 @@ class DropImageView : NSView {
         let (scale, _) = getScaleAndImageOrigin(imageSize: image.size)
         overlay.borderWidth = scale * 0.3
         
-        _onImageLoaded.onNext()
+        _onImageLoaded.onNext(file)
         
         return true
     }
